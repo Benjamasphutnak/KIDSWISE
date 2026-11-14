@@ -35,7 +35,7 @@
         <img src="assets/kidswise-logo.jpg" alt="โลโก้ KIDSWISE">
         <span><b>KIDSWISE</b><small>เข้าใจทุกวัย ใส่ใจทุกการเติบโต</small></span>
       </a>
-      <button class="icon-button" id="notifyBtn" aria-label="การแจ้งเตือน" title="การแจ้งเตือน">♧</button>
+      <div class="top-actions"><button class="install-button" id="installBtn" type="button">＋ ติดตั้งแอป</button><button class="icon-button" id="notifyBtn" aria-label="การแจ้งเตือน" title="การแจ้งเตือน">♧</button></div>
     </header>
 
     <main>
@@ -45,13 +45,14 @@
           <h1>ทุกก้าวของลูก<br><span>มีความหมาย</span></h1>
           <p class="hero-copy">พื้นที่เล็ก ๆ ที่ช่วยให้พ่อแม่เข้าใจและส่งเสริมการเติบโตของลูกในทุกวัน</p>
         </div>
-        <div class="hero-art" aria-hidden="true"><span>🌼</span><span>🧸</span><span>🌱</span></div>
+        <div class="hero-art" aria-hidden="true"><span>🌼</span><span>🧸</span><span>🌱</span><small>ทุกการเติบโตคือเรื่องพิเศษ</small></div>
       </section>
 
       <section class="child-card card">
         <div class="child-avatar">👶🏻</div>
         <div class="child-info">
-          <label for="childName">โปรไฟล์เจ้าตัวเล็ก</label>
+          <label for="childPicker">โปรไฟล์เจ้าตัวเล็ก</label>
+          <select id="childPicker" class="child-picker" aria-label="เลือกโปรไฟล์ลูก"></select>
           <input id="childName" type="text" maxlength="30" placeholder="ใส่ชื่อลูก">
           <div class="age-row">
             <label for="birthDate">วันเกิด</label>
@@ -59,7 +60,7 @@
           </div>
           <p id="ageText" class="age-text">เพิ่มวันเกิดเพื่อดูช่วงวัยของลูก</p>
         </div>
-        <button class="edit-pill" id="saveProfile">บันทึก</button>
+        <div class="child-actions"><button class="edit-pill" id="addChild" type="button">＋ เพิ่มลูก</button><button class="edit-pill" id="saveProfile">บันทึก</button></div>
       </section>
 
       <nav class="tabs" aria-label="เมนูหลัก">

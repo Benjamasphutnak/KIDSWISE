@@ -10,7 +10,20 @@ function openApp(phone){authScreen.hidden=true;mainApp.hidden=false;$("accountLa
 function initAuth(){const account=JSON.parse(localStorage.getItem(AUTH_KEY)||"null");if(sessionStorage.getItem("kidswise_session")==="active"&&account){openApp(account.phone)}else{authScreen.hidden=false;mainApp.hidden=true}$("showLogin").addEventListener("click",()=>setAuthMode("login"));$("showRegister").addEventListener("click",()=>setAuthMode("register"));$("authForm").addEventListener("submit",async e=>{e.preventDefault();const phone=$("authPhone").value.replace(/\D/g,"");const pin=$("authPin").value;if(!/^0[0-9]{9}$/.test(phone)){toast("กรุณากรอกเบอร์โทรศัพท์ 10 หลัก");return}if(!/^[0-9]{4}$/.test(pin)){toast("รหัสผ่านต้องเป็นตัวเลข 4 หลัก");return}const saved=JSON.parse(localStorage.getItem(AUTH_KEY)||"null");const pinHash=await hashPin(pin);if(authMode==="register"){if(saved){toast("เบราว์เซอร์นี้มีบัญชีแล้ว กรุณาเข้าสู่ระบบ");setAuthMode("login");return}localStorage.setItem(AUTH_KEY,JSON.stringify({phone,pinHash,failed:0,lockedUntil:0}));sessionStorage.setItem("kidswise_session","active");openApp(phone);toast("สมัครสมาชิกเรียบร้อย 💚")}else{if(!saved||saved.phone!==phone){toast("ไม่พบบัญชีนี้ในเบราว์เซอร์เครื่องนี้");return}if(saved.lockedUntil>Date.now()){toast("บัญชีถูกพักชั่วคราว กรุณาลองใหม่ภายหลัง");return}if(saved.pinHash!==pinHash){saved.failed=(saved.failed||0)+1;if(saved.failed>=5){saved.failed=0;saved.lockedUntil=Date.now()+5*60*1000}localStorage.setItem(AUTH_KEY,JSON.stringify(saved));toast(saved.lockedUntil>Date.now()?"ใส่รหัสผิดหลายครั้ง พักการเข้าสู่ระบบ 5 นาที":"เบอร์โทรศัพท์หรือรหัสผ่านไม่ถูกต้อง");return}saved.failed=0;saved.lockedUntil=0;localStorage.setItem(AUTH_KEY,JSON.stringify(saved));sessionStorage.setItem("kidswise_session","active");openApp(phone);toast("เข้าสู่ระบบสำเร็จ 💚")}});$("logoutBtn").addEventListener("click",()=>{sessionStorage.removeItem("kidswise_session");mainApp.hidden=true;authScreen.hidden=false;setAuthMode("login");toast("ออกจากระบบแล้ว")})}
 
 const KEY = "kidswise_demo_v1";
-const state = JSON.parse(localStorage.getItem(KEY) || '{"name":"","birth":"","growth":[],"checked":[]}');
+const loadedState = JSON.parse(localStorage.getItem(KEY) || '{"name":"","birth":"","growth":[],"checked":[]}');
+// รองรับหลายโปรไฟล์ พร้อมย้ายข้อมูลโปรไฟล์เดิมเข้าเป็นลูกคนแรกโดยอัตโนมัติ
+if (!Array.isArray(loadedState.children) || !loadedState.children.length) {
+  loadedState.children = [{id:"child-"+Date.now(), name:loadedState.name||"", birth:loadedState.birth||"", growth:loadedState.growth||[], checked:loadedState.checked||[]}];
+  loadedState.selectedChildId = loadedState.children[0].id;
+}
+if (!loadedState.selectedChildId || !loadedState.children.some(c=>c.id===loadedState.selectedChildId)) loadedState.selectedChildId=loadedState.children[0].id;
+const state = {...loadedState};
+function activeChild(){return state.children.find(c=>c.id===state.selectedChildId)||state.children[0]}
+function syncActiveChild(){const c=activeChild();if(c){c.name=state.name||"";c.birth=state.birth||"";c.growth=state.growth||[];c.checked=state.checked||[]}}
+function refreshChildPicker(){const picker=$("childPicker");if(!picker)return;picker.innerHTML=state.children.map(c=>`<option value="${c.id}">${escapeHtml(c.name||"เจ้าตัวเล็ก")}</option>`).join("");picker.value=state.selectedChildId}
+function escapeHtml(v){return String(v).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]))}
+function switchChild(id){syncActiveChild();state.selectedChildId=id;const c=activeChild();state.name=c.name||"";state.birth=c.birth||"";state.growth=c.growth||[];state.checked=c.checked||[];persist();refreshChildPicker();loadProfile();renderMilestones();renderGrowth();toast("เปลี่ยนโปรไฟล์เรียบร้อย 💚")}
+function addChildProfile(){const name=prompt("ชื่อลูกคนใหม่");if(name===null)return;if(!name.trim()){toast("กรุณาใส่ชื่อลูก");return}const birth=prompt("วันเกิดลูก (รูปแบบ YYYY-MM-DD) เช่น 2025-03-18");if(birth===null)return;if(birth&&!/^\d{4}-\d{2}-\d{2}$/.test(birth)){toast("รูปแบบวันเกิดไม่ถูกต้อง");return}syncActiveChild();const child={id:"child-"+Date.now(),name:name.trim(),birth,growth:[],checked:[]};state.children.push(child);state.selectedChildId=child.id;state.name=child.name;state.birth=child.birth;state.growth=[];state.checked=[];persist();refreshChildPicker();loadProfile();renderMilestones();renderGrowth();toast("เพิ่มโปรไฟล์ลูกแล้ว 🎉")}
 const milestones = {
  "0-3":[["ร่างกาย","ขยับแขนขาและตอบสนองต่อการสัมผัส"],["ร่างกาย","เริ่มยกศีรษะได้เมื่ออยู่ในท่าคว่ำโดยมีผู้ดูแล"],["สติปัญญา","มองตามใบหน้าหรือวัตถุที่เคลื่อนไหว"],["อารมณ์และสังคม","สงบลงเมื่อได้รับการปลอบโยน"],["ภาษา","สะดุ้งหรือหันตอบสนองต่อเสียง"]],
  "4-6":[["ร่างกาย","เอื้อมมือคว้าของเล่นและนำมือเข้าปาก"],["ร่างกาย","พลิกตัวหรือพยายามเปลี่ยนท่าทาง"],["สติปัญญา","สำรวจสิ่งของด้วยการมองและสัมผัส"],["อารมณ์และสังคม","ยิ้มและหัวเราะโต้ตอบกับคนคุ้นเคย"],["ภาษา","ส่งเสียงอ้อแอ้และโต้ตอบเมื่อพูดด้วย"]],
@@ -32,18 +45,18 @@ const activities = [
  {e:"🤝",t:"ผลัดกันเล่น",a:"social",d:"เล่นส่งของหรือเกมง่าย ๆ เพื่อฝึกการรอคอยและการโต้ตอบ",age:"ปรับกติกาตามวัย"},
  {e:"🦶",t:"เดินตามเส้นทาง",a:"body",d:"สร้างเส้นทางง่าย ๆ บนพื้นไม่ลื่นให้ลูกเดินหรือก้าวข้าม",age:"เหมาะกับเด็กที่เดินได้และมีผู้ดูแล"}
 ];
-function persist(){localStorage.setItem(KEY,JSON.stringify(state))}
+function persist(){syncActiveChild();localStorage.setItem(KEY,JSON.stringify(state))}
 function toast(msg){const el=$("toast");el.textContent=msg;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),2300)}
 function ageText(date){if(!date)return "เพิ่มวันเกิดเพื่อดูช่วงวัยของลูก";const d=new Date(date+"T00:00:00");if(Number.isNaN(d.getTime())||d>new Date())return "กรุณาตรวจสอบวันเกิด";const now=new Date();let m=(now.getFullYear()-d.getFullYear())*12+now.getMonth()-d.getMonth();if(now.getDate()<d.getDate())m--;if(m<0)return "กรุณาตรวจสอบวันเกิด";return m<24?`อายุประมาณ ${m} เดือน`:`อายุประมาณ ${Math.floor(m/12)} ปี ${m%12} เดือน`}
 function loadProfile(){ $("childName").value=state.name||"";$("birthDate").value=state.birth||"";$("ageText").textContent=ageText(state.birth)}
 function saveProfile(){state.name=$("childName").value.trim();state.birth=$("birthDate").value;persist();loadProfile();toast("บันทึกโปรไฟล์แล้ว 💚")}
-function renderMilestones(){const list=milestones[$("ageStage").value]||[];$("milestoneList").innerHTML=list.map((x,i)=>`<label class="milestone-item"><input type="checkbox" data-milestone="${i}"><span><b>${x[0]} — ${x[1]}</b><small>ทำเครื่องหมายเมื่อสังเกตเห็นพฤติกรรมนี้</small></span></label>`).join("");}
+function renderMilestones(){const list=milestones[$("ageStage").value]||[];const done=state.checked||[];$("milestoneList").innerHTML=list.map((x,i)=>`<label class="milestone-item"><input type="checkbox" data-milestone="${i}" ${done.includes($("ageStage").value+":"+i)?"checked":""}><span><b>${x[0]} — ${x[1]}</b><small>ทำเครื่องหมายเมื่อสังเกตเห็นพฤติกรรมนี้</small></span></label>`).join("");document.querySelectorAll("[data-milestone]").forEach(el=>el.addEventListener("change",()=>{const key=$("ageStage").value+":"+el.dataset.milestone;state.checked=state.checked||[];state.checked=el.checked?[...new Set([...state.checked,key])]:state.checked.filter(x=>x!==key);persist()}));}
 function renderActivities(){const f=$("activityArea").value;const list=activities.filter(x=>f==="all"||x.a===f);$("activityList").innerHTML=list.map(x=>`<article class="activity-card"><div class="activity-emoji">${x.e}</div><b>${x.t}</b><p>${x.d}</p><small>${x.age}</small></article>`).join("")}
 function renderGrowth(){const records=state.growth||[];$("growthRecords").innerHTML=records.length?records.slice().reverse().map(r=>`<div class="record"><span><b>${r.date}</b><br>น้ำหนัก ${r.weight||"—"} กก. · ส่วนสูง ${r.height||"—"} ซม.</span><strong>รอบศีรษะ ${r.head||"—"} ซม.</strong></div>`).join(""):'<p class="muted">ยังไม่มีข้อมูล ลองบันทึกข้อมูลการเติบโตครั้งแรก</p>'}
 function showTab(id){document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id===id));document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("active",t.dataset.tab===id));window.scrollTo({top:0,behavior:"smooth"})}
 document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.tab)));
 document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.go)));
-$("saveProfile").addEventListener("click",saveProfile);$("editChild").addEventListener("click",()=>{showTab("home");$("childName").focus()});
+$("saveProfile").addEventListener("click",saveProfile);$("addChild").addEventListener("click",addChildProfile);$("childPicker").addEventListener("change",e=>switchChild(e.target.value));$("editChild").addEventListener("click",()=>{showTab("home");$("childName").focus()});
 $("birthDate").addEventListener("change",()=>{$("ageText").textContent=ageText($("birthDate").value)});
 $("ageStage").addEventListener("change",renderMilestones);$("activityArea").addEventListener("change",renderActivities);
 $("growthForm").addEventListener("submit",e=>{e.preventDefault();const r={date:$("measureDate").value,weight:$("weight").value,height:$("height").value,head:$("head").value};if(!r.date||(!r.weight&&!r.height&&!r.head)){toast("กรุณากรอกวันที่และข้อมูลอย่างน้อย 1 รายการ");return}state.growth.push(r);persist();renderGrowth();e.target.reset();$("measureDate").value=new Date().toISOString().slice(0,10);toast("บันทึกการเติบโตแล้ว")});
@@ -52,5 +65,11 @@ $("clearData").addEventListener("click",()=>{if(confirm("ต้องการ�
 $("notifyBtn").addEventListener("click",()=>toast("ระบบแจ้งเตือนจะเปิดให้ใช้ในเวอร์ชันถัดไป"));
 $("todayDate").textContent=new Intl.DateTimeFormat("th-TH",{dateStyle:"medium"}).format(new Date());
 $("measureDate").value=new Date().toISOString().slice(0,10);
-loadProfile();renderMilestones();renderActivities();renderGrowth();initAuth();
+const initialChild=activeChild();state.name=initialChild.name||"";state.birth=initialChild.birth||"";state.growth=initialChild.growth||[];state.checked=initialChild.checked||[];refreshChildPicker();loadProfile();renderMilestones();renderActivities();renderGrowth();initAuth();
 if("serviceWorker" in navigator && location.protocol.startsWith("http"))navigator.serviceWorker.register("./service-worker.js").catch(()=>{});
+
+// ติดตั้งเป็นแอปบนหน้าจอโฮม (รองรับเบราว์เซอร์ที่รองรับ PWA)
+let deferredInstallPrompt=null;const installBtn=$("installBtn");
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstallPrompt=e;installBtn.hidden=false;installBtn.textContent="＋ ติดตั้งแอป"});
+window.addEventListener("appinstalled",()=>{deferredInstallPrompt=null;installBtn.textContent="ติดตั้งแล้ว ✓";toast("ติดตั้ง KIDSWISE เรียบร้อย 💚")});
+installBtn.addEventListener("click",async()=>{if(deferredInstallPrompt){deferredInstallPrompt.prompt();const choice=await deferredInstallPrompt.userChoice;deferredInstallPrompt=null;if(choice.outcome==="accepted")toast("กำลังติดตั้ง KIDSWISE...");return}if(/iphone|ipad|ipod/i.test(navigator.userAgent)){toast("บน iPhone: กดแชร์ แล้วเลือก เพิ่มไปยังหน้าจอโฮม") }else{toast("เปิดเมนู ⋮ ของเบราว์เซอร์ แล้วเลือก ติดตั้งแอป หรือ Add to Home screen")}});

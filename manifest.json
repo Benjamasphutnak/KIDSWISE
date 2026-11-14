@@ -13,5 +13,10 @@
       "type": "image/jpeg",
       "purpose": "any"
     }
-  ]
+  ],
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "orientation": "portrait"
 }
