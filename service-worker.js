@@ -1,5 +1,5 @@
-const CACHE="kidswise-v4-3d";
-const FILES=["./","./index.html","./style.css","./app.js","./manifest.json","./assets/kidswise-logo.jpg"];
-self.addEventListener("install",event=>{self.skipWaiting();event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(FILES)))});
-self.addEventListener("activate",event=>event.waitUntil((async()=>{const keys=await caches.keys();await Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)));await self.clients.claim()})()));
-self.addEventListener("fetch",event=>{if(event.request.method!=="GET")return;event.respondWith((async()=>{try{const fresh=await fetch(event.request,{cache:"no-store"});if(fresh.ok&&new URL(event.request.url).origin===location.origin){const cache=await caches.open(CACHE);cache.put(event.request,fresh.clone())}return fresh}catch(error){const cached=await caches.match(event.request);if(cached)return cached;return caches.match("./index.html")}})())});
+const CACHE="kidswise-v5-characters";
+const FILES=["./","./index.html","./style.css","./app.js","./manifest.json","./assets/kidswise-logo.jpg","./assets/kidswise-children-3d.png"];
+self.addEventListener("install",e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(FILES)))});
+self.addEventListener("activate",e=>e.waitUntil((async()=>{for(const k of await caches.keys())if(k!==CACHE)await caches.delete(k);await self.clients.claim()})()));
+self.addEventListener("fetch",e=>{if(e.request.method!=="GET")return;e.respondWith((async()=>{try{const r=await fetch(e.request,{cache:"no-store"});if(r.ok&&new URL(e.request.url).origin===location.origin)(await caches.open(CACHE)).put(e.request,r.clone());return r}catch(err){return (await caches.match(e.request))||caches.match("./index.html")}})())});
