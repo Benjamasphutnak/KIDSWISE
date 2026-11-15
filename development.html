@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KIDWISE – พัฒนาการตามช่วงวัย</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600&amp;family=Prompt:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#2f9a3f}a:hover{color:#1f7a2e}
+.kw-card{background:linear-gradient(180deg,rgba(255,255,255,.96) 0%,rgba(243,250,248,.92) 100%);border:2px solid rgba(255,255,255,.95);box-shadow:inset 0 3px 0 #fff,inset 0 -4px 0 rgba(150,205,195,.3),0 12px 26px rgba(70,150,150,.2)}
+.kw-seg{flex:1;height:48px;border:none;border-radius:24px;background:transparent;font-family:'Mitr',sans-serif;font-weight:500;font-size:19px;color:#2c3b37;cursor:pointer}
+.kw-seg-on{background:linear-gradient(180deg,#6fd166,#2fa13d);color:#fff;font-weight:600;box-shadow:inset 0 3px 0 rgba(255,255,255,.5),inset 0 -4px 0 #22852f,0 6px 12px rgba(40,140,50,.3)}
+.kw-box{width:30px;height:30px;flex:none;border:none;padding:0;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.kw-box-on{background:linear-gradient(180deg,#6fd166,#2fa13d);box-shadow:inset 0 2px 0 rgba(255,255,255,.5),inset 0 -3px 0 #22852f}
+.kw-box-off{background:#fff;box-shadow:inset 0 0 0 2px #c9d3d1,inset 0 -2px 0 #e3eae9}
+.kw-rec{display:flex;flex-direction:column;align-items:center;box-sizing:border-box;height:206px;border-radius:24px;overflow:hidden;background:linear-gradient(180deg,#fffdf3,#fff4d8);border:3px solid rgba(255,255,255,.95);box-shadow:inset 0 -5px 0 rgba(230,200,120,.3),0 10px 18px rgba(150,130,60,.2);text-decoration:none;color:#2c2c2c}
+.kw-rec img{width:100%;height:136px;object-fit:cover}
+.kw-rec span{flex:1;display:flex;align-items:center;justify-content:center;text-align:center;font-family:'Mitr',sans-serif;font-weight:500;font-size:17px;line-height:1.2;padding:0 4px}
+.kw-tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;height:86px;border-radius:22px;text-decoration:none;color:#3a4a46;font-family:'Prompt',sans-serif;font-size:13px}
+.kw-tab img{width:40px;height:40px;object-fit:contain}
+.kw-tab-on{background:linear-gradient(180deg,#6fd166 0%,#36a843 100%);color:#fff;font-weight:600;box-shadow:inset 0 3px 0 rgba(255,255,255,.55),inset 0 -5px 0 #24852f,0 8px 14px rgba(40,140,50,.35)}
+</style>
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body data-page="development">
+<main class="phone">
+<div style="position: relative; width: 390px; height: 1250px; overflow: hidden; border-radius: 44px; background: linear-gradient(180deg, #c4ebf2 0%, #d6f2ee 25%, #e6f7ee 60%, #d9f1d4 85%, #c4e8b4 100%); font-family: 'Prompt', sans-serif; color: #2c3b37">
+
+<div style="position: absolute; left: 30px; top: 18px; right: 26px; display: flex; justify-content: space-between; align-items: center; font-size: 15px; font-weight: 600; color: #1b1b1b; z-index: 3">
+<span>09:41</span>
+<svg width="70" height="14" viewBox="0 0 70 14" aria-hidden="true"><rect x="0" y="9" width="3" height="5" rx="1" fill="#1b1b1b"></rect><rect x="5" y="6" width="3" height="8" rx="1" fill="#1b1b1b"></rect><rect x="10" y="3" width="3" height="11" rx="1" fill="#1b1b1b"></rect><rect x="15" y="0" width="3" height="14" rx="1" fill="#1b1b1b"></rect><path d="M27 5a10 10 0 0 1 13 0l-1.6 1.7a7.6 7.6 0 0 0-9.8 0zM30 8.3a5.5 5.5 0 0 1 7 0L33.5 12z" fill="#1b1b1b"></path><rect x="45" y="2" width="21" height="10" rx="3" fill="none" stroke="#1b1b1b" stroke-width="1.4"></rect><rect x="47" y="4" width="17" height="6" rx="1.5" fill="#1b1b1b"></rect><rect x="67" y="5" width="2" height="4" rx="1" fill="#1b1b1b"></rect></svg>
+</div>
+
+<div style="position: absolute; left: 16px; top: 62px; right: 12px; display: flex; align-items: center; gap: 14px; z-index: 2">
+<a href="menu.html" aria-label="ย้อนกลับ" style="width: 48px; height: 48px; flex: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: linear-gradient(180deg, #fff, #eef6f8); box-shadow: inset 0 2px 0 #fff, inset 0 -3px 0 #d8e8ec, 0 6px 12px rgba(60,130,160,.22)"><svg width="16" height="24" viewBox="0 0 16 24" aria-hidden="true"><path d="M12 3L3 12l9 9" fill="none" stroke="#2f8fe0" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></a>
+<h1 style="margin: 0; font-family: 'Mitr', sans-serif; font-weight: 600; font-size: 27px; color: #1f2d29">พัฒนาการตามช่วงวัย</h1>
+<svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true" style="margin-left: auto"><path d="M13 1c1 6 4 10 12 12-8 2-11 6-12 12-1-6-4-10-12-12 8-2 11-6 12-12z" fill="#fff"></path></svg>
+</div>
+
+<label style="position: absolute; left: 32px; top: 136px; width: 326px; height: 66px; z-index: 2; display: block"><span class="kw-hidden">เลือกช่วงอายุ</span><select id="ageSelect" class="kw-select" style="width: 100%; height: 66px; border-radius: 33px; padding: 0 56px 0 28px; text-align: center; text-align-last: center; font-family: 'Mitr', sans-serif; font-weight: 600; font-size: 25px; color: #fff; background: linear-gradient(180deg, #ffa53a 0%, #f47a12 100%); box-shadow: inset 0 4px 0 rgba(255,255,255,.45), inset 0 -6px 0 #d35f05, 0 10px 18px rgba(240,120,20,.35); text-shadow: 0 1px 0 rgba(160,60,0,.35)"></select><svg width="22" height="14" viewBox="0 0 22 14" aria-hidden="true" style="position: absolute; right: 28px; top: 26px; pointer-events: none"><path d="M2 2l9 9 9-9z" fill="#fff" stroke="#fff" stroke-width="2" stroke-linejoin="round"></path></svg></label>
+
+<div id="tabs" role="tablist" aria-label="ด้านพัฒนาการ" class="kw-card" style="position: absolute; left: 8px; top: 230px; width: 374px; height: 64px; box-sizing: border-box; border-radius: 32px; padding: 6px; display: flex; gap: 4px; z-index: 2">
+
+</div>
+
+<section class="kw-card" style="position: absolute; left: 6px; top: 314px; width: 380px; height: 272px; box-sizing: border-box; border-radius: 30px; padding: 16px 12px 16px 6px; display: flex; gap: 6px; z-index: 2">
+<img src="assets/toddler.png" alt="เด็กวัยหัดคลาน" style="width: 150px; height: 220px; object-fit: contain; align-self: flex-start; margin-top: 10px">
+<div style="flex: 1; display: flex; flex-direction: column; gap: 10px">
+<h2 style="margin: 0; font-family: 'Mitr', sans-serif; font-weight: 600; font-size: 19px; line-height: 1.35; color: #2f8a2c"><span id="panelTitle"></span><br>(<span class="age-label"></span>)</h2>
+<div id="items" style="display: flex; flex-direction: column; gap: 10px"></div>
+</div>
+</section>
+
+<div style="position: absolute; left: 14px; top: 606px; display: flex; align-items: center; gap: 8px; z-index: 2">
+<img src="assets/leaf.png" alt="" style="width: 36px; height: 38px">
+<h2 style="margin: 0; font-family: 'Mitr', sans-serif; font-weight: 600; font-size: 26px; color: #1f2d29">กิจกรรมแนะนำ</h2>
+</div>
+
+<div style="position: absolute; left: 10px; top: 660px; width: 372px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; z-index: 2" id="recs"></div>
+
+<section style="position: absolute; left: 14px; top: 898px; width: 362px; height: 142px; box-sizing: border-box; border-radius: 28px; padding: 16px 18px 16px 14px; display: flex; gap: 8px; background: linear-gradient(180deg, #fff8d9 0%, #ffefb5 100%); border: 3px solid rgba(255,255,255,.9); box-shadow: inset 0 3px 0 rgba(255,255,255,.8), inset 0 -5px 0 rgba(230,190,90,.3), 0 10px 20px rgba(170,140,40,.2); z-index: 2">
+<img src="assets/bulb.png" alt="" style="width: 50px; height: 56px; object-fit: contain; flex: none">
+<div>
+<h2 style="margin: 4px 0 6px; font-family: 'Mitr', sans-serif; font-weight: 600; font-size: 21px; color: #e2650b">เคล็ดลับสำหรับพ่อแม่</h2>
+<p id="tip" style="margin: 0; font-size: 17px; line-height: 1.45; color: #3a3a3a"></p>
+</div>
+</section>
+
+<div aria-hidden="true" style="position: absolute; left: -80px; top: 1030px; width: 330px; height: 150px; border-radius: 50%; background: linear-gradient(180deg, #9ad66e, #6dbb47); z-index: 0"></div>
+<div aria-hidden="true" style="position: absolute; left: 160px; top: 1044px; width: 340px; height: 150px; border-radius: 50%; background: linear-gradient(180deg, #a8de7c, #77c450); z-index: 0"></div>
+
+<nav id="kw-nav" class="kw-nav kw-nav-abs" aria-label="เมนูด้านล่าง"></nav>
+
+<div aria-hidden="true" style="position: absolute; left: 128px; top: 1226px; width: 134px; height: 5px; border-radius: 3px; background: #111; z-index: 3"></div>
+</div>
+</main>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
