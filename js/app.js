@@ -58,7 +58,6 @@
   function genderChip(c) { return c.gender === 'boy' ? '<span class="kw-chip kw-chip-boy">ชาย</span>' : '<span class="kw-chip kw-chip-girl">หญิง</span>'; }
 
   // ---------------- shared UI ----------------
-  var STATUS = '<span>09:41</span><svg width="70" height="14" viewBox="0 0 70 14" aria-hidden="true"><rect x="0" y="9" width="3" height="5" rx="1" fill="#1b1b1b"/><rect x="5" y="6" width="3" height="8" rx="1" fill="#1b1b1b"/><rect x="10" y="3" width="3" height="11" rx="1" fill="#1b1b1b"/><rect x="15" y="0" width="3" height="14" rx="1" fill="#1b1b1b"/><path d="M27 5a10 10 0 0 1 13 0l-1.6 1.7a7.6 7.6 0 0 0-9.8 0zM30 8.3a5.5 5.5 0 0 1 7 0L33.5 12z" fill="#1b1b1b"/><rect x="45" y="2" width="21" height="10" rx="3" fill="none" stroke="#1b1b1b" stroke-width="1.4"/><rect x="47" y="4" width="17" height="6" rx="1.5" fill="#1b1b1b"/><rect x="67" y="5" width="2" height="4" rx="1" fill="#1b1b1b"/></svg>';
   var TABS = [
     { id: 'home', href: 'index.html', label: 'หน้าหลัก', img: 'assets/n_home.png', svg: '<path d="M3 11.2L12 3.5l9 7.7v9.3a1 1 0 0 1-1 1h-5.2v-6.2H9.2v6.2H4a1 1 0 0 1-1-1z" fill="#fff"/>' },
     { id: 'dev', href: 'development.html', label: 'พัฒนาการ', img: 'assets/n_chart.png', svg: '<rect x="3" y="13" width="5" height="8" rx="1.6" fill="#fff"/><rect x="9.5" y="8" width="5" height="13" rx="1.6" fill="#fff"/><rect x="16" y="3" width="5" height="18" rx="1.6" fill="#fff"/>' },
@@ -77,7 +76,7 @@
           : '<a href="' + t.href + '" class="kw-tab"><img src="' + t.img + '" alt="">' + t.label + '</a>';
       }).join('');
     }
-    document.querySelectorAll('.kw-status').forEach(function (n) { n.innerHTML = STATUS; });
+    
     document.querySelectorAll('.kw-back').forEach(function (n) { n.innerHTML = BACK; });
   }
 
@@ -121,6 +120,9 @@
   function vaxAlerts(c) { return D.VACCINES.filter(function (v) { var s = vaxStatus(c, v).key; return s === 'due' || s === 'late'; }); }
 
   // ================= PAGES =================
+  // fit 390px design on narrower phones
+  function fitScreen() { var w = window.innerWidth; document.body.style.zoom = w < 390 ? (w / 390).toFixed(3) : ''; }
+  fitScreen(); window.addEventListener('resize', fitScreen);
   var page = document.body.getAttribute('data-page');
   renderChrome(page);
 
@@ -480,4 +482,47 @@
     });
     drawProfiles();
   }
+  // ================= ติดตั้งแอป (PWA) =================
+  var deferredPrompt = null;
+  var isStandalone = (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
+  var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  var canSW = 'serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1');
+  if (canSW) navigator.serviceWorker.register('sw.js').catch(function () {});
+  window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); deferredPrompt = e; });
+  window.addEventListener('appinstalled', function () { deferredPrompt = null; hideInstall(); });
+  function hideInstall() { document.querySelectorAll('[data-install], [data-install-card]').forEach(function (n) { n.style.display = 'none'; }); }
+  function closeModal() { var m = $('kwModal'); if (m) m.remove(); }
+  function showHelp() {
+    closeModal();
+    var steps;
+    if (location.protocol === 'file:') {
+      steps = '<p style="margin:0;font-size:16px;line-height:1.5">ตอนนี้เปิดจากไฟล์ในเครื่อง จึงติดตั้งไม่ได้ ให้นำแอปขึ้น GitHub Pages ก่อน แล้วเปิดลิงก์ <b>https://…github.io/…</b> บนมือถือ จากนั้นกดปุ่มนี้อีกครั้ง</p>';
+    } else if (isIOS) {
+      steps = '<ol><li>เปิดหน้านี้ด้วย <b>Safari</b></li><li>แตะปุ่ม <b>แชร์</b> (สี่เหลี่ยมมีลูกศรชี้ขึ้น) ด้านล่างจอ</li><li>เลื่อนลงแล้วแตะ <b>เพิ่มไปยังหน้าจอโฮม</b></li><li>แตะ <b>เพิ่ม</b> ไอคอน KIDWISE จะอยู่บนหน้าจอโฮม</li></ol>';
+    } else {
+      steps = '<ol><li>เปิดหน้านี้ด้วย <b>Chrome</b></li><li>แตะเมนู <b>⋮</b> มุมขวาบน</li><li>เลือก <b>ติดตั้งแอป</b> หรือ <b>เพิ่มลงในหน้าจอหลัก</b></li><li>แตะ <b>ติดตั้ง</b></li></ol>';
+    }
+    var bg = document.createElement('div'); bg.className = 'kw-modal-bg'; bg.id = 'kwModal';
+    bg.innerHTML = '<div class="kw-modal" role="dialog" aria-modal="true" aria-labelledby="kwModalT"><div style="display:flex;gap:12px;align-items:center;margin-bottom:6px"><img src="icons/icon-192.png" alt="" style="width:56px;height:56px;border-radius:14px"><h2 id="kwModalT">ติดตั้ง KIDWISE ลงหน้าจอโฮม</h2></div>' + steps +
+      '<button type="button" class="kw-btn kw-btn-green" style="width:100%" id="kwModalOk">เข้าใจแล้ว</button></div>';
+    bg.addEventListener('click', function (e) { if (e.target === bg) closeModal(); });
+    document.body.appendChild(bg);
+    $('kwModalOk').addEventListener('click', closeModal);
+    $('kwModalOk').focus();
+  }
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
+  function onInstall() {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(function (r) { if (r.outcome === 'accepted') hideInstall(); deferredPrompt = null; });
+    } else showHelp();
+  }
+  if (page === 'profile') {
+    var card = document.createElement('section'); card.setAttribute('data-install-card', '');
+    card.className = 'kw-card'; card.style.cssText = 'border-radius:26px;padding:14px;display:flex;gap:12px;align-items:center';
+    card.innerHTML = '<img src="icons/icon-192.png" alt="" style="width:62px;height:62px;border-radius:16px;flex:none"><div style="flex:1"><b style="font-family:Mitr,sans-serif;font-weight:600;font-size:18px">ติดตั้งแอปลงหน้าจอโฮม</b><div class="kw-muted">เปิดได้เหมือนแอปทั่วไป ใช้ได้แม้ไม่มีเน็ต</div></div><button type="button" data-install class="kw-install">ติดตั้ง</button>';
+    $('body').insertBefore(card, $('body').firstChild);
+  }
+  document.querySelectorAll('[data-install]').forEach(function (b) { b.addEventListener('click', onInstall); });
+  if (isStandalone) hideInstall();
 })();
