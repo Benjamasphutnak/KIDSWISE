@@ -1,5 +1,5 @@
 // KIDWISE service worker – ใช้งานได้แม้ไม่มีอินเทอร์เน็ต
-var CACHE = 'kidwise-v5-stories';
+var CACHE = 'kidwise-v6-stories-inline';
 var SHELL = ["./", "activities.html", "development.html", "growth.html", "health.html", "index.html", "knowledge.html", "storybook.html", "login.html", "menu.html", "notes.html", "nutrition.html", "profile.html", "css/app.css", "js/data.js", "js/app.js", "js/stories.js", "js/storybook.js", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png", "icons/apple-touch-icon.png", "assets/a_book.png", "assets/a_puzzle.png", "assets/a_veg.png", "assets/avatar_boy.png", "assets/avatar_girl.png", "assets/baby.png", "assets/bell.png", "assets/bulb.png", "assets/heart.png", "assets/hero.png", "assets/kids.png", "assets/leaf.png", "assets/m_book.png", "assets/m_bowl.png", "assets/m_chart.png", "assets/m_puzzle.png", "assets/m_scale.png", "assets/m_shield.png", "assets/n_book.png", "assets/n_chart.png", "assets/n_home.png", "assets/n_prof.png", "assets/n_puzzle.png", "assets/r_ball.png", "assets/r_rings.png", "assets/r_sand.png", "assets/toddler.png", "assets/wave.png"];
 self.addEventListener('install', function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(SHELL); }).then(function () { return self.skipWaiting(); }));
