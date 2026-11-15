@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<script>try{if(!JSON.parse(localStorage.getItem("kidwise.acct")||"null"))location.replace("login.html")}catch(e){}</script>
+<meta name="theme-color" content="#c4ebf2">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KIDWISE – นิทานสำหรับเด็ก</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600&amp;family=Prompt:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/app.css">
+<style>
+.story-intro{border-radius:26px;padding:17px;background:linear-gradient(145deg,#d9fff0,#fff0ca);border:3px solid #fff;box-shadow:inset 0 3px 0 #fff,0 7px 0 #b9e5d2,0 12px 22px #589b7825;margin-bottom:14px}
+.story-intro h2{font-family:Mitr,sans-serif;font-size:22px;line-height:1.3;color:#08785e;margin:0 0 5px}
+.story-controls{display:flex;flex-direction:column;gap:10px;margin:12px 0 15px}
+.story-search{height:46px;border:2px solid #d7ebe2;border-radius:16px;padding:0 14px;font:16px Prompt,sans-serif;background:#fff;width:100%;box-sizing:border-box}
+.story-filters{display:flex;gap:7px;overflow-x:auto;padding:2px 1px 7px}
+.story-filter{white-space:nowrap;border:2px solid #fff;border-radius:18px;padding:8px 13px;background:linear-gradient(180deg,#fff,#eef8f4);box-shadow:0 3px 0 #d8e9e1;font:14px Prompt,sans-serif;color:#35534a}
+.story-filter.active{background:linear-gradient(180deg,#70d36b,#35a844);color:#fff;box-shadow:inset 0 2px #ffffff88,0 4px 0 #23852f}
+.story-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.story-card{min-width:0;border:2px solid #fff;border-radius:22px;padding:12px 10px 13px;background:linear-gradient(150deg,#fff,#f0fbf6);box-shadow:inset 0 3px 0 #fff,0 6px 0 #d4ebdf,0 10px 16px #548f7020;display:flex;flex-direction:column;gap:6px}
+.story-cover{height:90px;border-radius:17px;display:flex;align-items:center;justify-content:center;font-size:48px;background:linear-gradient(145deg,#fff0ce,#e1fff0);box-shadow:inset 0 3px 0 #fff,0 4px 0 #c9e8d5}
+.story-card h3{font:600 16px/1.25 Mitr,sans-serif;color:#214d3e;margin:3px 0 0}
+.story-meta{font-size:11px;color:#647d73}
+.story-card p{font-size:12px;line-height:1.5;color:#53675f;margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.story-card-actions{display:flex;gap:6px;margin-top:auto;padding-top:5px}
+.story-read,.story-fav{border:0;border-radius:13px;min-height:36px;font:500 13px Prompt,sans-serif;cursor:pointer}
+.story-read{flex:1;color:#fff;background:linear-gradient(180deg,#ffad43,#f47a12);box-shadow:inset 0 2px #ffffff88,0 3px 0 #d35f05}
+.story-fav{width:39px;background:#fff0f4;color:#d44b76;box-shadow:0 3px 0 #f0cbd8;font-size:18px}
+.story-reader{position:fixed;inset:0;z-index:100;background:#16372dcc;display:none;align-items:center;justify-content:center;padding:16px;box-sizing:border-box}
+.story-reader.open{display:flex}
+.story-reader-panel{width:min(100%,390px);max-height:90vh;overflow:auto;border:3px solid #fff;border-radius:30px;padding:18px;background:linear-gradient(160deg,#effff8,#fff7df);box-shadow:0 18px 45px #123b2e66}
+.story-reader-cover{height:130px;border-radius:22px;display:flex;align-items:center;justify-content:center;font-size:76px;background:linear-gradient(145deg,#fff0c8,#d9fff0);box-shadow:inset 0 3px #fff,0 5px 0 #cce8d8}
+.story-reader-panel h2{font:600 24px/1.3 Mitr,sans-serif;color:#08785e;margin:14px 0 8px}
+.story-reader-text{font:17px/1.9 Prompt,sans-serif;color:#344c42;white-space:pre-line}
+.story-lesson{border-radius:18px;padding:12px;background:#fff0c7;color:#76511a;font:15px/1.6 Prompt,sans-serif;margin-top:12px}
+.story-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+.story-actions button{flex:1;min-width:110px}
+.story-close{float:right;border:0;border-radius:50%;width:38px;height:38px;background:#fff;font-size:22px;color:#49655a}
+.story-empty{grid-column:1/-1;text-align:center;padding:25px;color:#6b8178}
+@media(max-width:360px){.story-grid{grid-template-columns:1fr}.story-cover{height:105px}}
+</style>
+</head>
+<body data-page="storybook">
+<main class="phone kw-page">
+<div class="kw-status"></div>
+<header class="kw-header"><a href="menu.html" class="kw-back" aria-label="ย้อนกลับ"></a><h1>นิทานสำหรับเด็ก</h1></header>
+<div class="kw-body">
+  <section class="story-intro">
+    <div style="font-size:34px;margin-bottom:3px">📚🌈</div>
+    <h2>โลกนิทานแสนสนุก</h2>
+    <p style="margin:0;color:#526f62;font-size:14px;line-height:1.55">เลือกนิทานตามวัย อ่านด้วยกันวันละนิด เติมจินตนาการและช่วงเวลาดี ๆ ในครอบครัว</p>
+    <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:10px"><span class="kw-chip kw-chip-green">30 เรื่อง</span><span class="kw-chip kw-chip-orange">อ่านฟรี</span><span class="kw-chip kw-chip-gray">มีเสียงอ่าน*</span></div>
+  </section>
+  <div class="story-controls">
+    <input id="storySearch" class="story-search" type="search" placeholder="🔎 ค้นหาชื่อนิทานหรือหมวดหมู่" aria-label="ค้นหานิทาน">
+    <div id="storyFilters" class="story-filters" aria-label="เลือกช่วงวัย"></div>
+  </div>
+  <div id="storyCount" class="kw-muted" style="margin:0 4px 9px"></div>
+  <section id="storyGrid" class="story-grid" aria-live="polite"></section>
+  <p class="kw-muted" style="font-size:12px;line-height:1.6;margin:15px 5px">* ปุ่มฟังเสียงใช้เสียงภาษาไทยที่มีในอุปกรณ์และเบราว์เซอร์ หากไม่มีเสียงภาษาไทย ระบบอาจอ่านด้วยเสียงอื่นหรือไม่สามารถอ่านได้</p>
+</div>
+<nav id="kw-nav" class="kw-nav kw-nav-sticky" aria-label="เมนูด้านล่าง"></nav>
+</main>
+<div id="storyReader" class="story-reader" role="dialog" aria-modal="true" aria-labelledby="readerTitle">
+  <div class="story-reader-panel">
+    <button id="storyClose" class="story-close" type="button" aria-label="ปิด">×</button>
+    <div id="readerEmoji" class="story-reader-cover">📖</div>
+    <div id="readerAge" class="story-meta" style="margin-top:12px"></div>
+    <h2 id="readerTitle"></h2>
+    <div id="readerText" class="story-reader-text"></div>
+    <div id="readerLesson" class="story-lesson"></div>
+    <div id="readerActivity" class="kw-muted" style="font-size:14px;line-height:1.6;margin-top:10px"></div>
+    <div class="story-actions">
+      <button id="storySpeak" class="kw-btn kw-btn-green kw-btn-sm" type="button">🔊 ฟังนิทาน</button>
+      <button id="storyStop" class="kw-btn kw-btn-ghost kw-btn-sm" type="button">หยุดเสียง</button>
+    </div>
+  </div>
+</div>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/stories.js"></script>
+<script src="js/storybook.js"></script>
+</body>
+</html>
