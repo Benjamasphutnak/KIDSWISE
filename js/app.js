@@ -23,16 +23,46 @@
   var CHEV = '<svg width="18" height="12" viewBox="0 0 22 14" aria-hidden="true"><path d="M2 2l9 9 9-9z" fill="#fff" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg>';
 
   // ---------------- storage ----------------
-  function seed() {
-    var id = 'c' + uid();
-    var s = { children: [{ id: id, name: 'น้องข้าวหอม', gender: 'girl', birth: addMonths(today(), -18), photo: 'assets/baby.png' }], activeId: id, data: {} };
-    return s;
+  function seed() { return { children: [], activeId: null, data: {} }; }
+  var API = 'https://kaowin-challenge.weerayoot766.workers.dev';
+  function ls(k, v) { try { if (v === undefined) return localStorage.getItem(k) || ''; if (v === '') localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) { return ''; } }
+  function api(path, body) {
+    return fetch(API + path, { method: 'POST', body: JSON.stringify(body) }).then(function (r) { return r.json(); }).catch(function () { return { ok: false, error: 'net' }; })
+      .then(function (j) { if (!j.ok) throw new Error(j.error || 'net'); return j; });
   }
+
+  // ---------------- account + cloud sync ----------------
+  var ACCT = null; try { ACCT = JSON.parse(localStorage.getItem('kidwise.acct') || 'null'); } catch (e) {}
+  var page = document.body.getAttribute('data-page');
+  if (!ACCT || !ACCT.phone || !ACCT.token) { location.replace('login.html'); return; }
   var S;
   try { S = JSON.parse(localStorage.getItem(KEY)) || seed(); } catch (e) { S = seed(); }
-  if (!S.children || !S.children.length) S = seed();
-  function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* storage full or blocked */ } }
-  save();
+  if (!S.children) S.children = [];
+  if (!S.data) S.data = {};
+  var pushTimer = 0;
+  function writeLocal() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* storage full or blocked */ } }
+  function save() { S.updated = Date.now(); writeLocal(); ls('kidwise.dirty', '1'); clearTimeout(pushTimer); pushTimer = setTimeout(push, 1200); }
+  function authFail() { ls('kidwise.acct', ''); location.replace('login.html'); }
+  function push() {
+    if (!navigator.onLine || ls('kidwise.dirty') !== '1') return Promise.resolve();
+    return api('/kw/save', { phone: ACCT.phone, token: ACCT.token, data: JSON.stringify(S), updated: S.updated || Date.now() })
+      .then(function () { ls('kidwise.dirty', ''); })
+      .catch(function (e) { if (e.message === 'auth') authFail(); });
+  }
+  function pull() {
+    if (!navigator.onLine) return;
+    if (ls('kidwise.dirty') === '1') { push(); return; }
+    api('/kw/load', { phone: ACCT.phone, token: ACCT.token }).then(function (r) {
+      if (r.data && (r.updated || 0) > (S.updated || 0)) {
+        try { localStorage.setItem(KEY, r.data); } catch (e) {}
+        if (!sessionStorage.getItem('kw-pulled')) { sessionStorage.setItem('kw-pulled', '1'); location.reload(); }
+      } else sessionStorage.removeItem('kw-pulled');
+    }).catch(function (e) { if (e.message === 'auth') authFail(); });
+  }
+  window.addEventListener('online', push);
+  document.addEventListener('visibilitychange', function () { if (document.hidden) push(); else pull(); });
+  setTimeout(pull, 300);
+  if (!S.children.length && page !== 'profile') { location.replace('profile.html?new=1'); return; }
 
   function child() { return S.children.filter(function (c) { return c.id === S.activeId; })[0] || S.children[0]; }
   function cdata(c) {
@@ -123,7 +153,6 @@
   // fit 390px design on narrower phones
   function fitScreen() { var w = window.innerWidth; document.body.style.zoom = w < 390 ? (w / 390).toFixed(3) : ''; }
   fitScreen(); window.addEventListener('resize', fitScreen);
-  var page = document.body.getAttribute('data-page');
   renderChrome(page);
 
   // ---------- หน้าหลัก ----------
@@ -417,7 +446,7 @@
       '<label class="kw-field">วันเกิด<input type="date" id="pBirth" required></label>' +
       '<p id="pErr" class="kw-muted" style="margin:0;color:#b42318" role="alert"></p>' +
       '<div style="display:flex;gap:10px"><button type="button" id="pCancel" class="kw-btn kw-btn-ghost" style="flex:1">ยกเลิก</button><button type="submit" class="kw-btn kw-btn-green" style="flex:1">บันทึก</button></div></form></section>' +
-      '<p class="kw-muted" style="margin:0 6px">ข้อมูลทั้งหมดเก็บไว้ในเครื่องนี้เท่านั้น ใช้ได้ตั้งแต่แรกเกิดถึง 6 ปี</p>';
+      '<p class="kw-muted" style="margin:0 6px">ข้อมูลเก็บในบัญชีของคุณ เปิดจากเครื่องไหนก็เห็นเหมือนกัน ใช้ได้ตั้งแต่แรกเกิดถึง 6 ปี</p>';
     function previewSrc() { var g = (document.querySelector('input[name=pG]:checked') || {}).value; return photoData || (g === 'boy' ? 'assets/avatar_boy.png' : 'assets/avatar_girl.png'); }
     function openForm(c) {
       editing = c || null; photoData = c && c.photo ? c.photo : null;
@@ -427,9 +456,11 @@
       document.querySelectorAll('input[name=pG]').forEach(function (r) { r.checked = r.value === (c ? c.gender : 'girl'); });
       $('pPrev').src = previewSrc(); $('pErr').textContent = '';
       $('pFormWrap').classList.remove('kw-hidden'); $('pAdd').classList.add('kw-hidden');
+      $('pCancel').style.display = S.children.length ? '' : 'none';
+      $('pFormTitle').textContent = c ? 'แก้ไขโปรไฟล์' : (S.children.length ? 'เพิ่มโปรไฟล์ลูก' : 'เริ่มต้น: เพิ่มโปรไฟล์ลูกคนแรก');
       $('pName').focus();
     }
-    function closeForm() { $('pFormWrap').classList.add('kw-hidden'); $('pAdd').classList.remove('kw-hidden'); }
+    function closeForm() { if (!S.children.length) return; $('pFormWrap').classList.add('kw-hidden'); $('pAdd').classList.remove('kw-hidden'); }
     function drawProfiles() {
       var box = $('pList'); box.innerHTML = '';
       S.children.forEach(function (c) {
@@ -481,6 +512,29 @@
       save(); closeForm(); drawProfiles();
     });
     drawProfiles();
+    if (!S.children.length) openForm(null);
+    // บัญชีผู้ใช้
+    var acc = document.createElement('section'); acc.className = 'kw-card'; acc.style.cssText = 'border-radius:26px;padding:14px';
+    var ph = ACCT.phone.replace(/^(\d{3})(\d{3})(\d{4})$/, '$1-$2-$3');
+    acc.innerHTML = '<div style="display:flex;align-items:center;gap:10px"><img src="assets/n_prof.png" alt="" style="width:44px;height:44px;object-fit:contain"><div style="flex:1"><b style="font-family:Mitr,sans-serif;font-weight:600;font-size:17px">บัญชีของฉัน</b><div class="kw-muted">เบอร์ ' + ph + ' · ข้อมูลซิงก์ทุกเครื่อง</div></div></div>' +
+      '<div style="display:flex;gap:8px;margin-top:10px"><button type="button" id="aPin" class="kw-btn kw-btn-sm kw-btn-ghost" style="flex:1">เปลี่ยนรหัส</button><button type="button" id="aOut" class="kw-btn kw-btn-sm kw-btn-ghost" style="flex:1">ออกจากระบบ</button></div>' +
+      '<form id="aPinF" class="kw-hidden" style="display:flex;flex-direction:column;gap:10px;margin-top:12px"><div style="display:flex;gap:10px"><label class="kw-field" style="flex:1">รหัสเดิม<input type="password" id="aOld" inputmode="numeric" maxlength="4" pattern="\\d{4}" autocomplete="current-password" required></label><label class="kw-field" style="flex:1">รหัสใหม่ 4 หลัก<input type="password" id="aNew" inputmode="numeric" maxlength="4" pattern="\\d{4}" autocomplete="new-password" required></label></div><p id="aMsg" class="kw-muted" style="margin:0" role="status"></p><button type="submit" class="kw-btn kw-btn-sm kw-btn-green">บันทึกรหัสใหม่</button></form>';
+    $('pList').parentNode.insertBefore(acc, $('pList'));
+    $('aPin').addEventListener('click', function () { $('aPinF').classList.toggle('kw-hidden'); });
+    $('aPinF').addEventListener('submit', function (e) {
+      e.preventDefault(); var o = $('aOld').value, n = $('aNew').value;
+      if (!/^\d{4}$/.test(n)) { $('aMsg').textContent = 'รหัสใหม่ต้องเป็นตัวเลข 4 หลัก'; return; }
+      api('/kw/pin', { phone: ACCT.phone, token: ACCT.token, old: o, pin: n }).then(function () { $('aMsg').textContent = 'เปลี่ยนรหัสแล้ว'; $('aOld').value = ''; $('aNew').value = ''; })
+        .catch(function (er) { $('aMsg').textContent = er.message === 'pin' ? 'รหัสเดิมไม่ถูกต้อง' : er.message === 'auth' ? 'กรุณาเข้าสู่ระบบใหม่' : 'ต้องต่ออินเทอร์เน็ต'; });
+    });
+    $('aOut').addEventListener('click', function () {
+      var b = $('aOut');
+      if (!navigator.onLine && ls('kidwise.dirty') === '1') { b.textContent = 'ต่อเน็ตก่อน ข้อมูลยังไม่ซิงก์'; return; }
+      if (!b.getAttribute('data-confirm')) { b.setAttribute('data-confirm', '1'); b.textContent = 'ยืนยันออก'; b.style.color = '#b42318'; return; }
+      push().then(function () { return api('/kw/logout', { phone: ACCT.phone, token: ACCT.token }).catch(function () {}); }).then(function () {
+        ls('kidwise.acct', ''); ls('kidwise.dirty', ''); try { localStorage.removeItem(KEY); } catch (e) {} location.replace('login.html');
+      });
+    });
   }
   // ================= ติดตั้งแอป (PWA) =================
   var deferredPrompt = null;
@@ -525,4 +579,103 @@
   }
   document.querySelectorAll('[data-install]').forEach(function (b) { b.addEventListener('click', onInstall); });
   if (isStandalone) hideInstall();
+  // ================= ตัวนับผู้ใช้ (เซิร์ฟเวอร์เดียวกับ KAOWIN) =================
+  // ส่งแค่รหัสเครื่องแบบสุ่ม วันที่ ประเภทเครื่อง และสถานะติดตั้ง วันละครั้ง — ไม่ส่งชื่อหรือข้อมูลของลูก
+  var APP_VER = 'v1';
+  if (!ls('kidwise-since')) ls('kidwise-since', today());
+  function devId() {
+    var d = ls('kidwise-did');
+    if (!d) { d = ((window.crypto && crypto.randomUUID && crypto.randomUUID().replace(/-/g, '')) || (Math.random().toString(36).slice(2) + Date.now().toString(36))).toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 20); ls('kidwise-did', d); }
+    return d;
+  }
+  function ping() {
+    try {
+      if (!navigator.onLine || location.protocol === 'file:') return;
+      var id = devId(); if (id.length < 12) return;
+      var day = today(), inst = isStandalone ? 1 : 0, k = day + ':' + inst;
+      if (ls('kidwise-ping') === k) return;
+      var ua = navigator.userAgent;
+      var os = isIOS ? 'ios' : /Android/i.test(ua) ? 'android' : /Windows|Macintosh|Linux|CrOS/.test(ua) ? 'desktop' : 'other';
+      var since = ls('kidwise-since'); if (!(since && since <= day)) since = day;
+      api('/ping', { app: 'kidwise', did: id, inst: inst, os: os, mode: '', since: since }).then(function () { ls('kidwise-ping', k); }).catch(function () {});
+    } catch (e) {}
+  }
+  setTimeout(ping, 1500);
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) ping(); });
+
+  // ---- สถิติผู้ใช้ (เจ้าของแอป): แตะ "KIDWISE v1" ในหน้าโปรไฟล์ 5 ครั้ง แล้วใส่รหัสเดียวกับ KAOWIN ----
+  function sheet(title, html) {
+    closeModal();
+    var bg = document.createElement('div'); bg.className = 'kw-modal-bg'; bg.id = 'kwModal';
+    bg.innerHTML = '<div class="kw-modal" role="dialog" aria-modal="true" aria-labelledby="kwModalT" style="max-height:88vh;overflow:auto"><div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><h2 id="kwModalT" style="flex:1;margin:0">' + title + '</h2><button type="button" class="kw-btn kw-btn-sm kw-btn-ghost" id="kwModalX" aria-label="ปิด">ปิด</button></div><div id="kwSheetB">' + html + '</div></div>';
+    bg.addEventListener('click', function (e) { if (e.target === bg) closeModal(); });
+    document.body.appendChild(bg); $('kwModalX').addEventListener('click', closeModal);
+    return $('kwSheetB');
+  }
+  function keyForm(mode, msg) {
+    var b = sheet(mode === 'set' ? 'ตั้งรหัสดูสถิติ' : 'ใส่รหัสดูสถิติ',
+      (msg ? '<p class="kw-chip kw-chip-orange" style="display:block;border-radius:12px;padding:8px 12px;margin:0 0 10px">' + esc(msg) + '</p>' : '') +
+      '<p class="kw-muted" style="margin:0 0 10px">ใช้รหัสเดียวกับแอป KAOWIN</p><form id="kwKeyF" style="display:flex;flex-direction:column;gap:10px">' +
+      '<label class="kw-field">รหัส<input type="password" id="kwK1" autocomplete="off" minlength="4" required></label>' +
+      (mode === 'set' ? '<label class="kw-field">ใส่รหัสอีกครั้ง<input type="password" id="kwK2" autocomplete="off" minlength="4" required></label>' : '') +
+      '<button class="kw-btn kw-btn-green" type="submit">' + (mode === 'set' ? 'ตั้งรหัสและดูสถิติ' : 'ดูสถิติ') + '</button></form>');
+    $('kwK1').focus();
+    $('kwKeyF').addEventListener('submit', function (e) {
+      e.preventDefault(); var k = $('kwK1').value.trim();
+      if (mode === 'set') {
+        if (k !== $('kwK2').value.trim()) return keyForm('set', 'รหัส 2 ช่องไม่ตรงกัน');
+        api('/admin/setkey', { key: k }).then(function () { ls('kaowin.admin', k); showStats(); })
+          .catch(function (er) { keyForm(er.message === 'admin' ? 'ask' : 'set', er.message === 'short' ? 'รหัสสั้นไป ใส่อย่างน้อย 4 ตัว' : er.message === 'admin' ? 'มีรหัสอยู่แล้ว ใส่รหัสเดียวกับ KAOWIN' : 'เชื่อมต่อไม่ได้ ต้องต่ออินเทอร์เน็ต'); });
+      } else { ls('kaowin.admin', k); showStats(); }
+    });
+  }
+  function showStats() {
+    var key = ls('kaowin.admin');
+    var b = sheet('สถิติผู้ใช้ KIDWISE', '<p class="kw-empty">กำลังโหลด…</p>');
+    api('/admin/stats', { admin: key, app: 'kidwise' }).then(function (r) {
+      if (r.app !== 'kidwise') { b.innerHTML = '<p class="kw-chip kw-chip-red" style="display:block;border-radius:12px;padding:10px 12px;line-height:1.5">เซิร์ฟเวอร์ยังไม่รู้จัก KIDWISE: เพิ่ม "kidwise" ในบรรทัด const APPS ของ Worker แล้วกด Deploy ก่อน</p>'; return; }
+      ls('kidwise-owner', '1'); ownerFab();
+      var t = r.tot, D = Object.keys(r.days).map(function (k) { return [k, r.days[k]]; });
+      var mx = Math.max.apply(null, [1].concat(D.map(function (x) { return x[1].act; })));
+      function tile(n, l, sub, color) { return '<div class="kw-card" style="border-radius:20px;padding:12px 6px;text-align:center"><b style="display:block;font-family:Mitr,sans-serif;font-weight:600;font-size:30px;line-height:1.1;color:' + color + '">' + n + '</b><span style="font-size:14px">' + l + '</span>' + (sub ? '<span class="kw-muted" style="display:block;font-size:12px">' + sub + '</span>' : '') + '</div>'; }
+      function dd(d) { var p = d.split('-'); return (+p[2]) + '/' + (+p[1]); }
+      var OS = { ios: 'iPhone/iPad', android: 'Android', desktop: 'คอม', other: 'อื่น ๆ' };
+      b.innerHTML = '<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">' +
+        tile(t.installed, 'ติดตั้งแอป', 'วันนี้ +' + t.instToday + ' · 7 วัน +' + t.inst7, '#22702c') +
+        tile(t.newToday, 'คนใหม่วันนี้', '7 วัน ' + t.new7, '#e2650b') +
+        tile(t.dau, 'ใช้งานวันนี้', '', '#1e5f9e') +
+        tile(t.devices, 'เครื่องทั้งหมด', '', '#1f2d29') + tile(t.wau, 'ใช้งาน 7 วัน', '', '#1f2d29') + tile(t.mau, 'ใช้งาน 30 วัน', '', '#1f2d29') + '</div>' +
+        '<h3 style="margin:16px 0 6px;font-family:Mitr,sans-serif;font-weight:600;font-size:18px">14 วันล่าสุด</h3>' +
+        '<div style="display:grid;grid-template-columns:44px 1fr 40px 44px;gap:5px 6px;align-items:center;font-size:14px"><b>วันที่</b><b>ใช้งาน</b><b>ใหม่</b><b>ติดตั้ง</b>' +
+        D.map(function (x) { var v = x[1]; return '<span>' + dd(x[0]) + '</span><span style="display:flex;align-items:center;gap:6px"><i style="display:block;height:10px;border-radius:5px;background:#36a843;width:' + Math.max(2, v.act / mx * 100) + '%"></i>' + v.act + '</span><span>' + (v.nw || '') + '</span><span>' + (v.inst || '') + '</span>'; }).join('') + '</div>' +
+        '<p class="kw-muted" style="margin-top:12px">ระบบ: ' + (Object.keys(r.os).map(function (k) { return (OS[k] || k) + ' ' + r.os[k]; }).join(' · ') || '-') + '</p>' +
+        '<p class="kw-muted" style="margin:6px 0 0;font-size:12px">นับเครื่องละครั้งต่อวัน ไม่เก็บชื่อหรือข้อมูลของลูก</p>' +
+        '<h3 style="margin:18px 0 6px;font-family:Mitr,sans-serif;font-weight:600;font-size:18px">รีเซ็ตรหัสให้ผู้ใช้ที่ลืมรหัส</h3><form id="kwRst" style="display:flex;flex-direction:column;gap:8px"><div style="display:flex;gap:8px"><label class="kw-field" style="flex:3">เบอร์โทร<input id="kwRP" inputmode="tel" maxlength="12" required></label><label class="kw-field" style="flex:2">รหัสใหม่<input id="kwRN" inputmode="numeric" maxlength="4" pattern="\\d{4}" required></label></div><p id="kwRM" class="kw-muted" style="margin:0" role="status"></p><button class="kw-btn kw-btn-sm kw-btn-ghost" type="submit">รีเซ็ตรหัส</button></form>';
+      $('kwRst').addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        api('/kw/admin/reset', { admin: ls('kaowin.admin'), phone: $('kwRP').value.replace(/\D/g, ''), pin: $('kwRN').value })
+          .then(function () { $('kwRM').textContent = 'รีเซ็ตแล้ว แจ้งรหัสใหม่ให้ผู้ใช้ได้เลย'; })
+          .catch(function (er) { $('kwRM').textContent = er.message === 'nouser' ? 'ไม่พบเบอร์นี้' : er.message === 'pin' ? 'รหัสใหม่ต้องเป็นตัวเลข 4 หลัก' : 'ทำไม่สำเร็จ'; });
+      });
+    }).catch(function (e) {
+      if (e.message === 'nokey') return keyForm('set');
+      if (e.message === 'admin') { var had = !!key; ls('kaowin.admin', ''); return keyForm('ask', had ? 'รหัสไม่ถูกต้อง ลองใหม่' : ''); }
+      b.innerHTML = '<p class="kw-empty">เชื่อมต่อไม่ได้ ต้องต่ออินเทอร์เน็ต</p>';
+    });
+  }
+  function ownerFab() {
+    if (ls('kidwise-owner') !== '1' || $('kwStatFab')) return;
+    var f = document.createElement('button'); f.type = 'button'; f.id = 'kwStatFab'; f.className = 'kw-btn kw-btn-sm';
+    f.style.cssText = 'position:fixed;z-index:40;right:max(16px, calc(50% - 179px));bottom:132px';
+    f.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="12" width="4.5" height="9" rx="1.5" fill="#fff"/><rect x="9.75" y="7" width="4.5" height="14" rx="1.5" fill="#fff"/><rect x="16.5" y="3" width="4.5" height="18" rx="1.5" fill="#fff"/></svg>สถิติผู้ใช้';
+    f.addEventListener('click', showStats); document.body.appendChild(f);
+  }
+  if (page === 'index' || page === 'profile') ownerFab();
+  if (page === 'profile') {
+    var ver = document.createElement('p'); ver.className = 'kw-muted'; ver.style.cssText = 'margin:0 6px;text-align:center;user-select:none';
+    ver.innerHTML = 'KIDWISE <span id="kwVer" style="cursor:pointer;padding:6px">' + APP_VER + '</span><br><span style="font-size:12px">ข้อมูลลูกเก็บในบัญชีของคุณ ผู้อื่นเปิดดูไม่ได้ · ตัวนับผู้ใช้ส่งแค่รหัสเครื่องแบบสุ่ม วันที่ และประเภทเครื่อง</span>';
+    $('body').appendChild(ver);
+    var taps = 0, tm = 0;
+    $('kwVer').addEventListener('click', function () { clearTimeout(tm); tm = setTimeout(function () { taps = 0; }, 1500); if (++taps >= 5) { taps = 0; showStats(); } });
+  }
 })();

@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#bfe8f3">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="KIDWISE">
+<title>KIDWISE – เข้าสู่ระบบ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600&amp;family=Prompt:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/app.css">
+<style>
+.lg { position: relative; width: 390px; min-height: 900px; overflow: hidden; border-radius: 44px; background: linear-gradient(180deg, #a9e1f2 0%, #c9eff0 28%, #e2f7ee 55%, #d4f0cc 80%, #b5e29d 100%); font-family: 'Prompt', sans-serif; color: #2c3b37; }
+/* sun glow */
+.lg-sun { position: absolute; left: 50%; top: 40px; width: 420px; height: 420px; margin-left: -210px; border-radius: 50%; background: radial-gradient(circle, rgba(255,250,215,.95) 0%, rgba(255,246,200,.5) 35%, rgba(255,255,255,0) 68%); animation: glow 5s ease-in-out infinite; }
+/* clouds */
+.cl { position: absolute; height: 34px; border-radius: 20px; background: #fff; box-shadow: 0 6px 14px rgba(80,150,170,.15); opacity: .95; }
+.cl::before, .cl::after { content: ""; position: absolute; background: #fff; border-radius: 50%; }
+.cl::before { width: 46px; height: 46px; left: 16px; top: -22px; }
+.cl::after { width: 34px; height: 34px; left: 48px; top: -14px; }
+.cl1 { width: 110px; top: 70px; animation: drift 26s linear infinite; }
+.cl2 { width: 86px; top: 190px; animation: drift 34s linear infinite -14s; transform: scale(.8); }
+.cl3 { width: 130px; top: 300px; animation: drift 40s linear infinite -26s; opacity: .8; }
+/* sparkles */
+.sp { position: absolute; width: 22px; height: 22px; animation: twinkle 2.4s ease-in-out infinite; }
+/* hero */
+.lg-hero { position: absolute; left: 50%; top: 34px; width: 300px; margin-left: -150px; animation: bob 4s ease-in-out infinite; box-shadow: 0 16px 28px rgba(40,110,90,.28); z-index: 2; border-radius: 28px; border: 5px solid #fff; box-sizing: border-box; }
+/* floating 3D toys */
+.fl { position: absolute; z-index: 3; filter: drop-shadow(0 8px 8px rgba(0,0,0,.15)); }
+.f1 { width: 62px; left: 8px; top: 92px; animation: float1 5s ease-in-out infinite; }
+.f2 { width: 58px; right: 6px; top: 70px; animation: float2 6s ease-in-out infinite; }
+.f3 { width: 50px; left: 18px; top: 252px; animation: float2 5.5s ease-in-out infinite -2s; }
+.f4 { width: 54px; right: 14px; top: 236px; animation: float1 6.5s ease-in-out infinite -3s; }
+/* card */
+.lg-card { position: relative; z-index: 4; margin: 340px 14px 0; padding: 20px 18px 22px; border-radius: 32px; background: linear-gradient(180deg, rgba(255,255,255,.97), rgba(242,251,248,.95)); border: 2px solid #fff; box-shadow: inset 0 3px 0 #fff, inset 0 -5px 0 rgba(150,205,195,.35), 0 18px 34px rgba(50,120,110,.25); animation: rise .7s cubic-bezier(.2,.9,.3,1.2) both .15s; }
+.lg-hi { display: flex; align-items: center; gap: 8px; margin: 0 0 4px; font-family: 'Mitr', sans-serif; font-weight: 600; font-size: 26px; color: #234b3c; }
+.lg-hi img { width: 34px; height: 34px; transform-origin: 70% 80%; animation: wave 1.8s ease-in-out infinite; }
+.lg-sub { margin: 0 0 14px; font-size: 15px; color: #4a5a56; }
+.lg-tabs { display: flex; gap: 4px; padding: 5px; border-radius: 28px; background: #eef6f4; box-shadow: inset 0 2px 4px rgba(0,0,0,.06); margin-bottom: 14px; }
+.lg-tabs .kw-seg { height: 44px; font-size: 17px; }
+.pin { position: relative; display: flex; gap: 12px; justify-content: center; }
+.pin input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; font-size: 16px; cursor: pointer; }
+.pin span { width: 58px; height: 62px; border-radius: 18px; background: #fff; box-shadow: inset 0 0 0 2.5px #d3e2df, inset 0 -4px 0 #e3eeec; display: flex; align-items: center; justify-content: center; transition: transform .15s, box-shadow .15s; }
+.pin span.on::after { content: ""; width: 18px; height: 18px; border-radius: 50%; background: linear-gradient(180deg, #6fd166, #2fa13d); box-shadow: inset 0 2px 0 rgba(255,255,255,.5); animation: pop .25s ease-out; }
+.pin span.cur { box-shadow: inset 0 0 0 3px #36a843, inset 0 -4px 0 #e3eeec, 0 0 0 4px rgba(54,168,67,.15); transform: translateY(-2px); }
+.lg-label { display: block; font-size: 16px; margin: 12px 0 8px; }
+.lg-phone { width: 100%; height: 56px; box-sizing: border-box; padding: 0 16px; border-radius: 18px; border: 2.5px solid #d3e2df; background: #fff; font-size: 22px; letter-spacing: 1px; font-family: 'Prompt', sans-serif; color: #1f2d29; }
+.lg-phone:focus { border-color: #36a843; outline: none; box-shadow: 0 0 0 4px rgba(54,168,67,.15); }
+.lg-err { min-height: 22px; margin: 12px 0 2px; font-size: 15px; color: #b42318; text-align: center; }
+.lg-go { width: 100%; height: 58px; font-size: 21px; margin-top: 4px; transition: transform .1s; }
+.lg-go:active { transform: translateY(3px) scale(.99); }
+.lg-go[disabled] { opacity: .7; }
+.lg-foot { position: relative; z-index: 4; margin: 14px 20px 26px; text-align: center; font-size: 13px; color: #44524e; line-height: 1.5; }
+.lg-kids { position: absolute; left: 0; right: 0; bottom: 0; height: 150px; background: radial-gradient(120% 90px at 25% 100%, #8fd164 60%, transparent 61%), radial-gradient(120% 80px at 85% 100%, #a3dc76 60%, transparent 61%); z-index: 1; }
+.shake { animation: shake .4s; }
+@keyframes bob { 0%,100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-12px) rotate(1deg); } }
+@keyframes float1 { 0%,100% { transform: translateY(0) rotate(-8deg); } 50% { transform: translateY(-16px) rotate(6deg); } }
+@keyframes float2 { 0%,100% { transform: translateY(0) rotate(6deg) scale(1); } 50% { transform: translateY(-12px) rotate(-6deg) scale(1.06); } }
+@keyframes drift { from { left: -150px; } to { left: 420px; } }
+@keyframes twinkle { 0%,100% { opacity: .2; transform: scale(.6) rotate(0); } 50% { opacity: 1; transform: scale(1.1) rotate(25deg); } }
+@keyframes glow { 0%,100% { opacity: .75; transform: scale(1); } 50% { opacity: 1; transform: scale(1.07); } }
+@keyframes wave { 0%,60%,100% { transform: rotate(0); } 10%,30% { transform: rotate(18deg); } 20%,40% { transform: rotate(-10deg); } }
+@keyframes rise { from { opacity: 0; transform: translateY(40px) scale(.96); } to { opacity: 1; transform: none; } }
+@keyframes pop { from { transform: scale(0); } 70% { transform: scale(1.25); } to { transform: scale(1); } }
+@keyframes shake { 20%,60% { transform: translateX(-8px); } 40%,80% { transform: translateX(8px); } }
+@media (prefers-reduced-motion: reduce) { .lg *, .lg *::before, .lg *::after { animation: none !important; } .lg-card { opacity: 1; } }
+@media (max-width: 430px) { .lg { border-radius: 0; min-height: 100vh; width: 100vw; max-width: 430px; } }
+@media (max-width: 389px) { .lg { width: 390px; } }
+</style>
+</head>
+<body data-page="login">
+<main class="phone lg">
+  <div class="lg-sun" aria-hidden="true"></div>
+  <div class="cl cl1" aria-hidden="true"></div><div class="cl cl2" aria-hidden="true"></div><div class="cl cl3" aria-hidden="true"></div>
+  <svg class="sp" style="left:70px;top:40px" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12z" fill="#fff"/></svg>
+  <svg class="sp" style="right:60px;top:170px;animation-delay:-1s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12z" fill="#fff8c4"/></svg>
+  <svg class="sp" style="left:120px;top:300px;animation-delay:-1.7s;width:16px;height:16px" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12z" fill="#fff"/></svg>
+  <svg class="sp" style="right:120px;top:24px;animation-delay:-.6s;width:14px;height:14px" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12z" fill="#fff8c4"/></svg>
+  <img class="lg-hero" src="assets/hero.png" alt="KIDWISE เข้าใจทุกวัย ใส่ใจทุกการเติบโต">
+  <img class="fl f1" src="assets/m_puzzle.png" alt="" aria-hidden="true">
+  <img class="fl f2" src="assets/m_chart.png" alt="" aria-hidden="true">
+  <img class="fl f3" src="assets/bulb.png" alt="" aria-hidden="true">
+  <img class="fl f4" src="assets/m_bowl.png" alt="" aria-hidden="true">
+  <div class="lg-kids" aria-hidden="true"></div>
+
+  <section class="lg-card" aria-labelledby="lgTitle">
+    <h1 class="lg-hi" id="lgTitle">สวัสดีค่ะ <img src="assets/wave.png" alt=""></h1>
+    <p class="lg-sub" id="lgSub">เข้าสู่ระบบเพื่อดูแลการเติบโตของลูก</p>
+    <div class="lg-tabs" role="tablist">
+      <button type="button" role="tab" id="tLogin" class="kw-seg kw-seg-on" aria-selected="true">เข้าสู่ระบบ</button>
+      <button type="button" role="tab" id="tReg" class="kw-seg" aria-selected="false">สมัครใหม่</button>
+    </div>
+    <form id="lgForm" novalidate>
+      <label class="lg-label" for="phone">เบอร์โทรศัพท์</label>
+      <input class="lg-phone" id="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="08X-XXX-XXXX" maxlength="12" required>
+      <span class="lg-label" id="pinLbl">รหัส 4 หลัก</span>
+      <div class="pin" id="pin1"><input type="password" inputmode="numeric" maxlength="4" autocomplete="current-password" aria-labelledby="pinLbl"><span></span><span></span><span></span><span></span></div>
+      <div id="pin2wrap" class="kw-hidden">
+        <span class="lg-label" id="pin2Lbl">ยืนยันรหัสอีกครั้ง</span>
+        <div class="pin" id="pin2"><input type="password" inputmode="numeric" maxlength="4" autocomplete="new-password" aria-labelledby="pin2Lbl"><span></span><span></span><span></span><span></span></div>
+      </div>
+      <p class="lg-err" id="err" role="alert"></p>
+      <button type="submit" class="kw-btn kw-btn-green lg-go" id="go">เข้าสู่ระบบ</button>
+    </form>
+  </section>
+  <p class="lg-foot">ลืมรหัส? ติดต่อผู้ดูแลแอปเพื่อรีเซ็ตรหัส<br>ข้อมูลของลูกเก็บในบัญชีของคุณ เข้าจากเครื่องไหนก็เห็นเหมือนกัน</p>
+</main>
+<script>
+(function () {
+  'use strict';
+  var API = 'https://kaowin-challenge.weerayoot766.workers.dev', KEY = 'kidwise.v2';
+  var mode = 'login';
+  function $(id) { return document.getElementById(id); }
+  try { var a = JSON.parse(localStorage.getItem('kidwise.acct') || 'null'); if (a && a.token) { location.replace('index.html'); return; } } catch (e) {}
+  if (window.innerWidth < 390) document.body.style.zoom = (window.innerWidth / 390).toFixed(3);
+  if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(function () {});
+
+  function pinBox(id) {
+    var box = $(id), inp = box.querySelector('input'), dots = box.querySelectorAll('span');
+    function draw() {
+      inp.value = inp.value.replace(/\D/g, '').slice(0, 4);
+      var n = inp.value.length, focus = document.activeElement === inp;
+      dots.forEach(function (d, i) { d.classList.toggle('on', i < n); d.classList.toggle('cur', focus && i === Math.min(n, 3)); });
+    }
+    ['input', 'focus', 'blur'].forEach(function (ev) { inp.addEventListener(ev, draw); });
+    draw();
+    return { el: inp, get: function () { return inp.value; }, clear: function () { inp.value = ''; draw(); } };
+  }
+  var p1 = pinBox('pin1'), p2 = pinBox('pin2');
+  var phone = $('phone');
+  phone.addEventListener('input', function () {
+    var d = phone.value.replace(/\D/g, '').slice(0, 10);
+    phone.value = d.length > 6 ? d.slice(0, 3) + '-' + d.slice(3, 6) + '-' + d.slice(6) : d.length > 3 ? d.slice(0, 3) + '-' + d.slice(3) : d;
+    if (d.length === 10 && !p1.get()) p1.el.focus();
+  });
+  p1.el.addEventListener('input', function () { if (p1.get().length === 4) { if (mode === 'reg') p2.el.focus(); else $('lgForm').requestSubmit ? $('lgForm').requestSubmit() : $('go').click(); } });
+
+  function setMode(m) {
+    mode = m;
+    $('tLogin').className = 'kw-seg' + (m === 'login' ? ' kw-seg-on' : ''); $('tLogin').setAttribute('aria-selected', m === 'login');
+    $('tReg').className = 'kw-seg' + (m === 'reg' ? ' kw-seg-on' : ''); $('tReg').setAttribute('aria-selected', m === 'reg');
+    $('pin2wrap').classList.toggle('kw-hidden', m !== 'reg');
+    $('pinLbl').textContent = m === 'reg' ? 'ตั้งรหัส 4 หลัก' : 'รหัส 4 หลัก';
+    $('go').textContent = m === 'reg' ? 'สมัครและเริ่มใช้งาน' : 'เข้าสู่ระบบ';
+    $('lgSub').textContent = m === 'reg' ? 'สมัครด้วยเบอร์โทร ใช้เวลาไม่ถึงนาที' : 'เข้าสู่ระบบเพื่อดูแลการเติบโตของลูก';
+    p1.el.setAttribute('autocomplete', m === 'reg' ? 'new-password' : 'current-password');
+    $('err').textContent = ''; p1.clear(); p2.clear();
+  }
+  $('tLogin').addEventListener('click', function () { setMode('login'); });
+  $('tReg').addEventListener('click', function () { setMode('reg'); });
+
+  function fail(msg, clearPin) {
+    $('err').textContent = msg;
+    var c = document.querySelector('.lg-card'); c.classList.remove('shake'); void c.offsetWidth; c.classList.add('shake');
+    if (clearPin) { p1.clear(); p2.clear(); p1.el.focus(); }
+    $('go').disabled = false; $('go').textContent = mode === 'reg' ? 'สมัครและเริ่มใช้งาน' : 'เข้าสู่ระบบ';
+  }
+  function post(path, body) {
+    return fetch(API + path, { method: 'POST', body: JSON.stringify(body) }).then(function (r) { return r.json(); }, function () { return { ok: false, error: 'net' }; });
+  }
+  function localState() { try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { return null; } }
+  function isDemo(s) { return !s || !s.children || !s.children.length || (s.children.length === 1 && s.children[0].name === 'น้องข้าวหอม' && s.children[0].photo === 'assets/baby.png'); }
+  function finish(ph, r) {
+    var local = localState(), owner = localStorage.getItem('kidwise.owner');
+    var state, upload = false;
+    if (r.data) {
+      var server = JSON.parse(r.data);
+      if (local && owner === ph && (local.updated || 0) > (r.updated || 0)) { state = local; upload = true; } else state = server;
+    } else if (local && !isDemo(local) && (!owner || owner === ph)) { state = local; upload = true; }
+    else state = { children: [], activeId: null, data: {} };
+    if (!state.updated) state.updated = Date.now();
+    localStorage.setItem(KEY, JSON.stringify(state));
+    localStorage.setItem('kidwise.acct', JSON.stringify({ phone: ph, token: r.token }));
+    localStorage.setItem('kidwise.owner', ph);
+    var go = function () { location.replace(state.children.length ? 'index.html' : 'profile.html?new=1'); };
+    if (upload) post('/kw/save', { phone: ph, token: r.token, data: JSON.stringify(state), updated: state.updated }).then(go, go); else go();
+  }
+  $('lgForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var ph = phone.value.replace(/\D/g, ''), pin = p1.get();
+    if (!/^0\d{9}$/.test(ph)) return fail('กรอกเบอร์โทร 10 หลัก ขึ้นต้นด้วย 0');
+    if (!/^\d{4}$/.test(pin)) return fail('กรอกรหัสให้ครบ 4 หลัก');
+    if (mode === 'reg') {
+      if (p2.get() !== pin) return fail('รหัส 2 ช่องไม่ตรงกัน', true);
+      if (/^(\d)\1{3}$/.test(pin) || pin === '1234') return fail('รหัสนี้เดาง่ายไป ลองตัวเลขอื่น', true);
+    }
+    if (!navigator.onLine) return fail('ต้องต่ออินเทอร์เน็ตเพื่อเข้าสู่ระบบ');
+    $('go').disabled = true; $('go').textContent = 'กำลังเข้าสู่ระบบ…';
+    post(mode === 'reg' ? '/kw/register' : '/kw/login', { phone: ph, pin: pin }).then(function (r) {
+      if (r.ok) return finish(ph, r);
+      var m = {
+        nouser: 'ยังไม่มีบัญชีเบอร์นี้ กด "สมัครใหม่" ได้เลย',
+        exists: 'เบอร์นี้สมัครแล้ว กด "เข้าสู่ระบบ"',
+        locked: 'ใส่รหัสผิดหลายครั้ง ลองใหม่ใน ' + (r.mins || 15) + ' นาที',
+        pin: r.left ? 'รหัสไม่ถูกต้อง (เหลือ ' + r.left + ' ครั้ง)' : 'รหัสไม่ถูกต้อง',
+        phone: 'เบอร์โทรไม่ถูกต้อง',
+        net: 'เชื่อมต่อไม่ได้ ตรวจสอบอินเทอร์เน็ต'
+      }[r.error] || 'เกิดข้อผิดพลาด ลองใหม่อีกครั้ง';
+      fail(m, r.error === 'pin');
+    });
+  });
+})();
+</script>
+</body>
+</html>
