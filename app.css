@@ -1,0 +1,75 @@
+/* KIDWISE – shared styles */
+html, body { margin: 0; min-height: 100%; }
+body { display: flex; justify-content: center; align-items: flex-start; background: #e9f4f2; padding: 24px 0; font-family: 'Prompt', sans-serif; }
+.phone { width: 390px; box-shadow: 0 30px 60px rgba(40, 90, 90, .25); border-radius: 44px; }
+@media (max-width: 430px) {
+  body { padding: 0; background: #c4ebf2; }
+  .phone { box-shadow: none; }
+}
+button, input, select, textarea { font-family: inherit; }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid #2f8fe0; outline-offset: 2px; }
+
+/* ---------- 3D building blocks ---------- */
+.kw-card { background: linear-gradient(180deg, rgba(255,255,255,.96) 0%, rgba(243,250,248,.92) 100%); border: 2px solid rgba(255,255,255,.95); box-shadow: inset 0 3px 0 #fff, inset 0 -4px 0 rgba(150,205,195,.3), 0 12px 26px rgba(70,150,150,.2); }
+.kw-check { width: 44px; height: 44px; border-radius: 12px; border: none; padding: 0; display: flex; align-items: center; justify-content: center; cursor: pointer; flex: none; }
+.kw-check-off { background: #fff; box-shadow: inset 0 0 0 2.5px #c9d3d1, inset 0 -3px 0 #e3eae9, 0 2px 4px rgba(0,0,0,.06); }
+.kw-check-on { background: linear-gradient(180deg, #6fd166, #2fa13d); box-shadow: inset 0 2px 0 rgba(255,255,255,.5), inset 0 -4px 0 #22852f, 0 4px 8px rgba(40,140,50,.3); }
+.kw-box { width: 30px; height: 30px; flex: none; border: none; padding: 0; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.kw-box-on { background: linear-gradient(180deg, #6fd166, #2fa13d); box-shadow: inset 0 2px 0 rgba(255,255,255,.5), inset 0 -3px 0 #22852f; }
+.kw-box-off { background: #fff; box-shadow: inset 0 0 0 2px #c9d3d1, inset 0 -2px 0 #e3eae9; }
+.kw-seg { flex: 1; height: 48px; border: none; border-radius: 24px; background: transparent; font-family: 'Mitr', sans-serif; font-weight: 500; font-size: 18px; color: #2c3b37; cursor: pointer; }
+.kw-seg-on { background: linear-gradient(180deg, #6fd166, #2fa13d); color: #fff; font-weight: 600; box-shadow: inset 0 3px 0 rgba(255,255,255,.5), inset 0 -4px 0 #22852f, 0 6px 12px rgba(40,140,50,.3); }
+.kw-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 22px; border: none; border-radius: 26px; cursor: pointer; text-decoration: none; color: #fff; font-family: 'Mitr', sans-serif; font-weight: 600; font-size: 19px; background: linear-gradient(180deg, #ffa53a 0%, #f47a12 100%); box-shadow: inset 0 3px 0 rgba(255,255,255,.45), inset 0 -5px 0 #d35f05, 0 8px 16px rgba(240,120,20,.3); text-shadow: 0 1px 0 rgba(160,60,0,.35); }
+.kw-btn-green { background: linear-gradient(180deg, #6fd166 0%, #36a843 100%); box-shadow: inset 0 3px 0 rgba(255,255,255,.5), inset 0 -5px 0 #24852f, 0 8px 14px rgba(40,140,50,.3); text-shadow: 0 1px 0 rgba(20,90,30,.35); }
+.kw-btn-ghost { background: #fff; color: #2c3b37; text-shadow: none; box-shadow: inset 0 0 0 2px #d8e4e2, inset 0 -3px 0 #e3eae9, 0 4px 10px rgba(60,120,120,.12); }
+.kw-btn-sm { min-height: 40px; padding: 0 16px; font-size: 16px; }
+.kw-chip { display: inline-flex; align-items: center; gap: 4px; padding: 3px 12px; border-radius: 14px; font-size: 14px; font-weight: 500; }
+.kw-chip-boy { background: #dcefff; color: #1e5f9e; }
+.kw-chip-girl { background: #ffe1ee; color: #a8336a; }
+.kw-chip-green { background: #dcf5d6; color: #22702c; }
+.kw-chip-orange { background: #ffe9cf; color: #a24b00; }
+.kw-chip-red { background: #ffe0dc; color: #b42318; }
+.kw-chip-gray { background: #eef2f1; color: #44524e; }
+.kw-select { appearance: none; -webkit-appearance: none; border: none; cursor: pointer; }
+.kw-field { display: flex; flex-direction: column; gap: 6px; font-size: 16px; color: #2c3b37; }
+.kw-field input, .kw-field select, .kw-field textarea { height: 48px; box-sizing: border-box; padding: 0 14px; border-radius: 14px; border: 2px solid #d8e4e2; background: #fff; font-size: 17px; color: #1f2d29; }
+.kw-field textarea { height: 110px; padding: 12px 14px; resize: vertical; }
+.kw-radio { display: flex; gap: 10px; }
+.kw-radio label { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; height: 52px; border-radius: 16px; border: 2px solid #d8e4e2; background: #fff; cursor: pointer; font-family: 'Mitr', sans-serif; font-size: 18px; }
+.kw-radio input { width: 20px; height: 20px; accent-color: #36a843; }
+
+/* ---------- bottom nav ---------- */
+.kw-nav { width: 374px; height: 104px; box-sizing: border-box; padding: 0 6px; border-radius: 30px; background: linear-gradient(180deg, #ffffff, #f0f6f5); box-shadow: inset 0 3px 0 #fff, inset 0 -4px 0 #dce8e6, 0 10px 24px rgba(40,100,90,.22); display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); align-items: center; gap: 2px; z-index: 5; }
+.kw-nav-abs { position: absolute; left: 8px; top: 1094px; }
+.kw-tab { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; height: 86px; border-radius: 22px; text-decoration: none; color: #3a4a46; font-family: 'Prompt', sans-serif; font-size: 13px; }
+.kw-tab img { width: 40px; height: 40px; object-fit: contain; }
+.kw-tab-on { background: linear-gradient(180deg, #6fd166 0%, #36a843 100%); color: #fff; font-weight: 600; box-shadow: inset 0 3px 0 rgba(255,255,255,.55), inset 0 -5px 0 #24852f, 0 8px 14px rgba(40,140,50,.35); }
+
+/* ---------- flowing (scrolling) pages ---------- */
+.kw-page { position: relative; width: 390px; min-height: 1250px; box-sizing: border-box; display: flex; flex-direction: column; overflow: clip; border-radius: 44px; background: linear-gradient(180deg, #c4ebf2 0%, #d6f2ee 22%, #e6f7ee 60%, #d9f1d4 88%, #c4e8b4 100%); color: #2c3b37; }
+.kw-status { height: 20px; }
+.kw-header { display: flex; align-items: center; gap: 14px; padding: 18px 14px 8px 16px; }
+.kw-header h1 { margin: 0; font-family: 'Mitr', sans-serif; font-weight: 600; font-size: 26px; color: #1f2d29; line-height: 1.2; }
+.kw-back { width: 48px; height: 48px; flex: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: linear-gradient(180deg, #fff, #eef6f8); box-shadow: inset 0 2px 0 #fff, inset 0 -3px 0 #d8e8ec, 0 6px 12px rgba(60,130,160,.22); }
+.kw-body { flex: 1; display: flex; flex-direction: column; gap: 16px; padding: 8px 10px 24px; }
+.kw-section-title { display: flex; align-items: center; gap: 8px; margin: 6px 4px 0; font-family: 'Mitr', sans-serif; font-weight: 600; font-size: 22px; color: #1f2d29; }
+.kw-section-title img { width: 32px; height: 32px; object-fit: contain; }
+.kw-nav-sticky { position: sticky; bottom: 12px; margin: 0 8px 12px; }
+.kw-empty { text-align: center; color: #5a6a66; font-size: 16px; padding: 18px 10px; }
+.kw-muted { color: #5a6a66; font-size: 14px; }
+.kw-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.kw-list li { display: flex; gap: 10px; align-items: flex-start; font-size: 16px; line-height: 1.45; }
+.kw-dot { width: 8px; height: 8px; border-radius: 50%; background: #36a843; margin-top: 9px; flex: none; }
+.kw-row { display: flex; align-items: center; gap: 12px; }
+.kw-hidden { display: none !important; }
+details.kw-acc { border-radius: 22px; overflow: hidden; }
+details.kw-acc summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 12px; padding: 12px 14px; }
+details.kw-acc summary::-webkit-details-marker { display: none; }
+
+/* ---------- install app ---------- */
+.kw-install { display: inline-flex; align-items: center; gap: 6px; height: 40px; padding: 0 16px; border: none; border-radius: 20px; cursor: pointer; font-family: 'Mitr', sans-serif; font-weight: 600; font-size: 16px; color: #fff; background: linear-gradient(180deg, #6fd166 0%, #36a843 100%); box-shadow: inset 0 3px 0 rgba(255,255,255,.5), inset 0 -4px 0 #24852f, 0 6px 14px rgba(40,140,50,.35); text-shadow: 0 1px 0 rgba(20,90,30,.35); }
+.kw-modal-bg { position: fixed; inset: 0; z-index: 50; background: rgba(20,40,40,.45); display: flex; align-items: flex-end; justify-content: center; }
+.kw-modal { width: 390px; max-width: 100%; box-sizing: border-box; padding: 22px 20px 28px; border-radius: 30px 30px 0 0; background: linear-gradient(180deg, #ffffff, #f1faf7); box-shadow: 0 -10px 30px rgba(0,0,0,.2); font-family: 'Prompt', sans-serif; color: #2c3b37; }
+.kw-modal h2 { margin: 0 0 6px; font-family: 'Mitr', sans-serif; font-weight: 600; font-size: 22px; color: #1f2d29; }
+.kw-modal ol { margin: 10px 0 18px; padding-left: 22px; display: flex; flex-direction: column; gap: 10px; font-size: 17px; line-height: 1.45; }
+.kw-modal b { color: #22702c; }
