@@ -96,8 +96,11 @@ function draw(){
  var pages=current.pages||[current.text],total=pages.length;
  $('readerCounter').textContent='หน้า '+(page+1)+' จาก '+total;
  $('readerProgress').style.width=((page+1)/total*100)+'%';
- $('readerArt').src=current.art||'rabbit-squirrel.jpg';
- $('readerArt').alt='ภาพการ์ตูนประกอบเรื่อง '+current.title;
+ var artSet=['rabbit-squirrel.jpg','cloud-sprout.jpg','duck-family.jpg','bear-ball.jpg','friends-bridge.jpg','turtle-rainbow.jpg'];
+ var artStart=artSet.indexOf(current.art||'rabbit-squirrel.jpg');
+ if(artStart<0)artStart=0;
+ $('readerArt').src=artSet[(artStart+page)%artSet.length];
+ $('readerArt').alt='ภาพการ์ตูนประกอบเรื่อง '+current.title+' หน้า '+(page+1);
  $('readerPageLabel').textContent='หน้า '+(page+1)+' · '+current.age;
  $('readerTitle').textContent=current.title;$('readerText').textContent=pages[page];
  $('readerLesson').hidden=page!==total-1;
