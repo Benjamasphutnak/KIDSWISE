@@ -541,7 +541,7 @@
   var isStandalone = (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
   var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   var canSW = 'serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1');
-  if (canSW) navigator.serviceWorker.register('sw.js').catch(function () {});
+  if (canSW) navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function (registration) { if (registration && registration.update) registration.update().catch(function () {}); }).catch(function () {});
   window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); deferredPrompt = e; });
   window.addEventListener('appinstalled', function () { deferredPrompt = null; hideInstall(); });
   function hideInstall() { document.querySelectorAll('[data-install], [data-install-card]').forEach(function (n) { n.style.display = 'none'; }); }
