@@ -431,6 +431,16 @@ function loadStory02Image(pageIndex, storyId){
  });
 }
 
+
+function loadStory03Image(pageIndex){
+ var image=$('readerArt'),wrap=image.parentNode;
+ wrap.classList.remove('kw-story01-sprite');
+ wrap.classList.add('kw-story02-sprite');
+ image.style.left=(pageIndex%2 ? '-100%' : '0');
+ image.style.top=(pageIndex>=2 ? '-100%' : '0');
+ image.src='assets/story03-pages-sprite.svg?story03-scenes-v1';
+}
+
 function draw(){
  var readerImage=$('readerArt');
  var readerWrap=readerImage.parentNode;
@@ -450,6 +460,8 @@ function draw(){
   loadStory01Image(page,current.id);
  }else if(current.id==='story-02'){
   loadStory02Image(page,current.id);
+ }else if(current.id==='story-03'){
+  loadStory03Image(page);
  }else{
   $('readerArt').parentNode.classList.remove('kw-story01-sprite','kw-story02-sprite');
   $('readerArt').style.cssText='';
