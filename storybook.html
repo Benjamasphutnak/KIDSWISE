@@ -120,32 +120,11 @@ function speak(text){
  synth.speak(u);
 }
 
-var STORY01_IMAGE_CHUNKS = [
- ['assets/story01-p1-a.txt','assets/story01-p1-b.txt'],
- ['assets/story01-p2-a.txt','assets/story01-p2-b.txt'],
- ['assets/story01-p3-a.txt','assets/story01-p3-b.txt'],
- ['assets/story01-p4-a.txt','assets/story01-p4-b.txt']
-];
-var STORY01_IMAGE_CACHE = {};
 function loadStory01Image(pageIndex, storyId){
- var cached=STORY01_IMAGE_CACHE[pageIndex];
- if(cached){
-  if(current && current.id===storyId && page===pageIndex)$('readerArt').src=cached;
-  return;
+ var path='story-01-page-'+(pageIndex+1)+'.svg?v=19';
+ if(current && current.id===storyId && page===pageIndex){
+  $('readerArt').src=path;
  }
- var paths=STORY01_IMAGE_CHUNKS[pageIndex];
- Promise.all(paths.map(function(path){
-  return fetch(path).then(function(response){
-   if(!response.ok)throw new Error('โหลดภาพนิทานไม่สำเร็จ: '+path);
-   return response.text();
-  });
- })).then(function(parts){
-  var src='data:image/webp;base64,'+parts.join('').trim();
-  STORY01_IMAGE_CACHE[pageIndex]=src;
-  if(current && current.id===storyId && page===pageIndex)$('readerArt').src=src;
- }).catch(function(error){
-  console.error('KIDWISE story illustration:',error);
- });
 }
 
 function draw(){
