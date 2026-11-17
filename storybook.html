@@ -241,11 +241,11 @@
  text-align:center;text-shadow:0 1px 0 #fff;
 }
 .reader-art-caption-bubble{
- position:absolute;box-sizing:border-box;width:max-content;max-width:min(76%,340px);
- padding:10px 14px 11px;border:2px solid rgba(255,255,255,.98);
- border-radius:21px;background:rgba(255,255,255,.94);
+ position:absolute;box-sizing:border-box;width:82%;max-width:min(82%,500px);
+ padding:9px 13px 10px;border:2px solid rgba(255,255,255,.98);
+ border-radius:21px;background:rgba(255,255,255,.95);
  box-shadow:0 4px 13px rgba(40,80,60,.20);
- color:#274d3e;font:500 clamp(12px,2.8vw,17px)/1.55 Prompt,sans-serif;
+ color:#274d3e;font:500 clamp(12px,2.35vw,15px)/1.45 Prompt,sans-serif;
  text-align:center;white-space:pre-line;overflow-wrap:anywhere;
 }
 .reader-art-caption-bubble:after{
@@ -259,7 +259,7 @@
 .reader-art-caption.page-4 .reader-art-caption-bubble{left:12px;bottom:13px;max-width:72%;}
 @media(max-width:390px){
  .reader-art-caption-title{left:9px;top:9px;padding:6px 11px;font-size:16px;}
- .reader-art-caption-bubble{padding:8px 10px;font-size:12px;line-height:1.45;border-radius:17px;}
+ .reader-art-caption-bubble{width:86%;max-width:86%;padding:7px 9px;font-size:11px;line-height:1.35;border-radius:17px;}
  .reader-art-caption.page-1 .reader-art-caption-bubble{right:9px;bottom:9px;max-width:76%;}
  .reader-art-caption.page-2 .reader-art-caption-bubble{right:9px;top:9px;max-width:70%;}
  .reader-art-caption.page-3 .reader-art-caption-bubble{right:9px;top:9px;max-width:70%;}
@@ -461,18 +461,14 @@ function draw(){
  var showCloudCaption=current.id==='story-02';
  var artCaption=$('readerArtCaption');
  if(showCloudCaption){
-  var cloudCaptionTexts=[
-   'ฉันชื่อปุย ชอบลอยดูโลกข้างล่าง',
-   '“ต้นกล้าเป็นอะไรหรือจ๊ะ?”\\n“ฉันกำลังกระหายน้ำ”',
-   'เปาะแปะ เปาะแปะ! หยดฝนตกลงบนดิน ใบของต้นกล้าค่อย ๆ ตั้งขึ้น',
-   'ต้นกล้าขอบคุณปุย ปุยยิ้มอย่างภูมิใจ'
-  ];
+  // Use the exact page text the child reads below the illustration.
+  // This single source keeps the printed caption perfectly in sync.
   artCaption.hidden=false;
   artCaption.classList.remove('page-1','page-2','page-3','page-4');
   artCaption.classList.add('page-'+(page+1));
   $('readerArtCaptionTitle').hidden=page!==0;
   $('readerArtCaptionTitle').textContent=page===0?current.title:'';
-  $('readerArtCaptionText').textContent=cloudCaptionTexts[page]||'';
+  $('readerArtCaptionText').textContent=pages[page]||'';
   readerWrap.classList.add('kw-story02-captioned');
  }
  $('readerLesson').hidden=page!==total-1;
