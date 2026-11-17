@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<script>try{if(!JSON.parse(localStorage.getItem("kidwise.acct")||"null"))location.replace("login.html")}catch(e){}</script>
+<meta name="theme-color" content="#c4ebf2">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="KIDWISE">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KIDWISE – ฝึกอ่านและเขียนพยัญชนะไทย ก–ฮ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600&amp;family=Prompt:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/app.css">
+<style>
+body[data-page="thai"]{padding:18px 12px 24px;background:#edf6f2;align-items:flex-start}
+body[data-page="thai"] .phone{width:min(560px,100%);max-width:560px;box-shadow:none;border-radius:28px}
+.thai-shell{width:100%;min-height:100svh;box-sizing:border-box;display:flex;flex-direction:column;gap:15px;padding:16px;background:linear-gradient(180deg,#e5f3f2 0%,#fff1f4 48%,#fff6e4 100%);border-radius:28px;color:#3b3c3c}
+.thai-head{display:flex;align-items:center;gap:12px}
+.thai-back{width:44px;height:44px;display:grid;place-items:center;flex:none;border-radius:15px;text-decoration:none;color:#7a4963;background:#fff;box-shadow:inset 0 -3px 0 #eddde5,0 4px 9px #a77c9233;font-size:25px}
+.thai-head-copy{flex:1;min-width:0}
+.thai-head h1{margin:0;font:600 clamp(22px,5vw,29px)/1.2 'Mitr',sans-serif;color:#76465f}
+.thai-head p{margin:4px 0 0;color:#876c7c;font-size:12px}
+.thai-hero{padding:17px;border:2px solid #fff;border-radius:25px;background:linear-gradient(145deg,#fff 0%,#fff7ef 100%);box-shadow:inset 0 -5px 0 #f0e3da,0 10px 22px #9e82921f}
+.thai-topline{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.thai-tag{display:inline-flex;align-items:center;padding:6px 11px;border-radius:20px;background:#fceaf1;color:#925b76;font-size:12px;font-weight:600}
+.thai-progress-label{font-size:12px;color:#887887;white-space:nowrap}
+.thai-progress{height:8px;margin-top:10px;border-radius:10px;background:#f0e9ed;overflow:hidden}
+.thai-progress span{display:block;height:100%;width:0;border-radius:10px;background:linear-gradient(90deg,#77cda6,#f2b5c9);transition:width .2s}
+.thai-feature{display:flex;align-items:center;justify-content:center;gap:20px;min-height:160px;padding:12px}
+.thai-letter-big{font:600 clamp(94px,24vw,132px)/.95 'Mitr',sans-serif;color:#ef9a52;text-shadow:0 5px 0 #f8dfb9,0 10px 18px #b879402b;min-width:120px;text-align:center}
+.thai-word-title{font:600 clamp(22px,5vw,30px)/1.25 'Mitr',sans-serif;color:#76516a}
+.thai-word-note{margin-top:5px;font-size:13px;color:#8a7881}
+.thai-emoji{font-size:43px;margin-top:3px}
+.thai-class{display:inline-flex;margin-top:8px;padding:4px 9px;border-radius:12px;background:#eaf7ee;color:#438564;font:500 11px 'Prompt',sans-serif}
+.thai-controls{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+.thai-action{min-height:42px;border:0;border-radius:14px;padding:8px 13px;background:linear-gradient(180deg,#fff,#f7eef3);box-shadow:inset 0 -4px 0 #e9dce4,0 4px 9px #92687d22;color:#76516a;font:600 13px 'Prompt',sans-serif;cursor:pointer}
+.thai-action.primary{background:linear-gradient(180deg,#ffa963,#ed8c46);box-shadow:inset 0 -4px 0 #d97934,0 5px 10px #d88b3844;color:#fff}
+.thai-action:disabled{opacity:.4;cursor:not-allowed}
+.thai-section{padding:15px;border:2px solid #fff;border-radius:23px;background:rgba(255,255,255,.9);box-shadow:0 8px 18px #9e82921d}
+.thai-section h2{margin:0 0 5px;font:600 18px 'Mitr',sans-serif;color:#76465f}
+.thai-section p{margin:0 0 11px;font-size:12px;color:#887887;line-height:1.5}
+.thai-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px}
+.thai-cell{min-height:67px;border:1px solid #eee1e8;border-radius:14px;background:linear-gradient(180deg,#fff,#fff4f7);box-shadow:inset 0 -3px 0 #f1e6eb,0 3px 6px #94798a14;color:#725064;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;cursor:pointer}
+.thai-cell strong{font:600 25px/1.1 'Mitr',sans-serif}
+.thai-cell small{font:11px/1.25 'Prompt',sans-serif;color:#9a8793}
+.thai-cell.selected{border-color:#f1b36f;background:linear-gradient(180deg,#fff3dd,#ffe3b8);color:#a35c28;box-shadow:inset 0 -3px 0 #f3ca91,0 4px 9px #d79a4330}
+.thai-cell.visited:after{content:"✓";position:absolute}
+.thai-write{padding:15px;border:2px solid #fff;border-radius:24px;background:linear-gradient(160deg,#fff 0%,#f4fbf6 100%);box-shadow:0 8px 18px #6c9c8822}
+.thai-write h2{margin:0 0 5px;font:600 19px 'Mitr',sans-serif;color:#286a55}
+.thai-write-help{margin:0 0 12px;color:#718579;font-size:12px;line-height:1.5}
+.thai-canvas-wrap{position:relative;overflow:hidden;border:2px dashed #c6e2d1;border-radius:19px;background:repeating-linear-gradient(0deg,#fff 0px,#fff 47px,#edf6ef 48px,#fff 49px);box-shadow:inset 0 2px 8px #789b8015}
+#thaiWriteCanvas{display:block;width:100%;height:220px;touch-action:none;cursor:crosshair}
+.thai-write-controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.thai-write-controls .thai-action{flex:1;min-width:105px}
+.thai-write-status{margin:10px 2px 0;color:#688277;font-size:12px;min-height:18px}
+@media(min-width:480px){.thai-grid{grid-template-columns:repeat(8,minmax(0,1fr))}}
+@media(max-width:430px){body[data-page="thai"]{padding:0;background:#e5f3f2}body[data-page="thai"] .phone{width:100%;max-width:100%;border-radius:0}.thai-shell{border-radius:0;padding:13px 12px 18px;gap:13px}}
+@media(max-width:350px){.thai-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.thai-cell{min-height:62px}.thai-feature{gap:10px}.thai-letter-big{min-width:100px}}
+</style>
+</head>
+<body data-page="thai">
+<main class="phone"><div class="thai-shell">
+<header class="thai-head">
+ <a class="thai-back" href="menu.html" aria-label="กลับเมนูหลัก">‹</a>
+ <div class="thai-head-copy"><h1>ฝึกอ่านและเขียน ก–ฮ</h1><p>เรียนรู้พยัญชนะไทย 44 ตัว ทีละตัวกันนะ 🌷</p></div>
+ <span aria-hidden="true" style="font-size:34px">📖</span>
+</header>
+<section class="thai-hero" aria-label="ตัวอักษรที่กำลังฝึก">
+ <div class="thai-topline"><span class="thai-tag">🌟 เก่งภาษาไทยไปด้วยกัน</span><span id="thaiProgressLabel" class="thai-progress-label">ฝึกแล้ว 0/44</span></div>
+ <div class="thai-progress"><span id="thaiProgress"></span></div>
+ <div class="thai-feature">
+  <div class="thai-letter-big" id="thaiBig" aria-live="polite">ก</div>
+  <div><div class="thai-word-title" id="thaiWord">ก ไก่</div><div class="thai-word-note" id="thaiHint">พยัญชนะตัวที่ 1 จาก 44</div><div class="thai-emoji" id="thaiEmoji" aria-hidden="true">🐔</div><span class="thai-class" id="thaiClass">อักษรกลาง</span></div>
+ </div>
+ <div class="thai-controls">
+  <button type="button" class="thai-action" id="thaiPrev" disabled>‹ ก่อนหน้า</button>
+  <button type="button" class="thai-action primary" id="thaiSpeak">🔊 ฟังเสียงอ่าน</button>
+  <button type="button" class="thai-action" id="thaiNext">ถัดไป ›</button>
+  <button type="button" class="thai-action" id="thaiSpeakAll">🎵 ฟัง ก–ฮ</button>
+ </div>
+</section>
+<section class="thai-section">
+ <h2>เลือกพยัญชนะที่อยากฝึก</h2>
+ <p>แตะตัวอักษรเพื่อดูคำประกอบและฟังเสียงอ่านได้เลย</p>
+ <div class="thai-grid" id="thaiGrid" aria-label="พยัญชนะไทย 44 ตัว"></div>
+</section>
+<section class="thai-write" aria-label="กระดานฝึกเขียนพยัญชนะ">
+ <h2>✍️ ฝึกเขียนตัวอักษร</h2>
+ <p class="thai-write-help">ใช้นิ้วมือหรือนิ้วปากกาลากตามเส้นประเพื่อฝึกเขียน <b id="thaiWriteTarget">ก</b> ลงบนกระดานได้เลย</p>
+ <div class="thai-canvas-wrap"><canvas id="thaiWriteCanvas" aria-label="กระดานฝึกเขียนพยัญชนะด้วยนิ้วมือ"></canvas></div>
+ <div class="thai-write-controls">
+  <button type="button" class="thai-action" id="thaiGuide">ซ่อนเส้นประ</button>
+  <button type="button" class="thai-action primary" id="thaiClear">ล้างกระดาน</button>
+ </div>
+ <p class="thai-write-status" id="thaiWriteStatus" aria-live="polite">ลองลากตามเส้นประอย่างช้า ๆ นะ ✨</p>
+</section>
+<nav id="kw-nav" class="kw-nav kw-nav-sticky" aria-label="เมนูด้านล่าง"></nav>
+</div></main>
+<script src="js/data.js"></script><script src="js/app.js"></script>
+<script>
+(function(){
+'use strict';
+var letters=[
+ ['ก','ไก่','🐔','อักษรกลาง'],['ข','ไข่','🥚','อักษรสูง'],['ฃ','ขวด','🍼','อักษรสูง'],['ค','ควาย','🐃','อักษรต่ำ'],['ฅ','คน','🧑','อักษรต่ำ'],['ฆ','ระฆัง','🔔','อักษรต่ำ'],['ง','งู','🐍','อักษรต่ำ'],
+ ['จ','จาน','🍽️','อักษรกลาง'],['ฉ','ฉิ่ง','🥁','อักษรสูง'],['ช','ช้าง','🐘','อักษรต่ำ'],['ซ','โซ่','⛓️','อักษรต่ำ'],['ฌ','เฌอ','🌳','อักษรต่ำ'],['ญ','หญิง','👧','อักษรต่ำ'],['ฎ','ชฎา','👑','อักษรกลาง'],
+ ['ฏ','ปฏัก','🪄','อักษรกลาง'],['ฐ','ฐาน','🧱','อักษรสูง'],['ฑ','มณโฑ','👸','อักษรต่ำ'],['ฒ','ผู้เฒ่า','👴','อักษรต่ำ'],['ณ','เณร','🙏','อักษรต่ำ'],['ด','เด็ก','🧒','อักษรกลาง'],['ต','เต่า','🐢','อักษรกลาง'],
+ ['ถ','ถุง','🛍️','อักษรสูง'],['ท','ทหาร','🪖','อักษรต่ำ'],['ธ','ธง','🚩','อักษรต่ำ'],['น','หนู','🐭','อักษรต่ำ'],['บ','ใบไม้','🍃','อักษรกลาง'],['ป','ปลา','🐟','อักษรกลาง'],
+ ['ผ','ผึ้ง','🐝','อักษรสูง'],['ฝ','ฝา','🥣','อักษรสูง'],['พ','พาน','🏵️','อักษรต่ำ'],['ฟ','ฟัน','🦷','อักษรต่ำ'],['ภ','สำเภา','⛵','อักษรต่ำ'],['ม','ม้า','🐎','อักษรต่ำ'],['ย','ยักษ์','👹','อักษรต่ำ'],
+ ['ร','เรือ','🚤','อักษรต่ำ'],['ล','ลิง','🐒','อักษรต่ำ'],['ว','แหวน','💍','อักษรต่ำ'],['ศ','ศาลา','🏠','อักษรสูง'],['ษ','ฤๅษี','🧙','อักษรสูง'],['ส','เสือ','🐯','อักษรสูง'],['ห','หีบ','📦','อักษรสูง'],
+ ['ฬ','จุฬา','🪁','อักษรต่ำ'],['อ','อ่าง','🛁','อักษรกลาง'],['ฮ','นกฮูก','🦉','อักษรต่ำ']
+];
+var selected=0,visited=[],showGuide=true,strokes={},activeStroke=null,activePointer=null;
+var visitKey='kidwise.thaiLetters.visited.v1',strokeKey='kidwise.thaiLetters.writing.v1';
+var $=function(id){return document.getElementById(id)};
+function readStore(key,fallback){try{var v=JSON.parse(localStorage.getItem(key)||'null');return v===null?fallback:v}catch(e){return fallback}}
+function saveStore(key,value){try{localStorage.setItem(key,JSON.stringify(value))}catch(e){$('thaiWriteStatus').textContent='พื้นที่บันทึกในเครื่องเต็ม ลองล้างเส้นที่เขียนไว้บางตัวก่อนนะ'}}
+function letter(){return letters[selected]}
+function mark(){var c=letter()[0];if(visited.indexOf(c)<0){visited.push(c);saveStore(visitKey,visited)}}
+function speak(text){
+ if(!('speechSynthesis'in window)||!('SpeechSynthesisUtterance'in window)){$('thaiWriteStatus').textContent='อุปกรณ์นี้ไม่รองรับเสียงอ่าน';return}
+ var synth=window.speechSynthesis;synth.cancel();
+ var u=new SpeechSynthesisUtterance(text);u.lang='th-TH';u.rate=.76;u.pitch=1.08;u.volume=.95;
+ var voices=synth.getVoices().filter(function(v){return /^th(-|_|$)/i.test(v.lang)});
+ if(voices.length){voices.sort(function(a,b){var score=function(v){return /female|woman|หญิง|premwadee/i.test(v.name)?10:/male|man|ชาย/i.test(v.name)?-10:0};return score(b)-score(a)});u.voice=voices[0]}
+ synth.speak(u);
+}
+function renderGrid(){
+ var html='';
+ letters.forEach(function(row,i){
+  var c=row[0],seen=visited.indexOf(c)>=0;
+  html+='<button type="button" class="thai-cell '+(i===selected?'selected':'')+'" data-i="'+i+'" aria-pressed="'+(i===selected)+'" aria-label="'+c+' '+row[1]+'"><strong>'+c+'</strong><small>'+row[1]+'</small></button>';
+ });
+ $('thaiGrid').innerHTML=html;
+ Array.prototype.forEach.call($('thaiGrid').querySelectorAll('button'),function(b){b.addEventListener('click',function(){select(Number(b.dataset.i))})});
+}
+function select(i){
+ selected=Math.max(0,Math.min(letters.length-1,i));mark();render();
+}
+function render(){
+ var row=letter();
+ $('thaiBig').textContent=row[0];$('thaiWord').textContent=row[0]+' '+row[1];
+ $('thaiHint').textContent='พยัญชนะตัวที่ '+(selected+1)+' จาก 44';
+ $('thaiEmoji').textContent=row[2];$('thaiClass').textContent=row[3];
+ $('thaiPrev').disabled=selected===0;$('thaiNext').disabled=selected===letters.length-1;
+ $('thaiProgressLabel').textContent='ฝึกแล้ว '+visited.length+'/44';
+ $('thaiProgress').style.width=(visited.length/44*100)+'%';
+ $('thaiWriteTarget').textContent=row[0];$('thaiGuide').textContent=showGuide?'ซ่อนเส้นประ':'แสดงเส้นประ';
+ renderGrid();draw();
+ var count=(strokes[row[0]]||[]).length;
+ $('thaiWriteStatus').textContent=count?'บันทึกเส้นที่เขียนไว้ '+count+' เส้นแล้ว':'ลองลากตามเส้นประอย่างช้า ๆ นะ ✨';
+}
+function move(step){select(selected+step)}
+$('thaiPrev').addEventListener('click',function(){move(-1)});
+$('thaiNext').addEventListener('click',function(){move(1)});
+$('thaiSpeak').addEventListener('click',function(){var r=letter();speak('อักษร '+r[0]+' '+r[1])});
+$('thaiSpeakAll').addEventListener('click',function(){
+ var index=0;
+ function next(){if(index>=letters.length)return;var r=letters[index++];var u=new SpeechSynthesisUtterance(r[0]+' '+r[1]);u.lang='th-TH';u.rate=.8;u.pitch=1.05;u.onend=next;u.onerror=next;window.speechSynthesis.speak(u)}
+ if(!('speechSynthesis'in window)){return}
+ window.speechSynthesis.cancel();next();
+});
+var canvas=$('thaiWriteCanvas'),ctx=canvas.getContext('2d'),size={w:0,h:0};
+function draw(){
+ var w=size.w,h=size.h;if(!w||!h)return;ctx.clearRect(0,0,w,h);
+ if(showGuide){
+  ctx.save();var f=Math.min(h*.78,w*.75);ctx.font='600 '+f+'px Mitr, Prompt, sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.lineWidth=3.4;ctx.strokeStyle='rgba(106,165,133,.55)';ctx.setLineDash([4,8]);ctx.strokeText(letter()[0],w/2,h/2+5);ctx.restore();
+ }
+ var all=(strokes[letter()[0]]||[]).slice();if(activeStroke)all.push(activeStroke);
+ all.forEach(function(stroke){if(!stroke.length)return;ctx.save();ctx.beginPath();ctx.strokeStyle='#ed9146';ctx.lineWidth=8;ctx.lineCap='round';ctx.lineJoin='round';ctx.setLineDash([]);ctx.moveTo(stroke[0].x*w,stroke[0].y*h);for(var i=1;i<stroke.length;i++)ctx.lineTo(stroke[i].x*w,stroke[i].y*h);if(stroke.length===1)ctx.lineTo(stroke[0].x*w+.1,stroke[0].y*h+.1);ctx.stroke();ctx.restore()});
+}
+function resize(){
+ var r=canvas.getBoundingClientRect();if(!r.width||!r.height)return;var ratio=Math.min(window.devicePixelRatio||1,2);
+ size={w:r.width,h:r.height};canvas.width=Math.round(r.width*ratio);canvas.height=Math.round(r.height*ratio);ctx.setTransform(ratio,0,0,ratio,0,0);draw();
+}
+function point(e){var r=canvas.getBoundingClientRect();return{x:Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)),y:Math.max(0,Math.min(1,(e.clientY-r.top)/r.height))}}
+canvas.addEventListener('pointerdown',function(e){if(e.pointerType==='mouse'&&e.button!==0)return;e.preventDefault();activePointer=e.pointerId;activeStroke=[point(e)];try{canvas.setPointerCapture(e.pointerId)}catch(err){}draw()});
+canvas.addEventListener('pointermove',function(e){if(activePointer!==e.pointerId||!activeStroke)return;e.preventDefault();activeStroke.push(point(e));draw()});
+function finish(e){if(activePointer!==e.pointerId||!activeStroke)return;var c=letter()[0];if(!strokes[c])strokes[c]=[];strokes[c].push(activeStroke);activeStroke=null;activePointer=null;saveStore(strokeKey,strokes);render()}
+canvas.addEventListener('pointerup',finish);canvas.addEventListener('pointercancel',finish);
+$('thaiGuide').addEventListener('click',function(){showGuide=!showGuide;render()});
+$('thaiClear').addEventListener('click',function(){var c=letter()[0];strokes[c]=[];activeStroke=null;activePointer=null;saveStore(strokeKey,strokes);render()});
+window.addEventListener('resize',resize);
+visited=readStore(visitKey,[]);if(!Array.isArray(visited))visited=[];
+strokes=readStore(strokeKey,{});if(!strokes||typeof strokes!=='object'||Array.isArray(strokes))strokes={};
+render();resize();
+})();
+</script>
+</body>
+</html>
