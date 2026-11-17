@@ -282,22 +282,29 @@ function speak(text){
 function loadStory01Image(pageIndex, storyId){
  var image=$('readerArt');
  var wrap=image.parentNode;
+ wrap.classList.remove('kw-story02-sprite');
  wrap.classList.add('kw-story01-sprite');
  image.style.left=(pageIndex%2 ? '-100%' : '0');
  image.style.top=(pageIndex>=2 ? '-100%' : '0');
  if(current && current.id===storyId && page===pageIndex){
-  image.src='assets/story01-pages-sprite.webp?v=23';
+  image.src='assets/story01-pages-sprite.webp?v=24';
  }
 }
 
 var story02SpritePromise=null;
+var story02SpriteDataUrl=null;
 function loadStory02Image(pageIndex, storyId){
  var image=$('readerArt');
  var wrap=image.parentNode;
- wrap.classList.add('kw-story01-sprite','kw-story02-sprite');
+ wrap.classList.remove('kw-story01-sprite');
+ wrap.classList.add('kw-story02-sprite');
  image.style.left=(pageIndex%2 ? '-100%' : '0');
  image.style.top=(pageIndex>=2 ? '-100%' : '0');
- if(image.dataset.story02Ready==='1' || image.dataset.story02Loading==='1') return;
+ if(story02SpriteDataUrl){
+  if(image.src!==story02SpriteDataUrl) image.src=story02SpriteDataUrl;
+  return;
+ }
+ if(image.dataset.story02Loading==='1') return;
  image.dataset.story02Loading='1';
  if(!story02SpritePromise){
   var files=[
@@ -318,24 +325,32 @@ function loadStory02Image(pageIndex, storyId){
   })).then(function(parts){
    var base64=parts.join('');
    if(base64.length!==41772) throw new Error('Cloud story illustration data is incomplete');
+   if(!/^UklGR/.test(base64)) throw new Error('Cloud story illustration is not a WebP image');
    return 'data:image/webp;base64,'+base64;
   });
  }
  story02SpritePromise.then(function(src){
-  if(current && current.id===storyId){
-   image.src=src;
-   image.dataset.story02Ready='1';
-  }
+  story02SpriteDataUrl=src;
+  if(current && current.id===storyId) image.src=src;
   image.dataset.story02Loading='';
  }).catch(function(error){
   console.error('KIDWISE story 2 illustration:',error);
   image.dataset.story02Loading='';
   story02SpritePromise=null;
-  if(current && current.id===storyId) image.src='cloud-sprout.jpg';
+  story02SpriteDataUrl=null;
+  if(current && current.id===storyId){
+   wrap.classList.remove('kw-story01-sprite','kw-story02-sprite');
+   image.style.cssText='';
+   image.src='cloud-sprout.jpg';
+  }
  });
 }
 
 function draw(){
+ var readerImage=$('readerArt');
+ var readerWrap=readerImage.parentNode;
+ readerWrap.classList.remove('kw-story01-sprite','kw-story02-sprite');
+ readerImage.style.cssText='';
  var pages=current.pages||[current.text],total=pages.length;
  $('readerCounter').textContent='หน้า '+(page+1)+' จาก '+total;
  $('readerProgress').style.width=((page+1)/total*100)+'%';
