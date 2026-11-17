@@ -228,9 +228,9 @@
 </style>
 <style id="kw-reader-cloud-story-captions-v1">
 /* Crisp, editable Thai speech bubbles laid over the four cloud-story illustrations. */
-.reader-art-wrap.kw-story02-captioned{isolation:isolate;position:relative;}
-.reader-art-wrap.kw-story02-captioned .reader-emoji,
-.reader-art-wrap.kw-story02-captioned .reader-spark{display:none!important;}
+.reader-art-wrap.kw-story-captioned{isolation:isolate;position:relative;}
+.reader-art-wrap.kw-story-captioned .reader-emoji,
+.reader-art-wrap.kw-story-captioned .reader-spark{display:none!important;}
 .reader-art-caption{position:absolute;inset:0;z-index:6;pointer-events:none;}
 .reader-art-caption-title{
  position:absolute;left:12px;top:12px;max-width:70%;
@@ -434,7 +434,7 @@ function loadStory02Image(pageIndex, storyId){
 function draw(){
  var readerImage=$('readerArt');
  var readerWrap=readerImage.parentNode;
- readerWrap.classList.remove('kw-story01-sprite','kw-story02-sprite','kw-story02-captioned');
+ readerWrap.classList.remove('kw-story01-sprite','kw-story02-sprite','kw-story-captioned');
  readerImage.style.cssText='';
  $('readerArtCaption').hidden=true;
  var pages=current.pages||[current.text],total=pages.length;
@@ -458,9 +458,9 @@ function draw(){
  $('readerArt').alt='ภาพการ์ตูนประกอบเรื่อง '+current.title+' หน้า '+(page+1);$('readerEmoji').textContent=current.emoji||'📖';
  $('readerPageLabel').textContent='หน้า '+(page+1)+' · '+current.age;
  $('readerTitle').textContent=current.title;$('readerText').textContent=pages[page];
- var showCloudCaption=current.id==='story-02';
+ var showStoryCaption=current.id!=='story-01';
  var artCaption=$('readerArtCaption');
- if(showCloudCaption){
+ if(showStoryCaption){
   // Use the exact page text the child reads below the illustration.
   // This single source keeps the printed caption perfectly in sync.
   artCaption.hidden=false;
@@ -469,7 +469,7 @@ function draw(){
   $('readerArtCaptionTitle').hidden=page!==0;
   $('readerArtCaptionTitle').textContent=page===0?current.title:'';
   $('readerArtCaptionText').textContent=pages[page]||'';
-  readerWrap.classList.add('kw-story02-captioned');
+  readerWrap.classList.add('kw-story-captioned');
  }
  $('readerLesson').hidden=page!==total-1;
  $('readerLesson').textContent='💡 ข้อคิด: '+current.lesson+'\n\nชวนทำต่อ: '+current.activity;
