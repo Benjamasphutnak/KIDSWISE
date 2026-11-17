@@ -83,7 +83,7 @@ function word(n){
  if(n===100)return 'หนึ่งร้อย';
  if(n<10)return one[n];
  if(n===10)return 'สิบ';
- var ten=Math.floor(n/10),unit=n%10,prefix=ten===2?'ยี่':(ten===1?'สิบ':one[ten]+'สิบ');
+ var ten=Math.floor(n/10),unit=n%10,prefix=ten===2?'ยี่สิบ':(ten===1?'สิบ':one[ten]+'สิบ');
  if(unit===0)return prefix;
  return prefix+(unit===1?'เอ็ด':one[unit]);
 }
