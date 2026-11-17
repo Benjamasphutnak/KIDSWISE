@@ -42,8 +42,9 @@
   var pushTimer = 0;
   var pushInFlight = false;
   var pushQueued = false;
+  var pushRetryDelay = 250;
   function writeLocal() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* storage full or blocked */ } }
-  function save() { S.updated = Date.now(); writeLocal(); ls('kidwise.dirty', '1'); clearTimeout(pushTimer); pushTimer = setTimeout(push, 1200); }
+  function save() { S.updated = Math.max(Date.now(), (S.updated || 0) + 1); writeLocal(); ls('kidwise.dirty', '1'); clearTimeout(pushTimer); pushTimer = setTimeout(push, 1200); }
   function authFail() { ls('kidwise.acct', ''); location.replace('login.html'); }
   function push() {
     if (!navigator.onLine || ls('kidwise.dirty') !== '1') return Promise.resolve();
@@ -60,6 +61,7 @@
       })
       .catch(function (e) {
         if (e.message === 'auth') authFail();
+        else { pushQueued = true; pushRetryDelay = 3000; }
       })
       .then(function () {
         pushInFlight = false;
@@ -67,7 +69,8 @@
         if (navigator.onLine && ls('kidwise.dirty') === '1' && (hasNewerLocalVersion || pushQueued)) {
           pushQueued = false;
           clearTimeout(pushTimer);
-          pushTimer = setTimeout(push, 250);
+          pushTimer = setTimeout(push, pushRetryDelay);
+          pushRetryDelay = 250;
         }
       });
   }
