@@ -40,14 +40,36 @@
   if (!S.children) S.children = [];
   if (!S.data) S.data = {};
   var pushTimer = 0;
+  var pushInFlight = false;
+  var pushQueued = false;
   function writeLocal() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* storage full or blocked */ } }
   function save() { S.updated = Date.now(); writeLocal(); ls('kidwise.dirty', '1'); clearTimeout(pushTimer); pushTimer = setTimeout(push, 1200); }
   function authFail() { ls('kidwise.acct', ''); location.replace('login.html'); }
   function push() {
     if (!navigator.onLine || ls('kidwise.dirty') !== '1') return Promise.resolve();
-    return api('/kw/save', { phone: ACCT.phone, token: ACCT.token, data: JSON.stringify(S), updated: S.updated || Date.now() })
-      .then(function () { ls('kidwise.dirty', ''); })
-      .catch(function (e) { if (e.message === 'auth') authFail(); });
+    if (pushInFlight) { pushQueued = true; return Promise.resolve(); }
+
+    pushInFlight = true;
+    var sentUpdated = S.updated || Date.now();
+    var sentData = JSON.stringify(S);
+    return api('/kw/save', { phone: ACCT.phone, token: ACCT.token, data: sentData, updated: sentUpdated })
+      .then(function () {
+        // A newer local save may have happened while this request was in flight.
+        // Only clear the dirty flag when the exact version we sent is still current.
+        if ((S.updated || 0) === sentUpdated) ls('kidwise.dirty', '');
+      })
+      .catch(function (e) {
+        if (e.message === 'auth') authFail();
+      })
+      .then(function () {
+        pushInFlight = false;
+        var hasNewerLocalVersion = (S.updated || 0) !== sentUpdated;
+        if (navigator.onLine && ls('kidwise.dirty') === '1' && (hasNewerLocalVersion || pushQueued)) {
+          pushQueued = false;
+          clearTimeout(pushTimer);
+          pushTimer = setTimeout(push, 250);
+        }
+      });
   }
   function pull() {
     if (!navigator.onLine) return;
