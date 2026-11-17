@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<script>try{if(!JSON.parse(localStorage.getItem("kidwise.acct")||"null"))location.replace("login.html")}catch(e){}</script>
+<meta name="theme-color" content="#c4ebf2">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="KIDWISE">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KIDWISE – ฝึกนับเลข 1–100</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600&amp;family=Prompt:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/app.css">
+<style>
+body[data-page="numbers"]{padding:18px 12px 24px;background:#edf6f2;align-items:flex-start}
+body[data-page="numbers"] .phone{width:min(560px,100%);max-width:560px;box-shadow:none;border-radius:28px}
+.num-shell{width:100%;min-height:100svh;box-sizing:border-box;display:flex;flex-direction:column;gap:15px;padding:16px;background:linear-gradient(180deg,#d9f4f3 0%,#eff9e9 55%,#fff4df 100%);border-radius:28px;color:#28443c}
+.num-head{display:flex;align-items:center;gap:12px}.num-back{width:44px;height:44px;display:grid;place-items:center;flex:none;border-radius:15px;text-decoration:none;color:#256858;background:#fff;box-shadow:inset 0 -3px 0 #dbece6,0 4px 9px #7caa9b33;font-size:25px}
+.num-head-copy{flex:1;min-width:0}.num-head h1{margin:0;font:600 clamp(23px,5vw,30px)/1.2 'Mitr',sans-serif;color:#1d6655}.num-head p{margin:4px 0 0;color:#54766c;font-size:13px}
+.num-hero{position:relative;overflow:hidden;padding:18px;border:2px solid #fff;border-radius:26px;background:linear-gradient(135deg,#fff 0%,#fff8e7 100%);box-shadow:inset 0 -5px 0 #f1e5cb,0 10px 22px #6c9c8830}
+.num-hero:after{content:"";position:absolute;right:-25px;top:-35px;width:130px;height:130px;border-radius:50%;background:#e3f8e8;opacity:.8}
+.num-hero-top{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.num-tag{display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:20px;background:#e7f8ee;color:#327b5d;font-size:12px;font-weight:600}
+.num-progress-label{font-size:12px;color:#6a7e75;white-space:nowrap}.num-progress{height:9px;margin-top:10px;border-radius:10px;background:#e8eee8;overflow:hidden}.num-progress>span{display:block;height:100%;width:0;border-radius:10px;background:linear-gradient(90deg,#65c991,#f5c65d);transition:width .2s}
+.num-main{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:20px;min-height:145px;padding:12px 4px 6px}
+.num-big{font:600 clamp(76px,19vw,112px)/.95 'Mitr',sans-serif;color:#f28b35;text-shadow:0 5px 0 #f9d99b,0 9px 18px #cc8a3833;min-width:110px;text-align:center}
+.num-word{font:600 clamp(23px,5vw,31px)/1.25 'Mitr',sans-serif;color:#236a56}.num-hint{font-size:12px;color:#72877d;margin-top:5px}
+.num-groups{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;margin:2px auto 12px;max-width:360px}
+.num-ten{display:inline-flex;min-width:37px;height:34px;align-items:center;justify-content:center;padding:0 8px;border-radius:11px;background:#dff6e7;color:#277b57;font:600 13px 'Mitr',sans-serif;box-shadow:inset 0 -3px 0 #bce6ce}
+.num-unit{display:inline-flex;min-width:30px;height:30px;align-items:center;justify-content:center;padding:0 7px;border-radius:50%;background:#ffe9c8;color:#a75c22;font:600 13px 'Mitr',sans-serif}
+.num-controls{position:relative;z-index:1;display:flex;justify-content:center;gap:9px;flex-wrap:wrap}
+.num-action{min-height:43px;border:0;border-radius:15px;padding:9px 14px;background:linear-gradient(180deg,#fff,#eef7f2);box-shadow:inset 0 -4px 0 #d9e9df,0 4px 9px #6e978533;color:#28664f;font:600 14px 'Prompt',sans-serif;cursor:pointer}
+.num-action.primary{background:linear-gradient(180deg,#ffb74d,#f28d32);box-shadow:inset 0 -4px 0 #d87526,0 5px 10px #d88b3844;color:#fff}.num-action:disabled{opacity:.4;cursor:not-allowed}
+.num-section{padding:16px;border:2px solid #fff;border-radius:24px;background:rgba(255,255,255,.88);box-shadow:0 8px 18px #6c9c8822}
+.num-section h2{margin:0 0 10px;font:600 19px 'Mitr',sans-serif;color:#286a55}
+.num-range-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.num-range{min-height:39px;border:1px solid #d8ebe0;border-radius:12px;background:#f7fcf8;color:#527268;font:500 13px 'Prompt',sans-serif;cursor:pointer}
+.num-range.active{border-color:#58b985;background:linear-gradient(180deg,#c9f1d9,#abe3c4);color:#1c654b;font-weight:600;box-shadow:inset 0 -3px 0 #85cda4}
+.num-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.num-cell{position:relative;min-height:57px;border:1.5px solid #e1ede4;border-radius:15px;background:linear-gradient(180deg,#fff,#f3faf3);box-shadow:inset 0 -4px 0 #e7f0e8,0 3px 6px #708d7920;color:#38574b;font:600 21px 'Mitr',sans-serif;cursor:pointer}
+.num-cell.selected{border-color:#f2ac54;background:linear-gradient(180deg,#fff2d6,#ffe1a6);color:#a95d1f;box-shadow:inset 0 -4px 0 #f5c77e,0 4px 9px #d79a4330}
+.num-cell.visited:after{content:"✓";position:absolute;top:3px;right:6px;font:600 10px 'Prompt',sans-serif;color:#36a66b}
+.num-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:12px}
+.num-muted{font-size:12px;color:#75877d;margin:0}.num-reset{border:0;background:transparent;color:#a56e42;font:12px 'Prompt',sans-serif;text-decoration:underline;cursor:pointer}
+@media(min-width:480px){.num-grid{grid-template-columns:repeat(10,minmax(0,1fr))}.num-cell{min-height:52px}}
+@media(max-width:430px){body[data-page="numbers"]{padding:0;background:#d9f4f3}body[data-page="numbers"] .phone{width:100%;max-width:100%;border-radius:0}.num-shell{border-radius:0;padding:13px 12px 18px;gap:13px}}
+@media(max-width:350px){.num-grid{gap:5px}.num-cell{min-height:51px;font-size:19px}.num-range-grid{gap:5px}.num-range{font-size:12px}}
+</style>
+</head>
+<body data-page="numbers">
+<main class="phone"><div class="num-shell">
+<header class="num-head"><a class="num-back" href="menu.html" aria-label="กลับเมนูหลัก">‹</a><div class="num-head-copy"><h1>ฝึกนับเลข 1–100</h1><p>ค่อย ๆ เรียนรู้ทีละตัวเลข เก่งขึ้นทุกวัน 🌱</p></div><span style="font-size:34px" aria-hidden="true">🔢</span></header>
+<section class="num-hero" aria-label="ตัวเลขที่กำลังฝึก">
+ <div class="num-hero-top"><span class="num-tag">⭐ มาฝึกนับเลขกัน</span><span class="num-progress-label" id="numProgressLabel">ฝึกแล้ว 0/100</span></div>
+ <div class="num-progress" aria-label="ความคืบหน้าการฝึก"><span id="numProgress"></span></div>
+ <div class="num-main"><div class="num-big" id="numBig" aria-live="polite">1</div><div><div class="num-word" id="numWord">หนึ่ง</div><div class="num-hint" id="numHint">เลขที่ 1 จาก 100</div></div></div>
+ <div class="num-groups" id="numGroups" aria-label="แสดงการจัดกลุ่มจำนวน"></div>
+ <div class="num-controls"><button class="num-action" id="numPrev" type="button" disabled>‹ ก่อนหน้า</button><button class="num-action primary" id="numSpeak" type="button">🔊 ฟังเสียงอ่าน</button><button class="num-action" id="numNext" type="button">ถัดไป ›</button><button class="num-action" id="numSpeakRange" type="button">🎵 ฟังนับช่วงนี้</button></div>
+</section>
+<section class="num-section"><h2>เลือกช่วงตัวเลข</h2><div class="num-range-grid" id="numRanges" aria-label="เลือกช่วงตัวเลข"></div></section>
+<section class="num-section"><h2>แตะตัวเลขเพื่อฝึกอ่าน</h2><div class="num-grid" id="numGrid" aria-label="ตัวเลขในช่วงที่เลือก"></div><div class="num-foot"><p class="num-muted">เครื่องหมาย ✓ คือเลขที่เคยแตะฝึกแล้ว</p><button class="num-reset" type="button" id="numReset">เริ่มความคืบหน้าใหม่</button></div></section>
+<nav id="kw-nav" class="kw-nav kw-nav-sticky" aria-label="เมนูด้านล่าง"></nav>
+</div></main>
+<script src="js/data.js"></script><script src="js/app.js"></script>
+<script>
+(function(){
+'use strict';
+var selected=1,rangeStart=1,done=[],storeKey='kidwise.numberPractice.v1';
+var $=function(id){return document.getElementById(id)};
+function readDone(){
+ try{
+  var v=JSON.parse(localStorage.getItem(storeKey)||'[]');
+  return Array.isArray(v)?v.filter(function(n){return Number.isInteger(n)&&n>=1&&n<=100;}):[];
+ }catch(e){return[];}
+}
+function saveDone(){try{localStorage.setItem(storeKey,JSON.stringify(done))}catch(e){}}
+function word(n){
+ var one=['','หนึ่ง','สอง','สาม','สี่','ห้า','หก','เจ็ด','แปด','เก้า'];
+ if(n===100)return 'หนึ่งร้อย';
+ if(n<10)return one[n];
+ if(n===10)return 'สิบ';
+ var ten=Math.floor(n/10),unit=n%10,prefix=ten===2?'ยี่':(ten===1?'สิบ':one[ten]+'สิบ');
+ if(unit===0)return prefix;
+ return prefix+(unit===1?'เอ็ด':one[unit]);
+}
+function say(text){
+ if(!('speechSynthesis'in window)||!('SpeechSynthesisUtterance'in window)){alert('อุปกรณ์นี้ไม่รองรับเสียงอ่าน');return;}
+ var synth=window.speechSynthesis;synth.cancel();
+ var u=new SpeechSynthesisUtterance(text);u.lang='th-TH';u.rate=.76;u.pitch=1.08;u.volume=.95;
+ var voices=synth.getVoices(),thai=voices.filter(function(v){return /^th(-|_|$)/i.test(v.lang)});
+ if(thai.length){
+  thai.sort(function(a,b){
+   var score=function(v){return /female|woman|หญิง|premwadee/i.test(v.name)?10:/male|man|ชาย/i.test(v.name)?-10:0};
+   return score(b)-score(a);
+  });
+  u.voice=thai[0];
+ }
+ synth.speak(u);
+}
+function mark(n){if(done.indexOf(n)<0){done.push(n);done.sort(function(a,b){return a-b});saveDone();}}
+function renderProgress(){$('numProgressLabel').textContent='ฝึกแล้ว '+done.length+'/100';$('numProgress').style.width=done.length+'%';}
+function renderRanges(){
+ var html='';
+ for(var i=0;i<10;i++){var start=i*10+1,end=start+9;html+='<button type="button" class="num-range '+(rangeStart===start?'active':'')+'" data-start="'+start+'" aria-pressed="'+(rangeStart===start)+'">'+start+'–'+end+'</button>';}
+ $('numRanges').innerHTML=html;
+ Array.prototype.forEach.call($('numRanges').querySelectorAll('button'),function(b){b.addEventListener('click',function(){rangeStart=Number(b.dataset.start);selected=rangeStart;render();});});
+}
+function renderGrid(){
+ var html='';
+ for(var n=rangeStart;n<rangeStart+10;n++){html+='<button type="button" class="num-cell '+(selected===n?'selected ':'')+(done.indexOf(n)>=0?'visited':'')+'" data-num="'+n+'" aria-pressed="'+(selected===n)+'" aria-label="เลข '+n+' อ่านว่า '+word(n)+'">'+n+'</button>';}
+ $('numGrid').innerHTML=html;
+ Array.prototype.forEach.call($('numGrid').querySelectorAll('button'),function(b){b.addEventListener('click',function(){selected=Number(b.dataset.num);mark(selected);render();});});
+}
+function renderVisual(){
+ var tens=Math.floor(selected/10),units=selected%10,html='';
+ for(var i=0;i<tens;i++)html+='<span class="num-ten">10</span>';
+ for(var j=0;j<units;j++)html+='<span class="num-unit">●</span>';
+ $('numGroups').innerHTML=html||'<span class="num-unit">1</span>';
+}
+function render(){
+ $('numBig').textContent=selected;$('numWord').textContent=word(selected);$('numHint').textContent='เลขที่ '+selected+' จาก 100';
+ $('numPrev').disabled=selected===1;$('numNext').disabled=selected===100;
+ renderRanges();renderGrid();renderVisual();renderProgress();
+}
+function move(step){var next=Math.max(1,Math.min(100,selected+step));if(next===selected)return;selected=next;rangeStart=Math.floor((selected-1)/10)*10+1;mark(selected);render();}
+$('numPrev').addEventListener('click',function(){move(-1);});
+$('numNext').addEventListener('click',function(){move(1);});
+$('numSpeak').addEventListener('click',function(){say(word(selected));});
+$('numSpeakRange').addEventListener('click',function(){var words=[];for(var n=rangeStart;n<rangeStart+10;n++)words.push(word(n));say(words.join(' … '));});
+$('numReset').addEventListener('click',function(){if(!done.length)return;if(confirm('ต้องการล้างความคืบหน้าการฝึกนับเลขทั้งหมดใช่ไหม?')){done=[];saveDone();render();}});
+done=readDone();render();
+})();
+</script>
+</body>
+</html>
