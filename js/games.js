@@ -45,16 +45,17 @@ var colors=[{n:'สีแดง',c:'#f35c65'},{n:'สีเหลือง',c:'#
 var silhouetteAnimals=[{e:'🐘',n:'ช้าง'},{e:'🐼',n:'แพนด้า'},{e:'🦁',n:'สิงโต'},{e:'🐸',n:'กบ'},{e:'🐰',n:'กระต่าย'},{e:'🐵',n:'ลิง'}];
 var shapes=[{s:'●',n:'วงกลม'},{s:'■',n:'สี่เหลี่ยม'},{s:'▲',n:'สามเหลี่ยม'},{s:'★',n:'ดาว'},{s:'♥',n:'หัวใจ'},{s:'◆',n:'ข้าวหลามตัด'}];
 var groupItems=[{e:'🐶',n:'สุนัข',g:'สัตว์'},{e:'🐱',n:'แมว',g:'สัตว์'},{e:'🐟',n:'ปลา',g:'สัตว์'},{e:'🐘',n:'ช้าง',g:'สัตว์'},{e:'🍎',n:'แอปเปิล',g:'ผลไม้'},{e:'🍌',n:'กล้วย',g:'ผลไม้'},{e:'🍓',n:'สตรอว์เบอร์รี',g:'ผลไม้'},{e:'🍉',n:'แตงโม',g:'ผลไม้'},{e:'🚗',n:'รถยนต์',g:'ยานพาหนะ'},{e:'🚌',n:'รถโดยสาร',g:'ยานพาหนะ'},{e:'✈️',n:'เครื่องบิน',g:'ยานพาหนะ'},{e:'✏️',n:'ดินสอ',g:'อุปกรณ์การเรียน'},{e:'📚',n:'หนังสือ',g:'อุปกรณ์การเรียน'},{e:'🎒',n:'กระเป๋านักเรียน',g:'อุปกรณ์การเรียน'}];
-var groupDeck=[];
+var questionDecks={};
+function takeUnique(key,items){if(!questionDecks[key]||!questionDecks[key].length)questionDecks[key]=shuffle(items);return questionDecks[key].pop();}
 function makeQuestion(type){
-if(type==='count'){var max=age<48?5:age<72?10:20,num=1+Math.floor(Math.random()*max),pool=Array.from({length:max},function(_,i){return i+1;}),wrong=shuffle(pool.filter(function(x){return x!==num;})).slice(0,2);return {answer:num,fruit:pick(fruits),options:shuffle([num].concat(wrong))};}
-if(type==='letters'){var t=pick(letters),w=shuffle(letters.filter(function(x){return x.l!==t.l;})).slice(0,3).map(function(x){return x.l;});return {answer:t.l,target:t,options:shuffle([t.l].concat(w))};}
-if(type==='shadows'){var sh=pick(silhouetteAnimals),shWrong=shuffle(silhouetteAnimals.filter(function(x){return x.n!==sh.n;})).slice(0,3);return {answer:sh.n,target:sh,options:shuffle([sh].concat(shWrong))};}
-if(type==='shapes'){var sp=pick(shapes),spWrong=shuffle(shapes.filter(function(x){return x.n!==sp.n;})).slice(0,2);return {answer:sp.n,target:sp,options:shuffle([sp].concat(spWrong))};}
-if(type==='groups'){if(!groupDeck.length)groupDeck=shuffle(groupItems);var gi=groupDeck.pop(),categories=Array.from(new Set(groupItems.map(function(x){return x.g;})));return {answer:gi.g,target:gi,options:shuffle(categories)};}
-var col=pick(colors),others=shuffle(colors.filter(function(x){return x.n!==col.n;})).slice(0,3);return {answer:col.n,target:col,options:shuffle([col].concat(others))};
+if(type==='count'){var max=age<48?5:age<72?10:20,nums=Array.from({length:max},function(_,i){return i+1;}),num=takeUnique('countNumbers'+max,nums),wrong=shuffle(nums.filter(function(x){return x!==num;})).slice(0,2);return {answer:num,fruit:takeUnique('countFruits',fruits),options:shuffle([num].concat(wrong))};}
+if(type==='letters'){var t=takeUnique('letters',letters),w=shuffle(letters.filter(function(x){return x.l!==t.l;})).slice(0,3).map(function(x){return x.l;});return {answer:t.l,target:t,options:shuffle([t.l].concat(w))};}
+if(type==='shadows'){var sh=takeUnique('shadows',silhouetteAnimals),shWrong=shuffle(silhouetteAnimals.filter(function(x){return x.n!==sh.n;})).slice(0,3);return {answer:sh.n,target:sh,options:shuffle([sh].concat(shWrong))};}
+if(type==='shapes'){var sp=takeUnique('shapes',shapes),spWrong=shuffle(shapes.filter(function(x){return x.n!==sp.n;})).slice(0,2);return {answer:sp.n,target:sp,options:shuffle([sp].concat(spWrong))};}
+if(type==='groups'){var gi=takeUnique('groups',groupItems),categories=Array.from(new Set(groupItems.map(function(x){return x.g;})));return {answer:gi.g,target:gi,options:shuffle(categories)};}
+var col=takeUnique('colors',colors),others=shuffle(colors.filter(function(x){return x.n!==col.n;})).slice(0,3);return {answer:col.n,target:col,options:shuffle([col].concat(others))};
 }
-function startQuiz(type){if(type==='groups')groupDeck=shuffle(groupItems);quiz={type:type,round:1,total:5,score:0,q:makeQuestion(type),locked:false,feedback:''};drawQuiz();}
+function startQuiz(type){var keys={count:['countNumbers'+(age<48?5:age<72?10:20),'countFruits'],letters:['letters'],shadows:['shadows'],shapes:['shapes'],groups:['groups'],colors:['colors']};(keys[type]||[]).forEach(function(k){questionDecks[k]=null;});quiz={type:type,round:1,total:5,score:0,q:makeQuestion(type),locked:false,feedback:''};drawQuiz();}
 function drawQuiz(){
 var s=quiz, prompt=s.type==='count'?'มาช่วยกันนับผลไม้ แล้วเลือกตัวเลขที่ถูกต้อง':s.type==='letters'?'คำนี้ขึ้นต้นด้วยพยัญชนะตัวไหนเอ่ย?':s.type==='shadows'?'เงานี้เป็นสัตว์ตัวไหนเอ่ย?':s.type==='shapes'?'รูปทรงนี้เรียกว่าอะไรนะ?':s.type==='groups'?'สิ่งนี้อยู่ในหมวดหมู่ไหน?':'มองหาสีที่เหมือนกับตัวอย่าง แล้วแตะคำตอบเลย';var html='<p class="game-instruction">'+prompt+'</p><div class="game-progress"><span style="width:'+((s.round-1)/s.total*100)+'%"></span></div><p class="game-instruction">ข้อที่ <b>'+s.round+'</b> / '+s.total+' · ตอบถูก <b>'+s.score+'</b> ข้อ</p>';
 if(s.type==='count'){html+='<div class="count-fruits">'+new Array(s.q.answer).fill(s.q.fruit).join(' ')+'</div><div class="answer-grid" style="margin-top:14px">'+s.q.options.map(function(n){return '<button type="button" class="answer-btn" data-action="answer" data-answer="'+n+'"'+(s.locked?' disabled':'')+'>'+n+'</button>';}).join('')+'</div>';}
