@@ -94,8 +94,28 @@
     c = c || child();
     var d = S.data[c.id] || (S.data[c.id] = {});
     d.tasks = d.tasks || {}; d.miles = d.miles || {}; d.acts = d.acts || {}; d.growth = d.growth || []; d.vax = d.vax || {}; d.notes = d.notes || [];
+    d.activityHistory = d.activityHistory || []; d.gameSessions = d.gameSessions || [];
     return d;
   }
+  function recordActivity(d, activity) {
+    d.activityHistory = d.activityHistory || [];
+    if (!d.activityHistory.some(function (x) { return x.id === activity.id && x.date === today(); })) {
+      d.activityHistory.unshift({ id: activity.id, title: activity.title, domain: activity.domain, date: today(), at: new Date().toISOString() });
+      if (d.activityHistory.length > 180) d.activityHistory.length = 180;
+    }
+  }
+  document.addEventListener('kidwise:gamecompleted', function (event) {
+    var detail = event.detail || {}, c = child();
+    if (!c || !detail.game) return;
+    var d = cdata(c);
+    d.gameSessions.unshift({
+      id: uid(), game: String(detail.game), title: String(detail.title || detail.game),
+      score: Number(detail.score) || 0, total: Number(detail.total) || 0,
+      stars: Number(detail.stars) || 0, date: today(), at: new Date().toISOString()
+    });
+    if (d.gameSessions.length > 180) d.gameSessions.length = 180;
+    save();
+  });
   function ageMonths(c) { return Math.max(0, monthsBetween(c.birth, today())); }
   function ageText(c) {
     var m = ageMonths(c);
@@ -206,7 +226,9 @@
           '<button type="button" class="kw-check ' + (on ? 'kw-check-on' : 'kw-check-off') + '" aria-pressed="' + on + '" aria-label="' + esc(t.title) + '">' + (on ? CHECK_BIG : '') + '</button>';
         row.querySelector('button').addEventListener('click', function () {
           var list = (d.tasks[today()] || []).slice();
-          var k = list.indexOf(t.id); if (k >= 0) list.splice(k, 1); else list.push(t.id);
+          var k = list.indexOf(t.id);
+          if (k >= 0) list.splice(k, 1);
+          else { list.push(t.id); recordActivity(d, t); }
           d.tasks[today()] = list; save(); drawTasks();
         });
         box.appendChild(row);
@@ -248,29 +270,112 @@
 
   // ---------- กิจกรรม ----------
   if (page === 'activities') {
-    var body = $('body');
-    body.innerHTML = '<div id="cbar"></div>' + orangeSelect('gSel', 'เลือกช่วงอายุ') + '<p class="kw-muted" id="actCount" style="margin:0 6px"></p><div id="actList" style="display:flex;flex-direction:column;gap:12px"></div>';
+    var body = $('body'), actDomain = 'all';
+    body.innerHTML = '<div id="cbar"></div>' + orangeSelect('gSel', 'เลือกช่วงอายุ') +
+      '<section class="kw-card" id="actSummary" style="border-radius:22px;padding:14px"></section>' +
+      '<div id="actFilters" style="display:flex;gap:7px;flex-wrap:wrap"></div>' +
+      '<p class="kw-muted" id="actCount" style="margin:0 6px"></p>' +
+      '<div id="actList" style="display:flex;flex-direction:column;gap:12px"></div>' +
+      '<a href="progress.html" class="kw-btn kw-btn-green" style="width:100%;box-sizing:border-box">ดูรายงานการเรียนรู้ของลูก →</a>';
     var ag = groupIndex(ageMonths(child()));
     function drawActs() {
-      var c = child(), d = cdata(c), gid = D.AGE_GROUPS[ag].id;
-      var list = D.ACTIVITIES[gid];
-      var n = list.filter(function (a) { return d.acts[a.id]; }).length;
-      $('actCount').textContent = 'ทำแล้ว ' + n + ' จาก ' + list.length + ' กิจกรรม';
+      var c = child(), d = cdata(c), gid = D.AGE_GROUPS[ag].id, list = D.ACTIVITIES[gid];
+      var n = list.filter(function (a) { return !!d.acts[a.id]; }).length;
+      var percent = Math.round(n / Math.max(1, list.length) * 100);
+      $('actSummary').innerHTML =
+        '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><b style="font-family:Mitr,sans-serif;font-size:18px;color:#27654f">ภารกิจวัย ' + D.AGE_GROUPS[ag].label + '</b><span class="kw-chip kw-chip-green">' + percent + '%</span></div>' +
+        '<div style="height:10px;border-radius:10px;background:#eaf1eb;overflow:hidden;margin:10px 0 7px"><div style="height:100%;width:' + percent + '%;background:linear-gradient(90deg,#67c88b,#f0c361);border-radius:10px"></div></div>' +
+        '<div style="font-size:13px;color:#65796d">ทำแล้ว ' + n + ' จาก ' + list.length + ' กิจกรรม · เลือกทำตามจังหวะของลูกได้เลย</div>';
+      var filters = [{ id:'all', label:'ทั้งหมด' }].concat(D.DOMAINS.map(function (x) { return { id:x.id, label:x.label }; }));
+      $('actFilters').innerHTML = filters.map(function (f) {
+        var on = actDomain === f.id;
+        return '<button type="button" data-domain="' + f.id + '" style="border:0;border-radius:16px;padding:8px 13px;background:' + (on ? '#3ca86a' : '#fff') + ';color:' + (on ? '#fff' : '#49685a') + ';font:500 13px Prompt,sans-serif;box-shadow:0 2px 7px #527b6318;cursor:pointer">' + f.label + '</button>';
+      }).join('');
+      $('actFilters').querySelectorAll('button[data-domain]').forEach(function (b) {
+        b.addEventListener('click', function () { actDomain = b.getAttribute('data-domain'); drawActs(); });
+      });
+      var visible = list.filter(function (a) { return actDomain === 'all' || a.domain === actDomain; });
+      $('actCount').textContent = 'แสดง ' + visible.length + ' กิจกรรม · ทำแล้ว ' + n + ' จาก ' + list.length;
       $('actList').innerHTML = '';
-      list.forEach(function (a) {
+      visible.forEach(function (a) {
         var on = !!d.acts[a.id];
         var card = document.createElement('div'); card.className = 'kw-card'; card.style.cssText = 'border-radius:24px;padding:12px;display:flex;gap:12px;align-items:center';
         card.innerHTML = '<img src="' + a.img + '" alt="" style="width:84px;height:84px;border-radius:18px;flex:none;' + fit(a.img) + '">' +
           '<div style="flex:1;min-width:0"><div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><b style="font-family:Mitr,sans-serif;font-weight:600;font-size:18px;color:#1f2d29">' + esc(a.title) + '</b>' + domainChip(a.domain) + '</div>' +
           '<p style="margin:4px 0 0;font-size:15px;line-height:1.4;color:#3b4a46">' + esc(a.how) + '</p></div>' +
           '<button type="button" class="kw-check ' + (on ? 'kw-check-on' : 'kw-check-off') + '" aria-pressed="' + on + '" aria-label="ทำแล้ว: ' + esc(a.title) + '">' + (on ? CHECK_BIG : '') + '</button>';
-        card.querySelector('button').addEventListener('click', function () { if (on) delete d.acts[a.id]; else d.acts[a.id] = today(); save(); drawActs(); });
+        card.querySelector('button').addEventListener('click', function () {
+          if (on) delete d.acts[a.id];
+          else { d.acts[a.id] = today(); recordActivity(d, a); }
+          save(); drawActs();
+        });
         $('actList').appendChild(card);
       });
+      if (!visible.length) $('actList').innerHTML = '<p class="kw-empty">ยังไม่มีกิจกรรมในหมวดนี้</p>';
     }
     childBar($('cbar'), function () { ag = groupIndex(ageMonths(child())); $('gSel').value = ag; drawActs(); });
     groupSelect($('gSel'), ag, function (v) { ag = v; drawActs(); });
     drawActs();
+  }
+
+  // ---------- รายงานการเรียนรู้ ----------
+  if (page === 'progress') {
+    var pb = $('body');
+    pb.innerHTML = '<div id="cbar"></div>' +
+      '<section class="kw-progress-hero"><div><span class="kw-progress-kicker">MY LEARNING JOURNEY</span><h2 id="prName">เส้นทางการเรียนรู้</h2><p id="prAge"></p></div><span class="kw-progress-mascot">🌱</span></section>' +
+      '<section class="kw-progress-stats" id="prStats"></section>' +
+      '<section class="kw-card kw-progress-card"><div class="kw-progress-section-head"><h2>สรุป 7 วันล่าสุด</h2><span class="kw-muted">กิจกรรม + เกม</span></div><div id="prWeek"></div></section>' +
+      '<section class="kw-card kw-progress-card"><div class="kw-progress-section-head"><h2>กิจกรรม 4 ด้าน</h2><span class="kw-muted">จากที่บันทึกไว้</span></div><div id="prDomains"></div></section>' +
+      '<section class="kw-card kw-progress-card"><div class="kw-progress-section-head"><h2>พัฒนาการที่บันทึก</h2><a href="development.html">เปิดดู →</a></div><div id="prMilestones"></div></section>' +
+      '<section class="kw-card kw-progress-card"><div class="kw-progress-section-head"><h2>บันทึกล่าสุด</h2><span class="kw-muted">กิจกรรมและเกม</span></div><div id="prRecent"></div></section>' +
+      '<p class="kw-progress-disclaimer">รายงานนี้สรุปเฉพาะกิจกรรม เกม และพัฒนาการที่ผู้ปกครองบันทึกไว้ ไม่ใช่การประเมินหรือวินิจฉัยพัฒนาการทางการแพทย์</p>';
+    function drawProgress() {
+      var c = child(), d = cdata(c), endDate = parse(today()), startDate = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate() - 6);
+      var from = iso(startDate), to = today();
+      var activities = (d.activityHistory || []).filter(function (x) { return x.date >= from && x.date <= to; });
+      var games = (d.gameSessions || []).filter(function (x) { return x.date >= from && x.date <= to; });
+      var stars = games.reduce(function (sum, x) { return sum + (Number(x.stars) || 0); }, 0);
+      var milestoneDone = 0, milestoneTotal = 0;
+      D.AGE_GROUPS.forEach(function (g) {
+        D.DOMAINS.forEach(function (dm) {
+          var arr = d.miles[g.id] && d.miles[g.id][dm.id] || [];
+          var count = (D.MILESTONES[g.id] && D.MILESTONES[g.id][dm.id] || []).length;
+          milestoneTotal += count;
+          for (var i = 0; i < count; i++) if (arr[i]) milestoneDone++;
+        });
+      });
+      $('prName').textContent = 'เส้นทางของ ' + c.name;
+      $('prAge').textContent = ageText(c) + ' · สรุปความก้าวหน้าจากสิ่งที่บันทึกใน KIDWISE';
+      $('prStats').innerHTML =
+        '<div class="kw-progress-stat"><span>🧩</span><b>' + activities.length + '</b><small>กิจกรรมใน 7 วัน</small></div>' +
+        '<div class="kw-progress-stat"><span>🎮</span><b>' + games.length + '</b><small>เกมที่เล่นจบ</small></div>' +
+        '<div class="kw-progress-stat"><span>⭐</span><b>' + stars + '</b><small>ดาวจากเกมใน 7 วัน</small></div>';
+      var dayNames = ['อา','จ','อ','พ','พฤ','ศ','ส'], rows = [], max = 1;
+      for (var k = 0; k < 7; k++) {
+        var day = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + k), key = iso(day);
+        var aCount = activities.filter(function (x) { return x.date === key; }).length;
+        var gCount = games.filter(function (x) { return x.date === key; }).length;
+        rows.push({ key:key, label:dayNames[day.getDay()] + ' ' + day.getDate(), activities:aCount, games:gCount, total:aCount + gCount });
+        if (aCount + gCount > max) max = aCount + gCount;
+      }
+      $('prWeek').innerHTML = '<div class="kw-progress-week">' + rows.map(function (x) {
+        var width = x.total ? Math.max(5, Math.round(x.total / max * 100)) : 0;
+        return '<div class="kw-progress-day"><span>' + x.label + '</span><div class="kw-progress-track"><i style="width:' + width + '%"></i></div><small>' + x.total + '</small></div>';
+      }).join('') + '</div><p class="kw-muted" style="margin:8px 0 0">รวม ' + activities.length + ' กิจกรรม และ ' + games.length + ' เกมที่เล่นจบ</p>';
+      $('prDomains').innerHTML = D.DOMAINS.map(function (dm) {
+        var count = activities.filter(function (x) { return x.domain === dm.id; }).length;
+        return '<div class="kw-progress-domain"><span>' + dm.label + '</span><div class="kw-progress-track"><i style="width:' + (activities.length ? Math.max(count ? 4 : 0, count / Math.max(1, activities.length) * 100) : 0) + '%"></i></div><b>' + count + '</b></div>';
+      }).join('');
+      $('prMilestones').innerHTML = '<div class="kw-progress-milestone"><b>' + milestoneDone + ' / ' + milestoneTotal + '</b><span>รายการพัฒนาการที่ผู้ปกครองทำเครื่องหมายไว้ในทุกช่วงวัย</span></div>';
+      var recent = activities.map(function (x) { return { type:'activity', title:x.title, date:x.date, at:x.at, sub:'กิจกรรม · ' + ((D.DOMAINS.filter(function (dm) { return dm.id === x.domain; })[0] || {}).label || 'ทั่วไป') }; })
+        .concat(games.map(function (x) { return { type:'game', title:x.title, date:x.date, at:x.at, sub:'เกม · ' + x.score + '/' + x.total + ' คะแนน' }; }))
+        .sort(function (a,b) { return String(b.at || b.date).localeCompare(String(a.at || a.date)); }).slice(0,8);
+      $('prRecent').innerHTML = recent.length ? recent.map(function (x) {
+        return '<div class="kw-progress-recent"><span>' + (x.type === 'game' ? '🎮' : '🌱') + '</span><div><b>' + esc(x.title) + '</b><small>' + esc(x.sub) + ' · ' + esc(x.date) + '</small></div></div>';
+      }).join('') : '<p class="kw-empty">ยังไม่มีประวัติ ลองทำกิจกรรมหรือเล่นเกม แล้วบันทึกความสำเร็จได้เลย</p>';
+    }
+    childBar($('cbar'), drawProgress);
+    drawProgress();
   }
 
   // ---------- การเจริญเติบโต ----------
