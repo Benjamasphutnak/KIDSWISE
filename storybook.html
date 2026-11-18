@@ -363,16 +363,56 @@ function speak(text){
  synth.speak(u);
 }
 
+var story01SpritePromise=null;
+var story01SpriteDataUrl=null;
 function loadStory01Image(pageIndex, storyId){
- var image=$('readerArt');
- var wrap=image.parentNode;
- // Story 1 has a separate high-resolution illustration for each page.
- // Keep the illustration independent from the Thai text overlay.
- wrap.classList.remove('kw-story01-sprite','kw-story02-sprite');
- image.style.cssText='';
- if(current && current.id===storyId && page===pageIndex){
-  var pageArt=(current.pageArts&&current.pageArts[pageIndex])||('assets/story01-illustration-'+(pageIndex+1)+'.svg');
-  image.src=pageArt+'?v=25-'+(pageIndex+1);
+ var image=$('readerArt'),wrap=image.parentNode;
+ wrap.classList.remove('kw-story02-sprite');
+ wrap.classList.add('kw-story01-sprite');
+ image.style.cssText='left:'+(pageIndex%2 ? '-100%' : '0')+';top:'+(pageIndex>=2 ? '-100%' : '0')+';';
+ if(story01SpriteDataUrl){
+  if(image.src!==story01SpriteDataUrl) image.src=story01SpriteDataUrl;
+  return;
+ }
+ if(!story01SpritePromise){
+  var files=[
+   'assets/story01-3d-parts/part-01.txt',
+   'assets/story01-3d-parts/part-02.txt',
+   'assets/story01-3d-parts/part-03.txt',
+   'assets/story01-3d-parts/part-04-gap.txt',
+   'assets/story01-3d-parts/part-04.txt',
+   'assets/story01-3d-parts/part-05.txt',
+   'assets/story01-3d-parts/part-06.txt'
+  ];
+  story01SpritePromise=Promise.all(files.map(function(path){
+   return fetch(path).then(function(response){
+    if(!response.ok) throw new Error('Could not load '+path);
+    return response.text();
+   });
+  })).then(function(parts){
+   var base64=parts.join('');
+   if(base64.length!==27808 || !/^UklGR/.test(base64) || !/=$/.test(base64) || !/^[A-Za-z0-9+/=]+$/.test(base64)){
+    throw new Error('The 3D story illustration data is incomplete');
+   }
+   story01SpriteDataUrl='data:image/webp;base64,'+base64;
+   if(current && current.id===storyId){
+    var liveImage=$('readerArt'),liveWrap=liveImage.parentNode;
+    liveWrap.classList.remove('kw-story02-sprite');
+    liveWrap.classList.add('kw-story01-sprite');
+    liveImage.style.cssText='left:'+(page%2 ? '-100%' : '0')+';top:'+(page>=2 ? '-100%' : '0')+';';
+    liveImage.src=story01SpriteDataUrl;
+   }
+   return story01SpriteDataUrl;
+  }).catch(function(error){
+   console.error('KIDWISE story 1 illustration:',error);
+   story01SpritePromise=null;
+   story01SpriteDataUrl=null;
+   if(current && current.id===storyId){
+    wrap.classList.remove('kw-story01-sprite','kw-story02-sprite');
+    image.style.cssText='';
+    image.src='rabbit-squirrel.jpg?story01-art-fallback';
+   }
+  });
  }
 }
 
@@ -495,7 +535,7 @@ function draw(){
  $('readerArt').alt='ภาพการ์ตูนประกอบเรื่อง '+current.title+' หน้า '+(page+1);$('readerEmoji').textContent=current.emoji||'📖';
  $('readerPageLabel').textContent='หน้า '+(page+1)+' · '+current.age;
  $('readerTitle').textContent=current.title;$('readerText').textContent=pages[page];
- var showStoryCaption=current.id!=='story-01';
+ var showStoryCaption=true;
  var artCaption=$('readerArtCaption');
  if(showStoryCaption){
   // Use the exact page text the child reads below the illustration.
