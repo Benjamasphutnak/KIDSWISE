@@ -82,3 +82,25 @@ body[data-page="multiplication"] .phone{width:min(590px,100%);max-width:590px;bo
 @media(max-width:430px){body[data-page="multiplication"]{padding:0;background:#f5f9f5}body[data-page="multiplication"] .phone{width:100%;max-width:100%;border-radius:0}.mul-shell{padding:14px 12px 22px;border-radius:0;gap:14px}.mul-hero{padding:15px 13px}.mul-hero-top{grid-template-columns:minmax(0,1fr) 94px;min-height:116px}.mul-hero-mascot{min-height:112px}.mul-mascot-face{font-size:56px}.mul-hero-copy h2{font-size:26px}.mul-hero-board{padding:13px 10px 11px}.mul-section{padding:14px 12px}.mul-section-heading{gap:8px}.mul-heading-icon{width:39px;height:39px;border-radius:13px}.mul-heading-copy h2{font-size:17px}.mul-table-picker{gap:7px}.mul-table-choice{min-height:46px;font-size:13px}.mul-table-grid{gap:7px}.mul-row{min-height:47px;font-size:14px}.mul-quiz-section{padding:15px 13px}.mul-quiz-heading h2{font-size:19px}.mul-quiz-trophy{width:54px;height:54px;font-size:30px}}
 @media(max-width:355px){.mul-hero-top{grid-template-columns:minmax(0,1fr) 80px}.mul-hero-mascot{min-height:100px}.mul-mascot-face{font-size:49px}.mul-table-picker{grid-template-columns:repeat(3,minmax(0,1fr))}.mul-table-grid{grid-template-columns:1fr}.mul-row{min-height:45px}.mul-equation{min-width:150px;font-size:32px}}
 @media(prefers-reduced-motion:reduce){.mul-btn,.mul-table-choice,.mul-row{transition:none}}
+
+
+/* YouTube learning videos */
+.mul-video-section{padding:16px 15px 15px;border:1px solid #fff;border-radius:24px;background:linear-gradient(145deg,#fff,#f7fcf8);box-shadow:0 5px 0 #e2ece4,0 9px 18px #547d5f12}
+.mul-video-heading{display:flex;align-items:center;gap:11px;margin-bottom:13px}
+.mul-video-icon{display:grid;place-items:center;width:43px;height:43px;flex:none;border-radius:15px;background:linear-gradient(145deg,#ff9c75,#ed765d);box-shadow:inset 0 -3px 0 #d8644e;color:#fff;font-size:18px}
+.mul-video-kicker{display:block;color:#91ad9f;font:600 8px Prompt,sans-serif;letter-spacing:1.2px}
+.mul-video-heading h2{margin:2px 0 1px;color:#315e4d;font:600 18px Mitr,sans-serif}
+.mul-video-heading p{margin:0;color:#8a9b91;font-size:10px}
+.mul-video-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:11px}
+.mul-video-tab{min-height:40px;border:1px solid #e3ede5;border-radius:13px;background:#f4f8f4;box-shadow:inset 0 -3px 0 #e2ebe4;color:#688477;font:600 12px Prompt,sans-serif;cursor:pointer}
+.mul-video-tab.is-active{border-color:#3da77c;background:linear-gradient(145deg,#78d8ad,#43b989);box-shadow:inset 0 -3px 0 #29966d,0 3px 0 #c6ead5;color:#fff}
+.mul-video-card{overflow:hidden;border:1px solid #e8eee8;border-radius:18px;background:#fff;box-shadow:0 4px 12px #426d5014}
+.mul-video-frame{position:relative;width:100%;aspect-ratio:16/9;background:#e8f1ec}
+.mul-video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.mul-video-caption{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 12px}
+.mul-video-caption>div{min-width:0}.mul-video-caption b,.mul-video-caption small{display:block}
+.mul-video-caption b{color:#3b6752;font:600 13px Mitr,sans-serif;line-height:1.35}
+.mul-video-caption small{margin-top:3px;color:#84968d;font-size:10px;line-height:1.4}
+.mul-video-caption a{flex:none;color:#d7774d;font:600 10px Prompt,sans-serif;text-decoration:none}
+.mul-video-tip{margin:10px 2px 0;color:#81968a;font-size:10px;line-height:1.5}
+@media(max-width:430px){.mul-video-section{padding:14px 12px}.mul-video-caption{align-items:flex-start;flex-direction:column;gap:6px}.mul-video-caption a{font-size:11px}}
