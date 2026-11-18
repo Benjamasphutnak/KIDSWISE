@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <script>try{if(!JSON.parse(localStorage.getItem("kidwise.acct")||"null"))location.replace("login.html")}catch(e){}</script>
-<meta name="theme-color" content="#eaf8f1">
+<meta name="theme-color" content="#f1f8f2">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -11,7 +11,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="KIDWISE">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>KIDWISE – สูตรคูณแม่ 1–24</title>
+<title>KIDWISE – ห้องเรียนสูตรคูณ แม่ 1–24</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600&amp;family=Prompt:wght@400;500;600&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/app.css">
@@ -23,64 +23,78 @@
   <header class="mul-header">
     <a class="mul-back kw-back" href="menu.html" aria-label="กลับเมนูหลัก">‹</a>
     <div class="mul-brand-mark" aria-hidden="true">K</div>
-    <div class="mul-brand-copy">
-      <span>KIDWISE MATH CLUB</span>
-      <h1>โลกสูตรคูณ</h1>
-    </div>
+    <div class="mul-brand-copy"><span>KIDWISE LEARNING</span><h1>ห้องเรียนสูตรคูณ</h1></div>
     <span class="mul-header-star" aria-hidden="true">✦</span>
   </header>
 
-  <section class="mul-hero">
-    <div class="mul-hero-top">
-      <div class="mul-hero-copy">
-        <span class="mul-hero-kicker">LET'S HAVE FUN WITH MATH</span>
-        <h2>คิดเลขสนุก<br><strong>เก่งคูณทุกวัน!</strong></h2>
-        <p>ค่อย ๆ ฝึกทีละแม่ แล้วหนูจะเก่งขึ้นเอง ✨</p>
-      </div>
-      <div class="mul-hero-mascot" aria-hidden="true">
-        <span class="mul-spark spark-a">✦</span><span class="mul-spark spark-b">✧</span>
-        <span class="mul-mascot-face">🦊</span>
-        <span class="mul-mascot-caption">MATH<br>FRIEND</span>
-      </div>
+  <section class="mul-welcome">
+    <div class="mul-welcome-copy">
+      <span class="mul-eyebrow">MATH ADVENTURE · LEVEL 1–24</span>
+      <h2>มาสนุกกับ<br><strong>โลกของการคูณ</strong> กัน!</h2>
+      <p>เลือกแม่สูตรคูณ ดูภาพช่วยคิด แล้วลองตอบด้วยตัวเอง</p>
     </div>
-    <div class="mul-hero-board">
-      <div class="mul-board-top">
-        <span class="mul-board-label">สูตรคูณที่กำลังฝึก</span>
-        <span class="mul-board-range">แม่ 1–24</span>
-      </div>
-      <div class="mul-number" id="mulCurrent">แม่ 1</div>
-      <div class="mul-equation-wrap"><div class="mul-equation" id="mulPreview">1 × 1 = 1</div></div>
-      <p class="mul-hint" id="mulHint">เลือกแม่สูตรคูณที่อยากฝึกได้เลย</p>
-      <div class="mul-hero-actions">
-        <button type="button" class="mul-btn mul-btn-primary" id="mulListen"><span aria-hidden="true">🔊</span> ฟังสูตรคูณแม่นี้</button>
-        <button type="button" class="mul-btn mul-btn-stop" id="mulStop" disabled>■ หยุดเสียง</button>
-      </div>
-      <p class="mul-speech-status" id="mulSpeechStatus" aria-live="polite">กดฟังเพื่อท่องตั้งแต่ ×1 ถึง ×12</p>
+    <div class="mul-welcome-art" aria-hidden="true">
+      <div class="mul-cloud cloud-left">✦</div>
+      <div class="mul-mascot">🦊</div>
+      <div class="mul-art-book">1 × 2 = 2</div>
+      <div class="mul-cloud cloud-right">＋</div>
     </div>
+  </section>
+
+  <section class="mul-learning-path" aria-label="ขั้นตอนการเรียนรู้">
+    <div class="mul-path-step"><span>1</span><b>เลือกแม่</b></div>
+    <i aria-hidden="true"></i>
+    <div class="mul-path-step"><span>2</span><b>ดูและท่อง</b></div>
+    <i aria-hidden="true"></i>
+    <div class="mul-path-step"><span>3</span><b>ลองทำโจทย์</b></div>
+  </section>
+
+  <section class="mul-current-card">
+    <div class="mul-current-top">
+      <div><span class="mul-section-kicker">กำลังเรียนรู้</span><h2 id="mulCurrent">แม่ 1</h2></div>
+      <span class="mul-current-badge">✏️ ฝึกทีละขั้น</span>
+    </div>
+    <div class="mul-current-equation" id="mulPreview" aria-live="polite">1 × 3 = 3</div>
+    <p class="mul-current-hint" id="mulHint">เลือกสูตรคูณด้านล่าง แล้วแตะบรรทัดที่อยากฝึก</p>
+    <div class="mul-current-actions">
+      <button type="button" class="mul-btn mul-btn-primary" id="mulListen">🔊 ฟังสูตรคูณแม่นี้</button>
+      <button type="button" class="mul-btn mul-btn-stop" id="mulStop" disabled>หยุดเสียง</button>
+    </div>
+    <p class="mul-speech-status" id="mulSpeechStatus" aria-live="polite">เสียงอ่านภาษาไทยจากอุปกรณ์ของคุณ</p>
   </section>
 
   <section class="mul-section mul-picker-section">
-    <div class="mul-section-heading">
-      <div class="mul-heading-icon">🎯</div>
-      <div class="mul-heading-copy"><span class="mul-kicker">CHOOSE A TABLE</span><h2>เลือกแม่สูตรคูณ</h2><p>แตะเลือกแม่ที่อยากฝึกได้เลย</p></div>
-      <span class="mul-section-count">24 แม่</span>
+    <div class="mul-section-title">
+      <div class="mul-section-icon">🎯</div>
+      <div><span class="mul-section-kicker">STEP 1 · CHOOSE</span><h2>เลือกแม่สูตรคูณ</h2><p>มีให้ฝึกทั้งหมด 24 แม่</p></div>
     </div>
+    <div class="mul-picker-label"><span>🌱 พื้นฐาน</span><small>แม่ 1–12</small></div>
     <div class="mul-table-picker" id="mulPicker" aria-label="เลือกแม่สูตรคูณ"></div>
+    <div class="mul-picker-note"><span>🚀</span><span><b>พร้อมท้าทายขึ้นอีกนิดไหม?</b><small>แม่ 13–24 สำหรับฝึกทักษะที่ยากขึ้น</small></span></div>
   </section>
 
   <section class="mul-section mul-learn-section">
-    <div class="mul-section-heading">
-      <div class="mul-heading-icon mul-heading-icon-yellow">📘</div>
-      <div class="mul-heading-copy"><span class="mul-kicker">LEARN & LISTEN</span><h2 id="mulTableTitle">สูตรคูณแม่ 1</h2><p>แตะที่โจทย์เพื่อฟังเสียงอ่านทีละข้อ</p></div>
-      <span class="mul-section-count">×1–×12</span>
+    <div class="mul-section-title">
+      <div class="mul-section-icon icon-yellow">📖</div>
+      <div><span class="mul-section-kicker">STEP 2 · LEARN</span><h2 id="mulTableTitle">สูตรคูณแม่ 1</h2><p>แตะโจทย์เพื่อดูภาพและฟังเสียงอ่าน</p></div>
     </div>
     <div class="mul-table-grid" id="mulTable" aria-label="ตารางสูตรคูณ"></div>
   </section>
 
+  <section class="mul-visual-lesson" aria-labelledby="mulVisualTitle">
+    <div class="mul-visual-title">
+      <div class="mul-section-icon icon-peach">🧠</div>
+      <div><span class="mul-section-kicker">LOOK · COUNT · UNDERSTAND</span><h2 id="mulVisualTitle">คูณคือการบวกซ้ำ</h2><p>ลองมองเป็นกลุ่ม ๆ แล้วจะเข้าใจง่ายขึ้น</p></div>
+    </div>
+    <div class="mul-visual-equation" id="mulVisualEquation">1 + 1 + 1 = 3</div>
+    <div class="mul-visual-groups" id="mulVisualGroups" aria-live="polite"></div>
+    <div class="mul-visual-explain" id="mulVisualExplain">มี 3 กลุ่ม กลุ่มละ 1 รวมทั้งหมด 3</div>
+  </section>
+
   <section class="mul-video-section">
-    <div class="mul-video-heading">
-      <div class="mul-video-icon" aria-hidden="true">▶</div>
-      <div><span class="mul-video-kicker">WATCH & LEARN</span><h2>ดูวิดีโอฝึกท่องสูตรคูณ</h2><p>ดูตัวอย่างแล้วลองท่องตามไปพร้อมกัน</p></div>
+    <div class="mul-section-title">
+      <div class="mul-section-icon icon-video">▶</div>
+      <div><span class="mul-section-kicker">STEP 3 · WATCH</span><h2>ดูวิดีโอแล้วท่องตาม</h2><p>ฝึกฟังและพูดตามจังหวะ</p></div>
     </div>
     <div class="mul-video-tabs" role="group" aria-label="เลือกช่วงแม่สูตรคูณ">
       <button type="button" class="mul-video-tab is-active" data-video-group="12" aria-pressed="true">แม่ 2–12</button>
@@ -92,21 +106,21 @@
       </div>
       <div class="mul-video-caption">
         <div><b id="mulVideoTitle">เพลงสูตรคูณแม่ 2–12</b><small id="mulVideoNote">จากช่อง Indysong Kids</small></div>
-        <a id="mulVideoOpen" href="https://www.youtube.com/watch?v=9pFyjY8ZXMw" target="_blank" rel="noopener noreferrer">เปิดใน YouTube ↗</a>
+        <a id="mulVideoOpen" href="https://www.youtube.com/watch?v=hlECNDaR78Y" target="_blank" rel="noopener noreferrer">เปิดใน YouTube ↗</a>
       </div>
     </div>
-    <p class="mul-video-tip">💡 เมื่อเลือกแม่สูตรคูณด้านบน วิดีโอจะเปลี่ยนไปยังช่วงแม่ที่ตรงกันโดยอัตโนมัติ</p>
+    <p class="mul-video-tip">เลือกแม่ 1–12 หรือ 13–24 เพื่อเปลี่ยนคลิปให้ตรงกับช่วงที่กำลังฝึก</p>
   </section>
 
   <section class="mul-quiz-section">
     <div class="mul-quiz-heading">
-      <div><span class="mul-quiz-kicker">PLAY TIME · 10 QUESTIONS</span><h2>สนามประลองสูตรคูณ</h2><p>ตอบให้ถูก เก็บดาวให้ครบกันนะ!</p></div>
-      <div class="mul-quiz-trophy" aria-hidden="true">🏆</div>
+      <div><span class="mul-section-kicker">STEP 4 · YOUR TURN</span><h2>🎮 สนามฝึกสมอง</h2><p>ตอบคำถาม 10 ข้อ เก็บดาวกันเถอะ!</p></div>
+      <div class="mul-quiz-mascot" aria-hidden="true">🚀</div>
     </div>
     <div id="mulQuizIntro" class="mul-quiz-intro-card">
-      <div class="mul-quiz-mascot" aria-hidden="true">🚀</div>
-      <div class="mul-quiz-intro-copy"><b>พร้อมท้าทายแล้วหรือยัง?</b><small>แบบทดสอบ 10 ข้อ · แม่ <span id="mulQuizTable">1</span></small></div>
-      <button type="button" class="mul-btn mul-btn-quiz" id="mulQuizStart">เริ่มเล่นเลย <span aria-hidden="true">➜</span></button>
+      <div class="mul-quiz-intro-icon" aria-hidden="true">⭐</div>
+      <div class="mul-quiz-intro-copy"><b>พร้อมทดสอบความเก่งแล้วหรือยัง?</b><small>แบบทดสอบแม่ <span id="mulQuizTable">1</span> จำนวน 10 ข้อ</small></div>
+      <button type="button" class="mul-btn mul-btn-quiz" id="mulQuizStart">เริ่มเล่นเลย ➜</button>
     </div>
     <div id="mulQuizPlay" class="mul-quiz-play" hidden>
       <div class="mul-quiz-meta"><span id="mulQuizProgress">ข้อ 1 / 10</span><b id="mulQuizScore">คะแนน 0</b></div>
@@ -114,18 +128,16 @@
       <div class="mul-question" id="mulQuestion">1 × 1 = ?</div>
       <div class="mul-answers" id="mulAnswers"></div>
       <p class="mul-feedback" id="mulFeedback" aria-live="polite">เลือกคำตอบที่ถูกต้องนะ</p>
-      <button type="button" class="mul-btn mul-btn-quiz mul-next" id="mulQuizNext" disabled>ข้อต่อไป <span aria-hidden="true">›</span></button>
+      <button type="button" class="mul-btn mul-btn-quiz mul-next" id="mulQuizNext" disabled>ข้อต่อไป ›</button>
     </div>
     <div id="mulQuizDone" class="mul-quiz-done" hidden>
-      <div class="mul-done-star" aria-hidden="true">🏆</div>
-      <h3>เก่งมาก! ทำครบ 10 ข้อแล้ว</h3>
-      <p id="mulFinalScore">ได้ 0 คะแนน จาก 10 คะแนน</p>
-      <p class="mul-final-message" id="mulFinalMessage"></p>
+      <div class="mul-done-star" aria-hidden="true">🏆</div><h3>เก่งมาก! ทำครบ 10 ข้อแล้ว</h3>
+      <p id="mulFinalScore">ได้ 0 คะแนน จาก 10 คะแนน</p><p class="mul-final-message" id="mulFinalMessage"></p>
       <button type="button" class="mul-btn mul-btn-quiz" id="mulQuizAgain">เล่นอีกครั้ง</button>
     </div>
   </section>
 
-  <p class="mul-footer-note"><span aria-hidden="true">💚</span> ไม่ต้องรีบ ค่อย ๆ ฝึกทีละนิด ทุกความพยายามคือความเก่งที่เพิ่มขึ้น</p>
+  <p class="mul-footer-note">💚 เรียนรู้ทีละนิด ฝึกทุกวัน แล้วหนูจะเก่งขึ้นในแบบของตัวเอง</p>
   <nav id="kw-nav" class="kw-nav kw-nav-sticky" aria-label="เมนูด้านล่าง"></nav>
 </div>
 </main>
