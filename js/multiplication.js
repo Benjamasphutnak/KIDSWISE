@@ -34,9 +34,9 @@ function renderTable(){
 function resetQuiz(){quizNumber=0;quizScore=0;quizAnswered=false;quizQuestion=null;quizTable=selectedTable;$('mulQuizIntro').hidden=false;$('mulQuizPlay').hidden=true;$('mulQuizDone').hidden=true;$('mulQuizTable').textContent=selectedTable;}
 function selectVideoGroup(group){
  var isHigh=Number(group)>=24;
- var videoId=isHigh?'Z9rgNIP0bIQ':'9pFyjY8ZXMw';
- var title=isHigh?'ท่องสูตรคูณแม่ 13–25':'ท่องสูตรคูณแม่ 1–12 พร้อมตารางสูตรคูณ';
- var note=isHigh?'คลิปนี้ครอบคลุมแม่ 13–25 รวมแม่ 13–24 ที่กำลังฝึก':'คลิปนี้ใช้ฝึกท่องแม่ 1–12';
+ var videoId=isHigh?'Z9rgNIP0bIQ':'hlECNDaR78Y';
+ var title=isHigh?'ท่องสูตรคูณแม่ 13–25':'เพลงสูตรคูณแม่ 2–12';
+ var note=isHigh?'คลิปนี้ครอบคลุมแม่ 13–25 รวมแม่ 13–24 ที่กำลังฝึก':'คลิปนี้จากช่อง Indysong Kids ใช้ฝึกท่องแม่ 2–12';
  var frame=$('mulYoutube');
  if(frame){
   var nextSrc='https://www.youtube-nocookie.com/embed/'+videoId+'?rel=0';
