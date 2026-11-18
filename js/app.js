@@ -94,7 +94,7 @@
     c = c || child();
     var d = S.data[c.id] || (S.data[c.id] = {});
     d.tasks = d.tasks || {}; d.miles = d.miles || {}; d.acts = d.acts || {}; d.growth = d.growth || []; d.vax = d.vax || {}; d.notes = d.notes || [];
-    d.activityHistory = d.activityHistory || []; d.gameSessions = d.gameSessions || [];
+    d.activityHistory = d.activityHistory || []; d.gameSessions = d.gameSessions || []; d.storyProgress = d.storyProgress || [];
     return d;
   }
   function recordActivity(d, activity) {
@@ -114,6 +114,15 @@
       stars: Number(detail.stars) || 0, date: today(), at: new Date().toISOString()
     });
     if (d.gameSessions.length > 180) d.gameSessions.length = 180;
+    save();
+  });
+  document.addEventListener('kidwise:storycompleted', function (event) {
+    var detail = event.detail || {}, c = child();
+    if (!c || !detail.storyId) return;
+    var d = cdata(c), key = String(detail.storyId);
+    if (d.storyProgress.some(function (x) { return x.storyId === key && x.date === today(); })) return;
+    d.storyProgress.unshift({ id: uid(), storyId: key, title: String(detail.title || key), age: String(detail.age || ''), date: today(), at: new Date().toISOString() });
+    if (d.storyProgress.length > 180) d.storyProgress.length = 180;
     save();
   });
   function ageMonths(c) { return Math.max(0, monthsBetween(c.birth, today())); }
@@ -324,7 +333,7 @@
     pb.innerHTML = '<div id="cbar"></div>' +
       '<section class="kw-progress-hero"><div><span class="kw-progress-kicker">MY LEARNING JOURNEY</span><h2 id="prName">เส้นทางการเรียนรู้</h2><p id="prAge"></p></div><span class="kw-progress-mascot">🌱</span></section>' +
       '<section class="kw-progress-stats" id="prStats"></section>' +
-      '<section class="kw-card kw-progress-card"><div class="kw-progress-section-head"><h2>สรุป 7 วันล่าสุด</h2><span class="kw-muted">กิจกรรม + เกม</span></div><div id="prWeek"></div></section>' +
+      '<section class="kw-card kw-progress-card"><div class="kw-progress-section-head"><h2>สรุป 7 วันล่าสุด</h2><span class="kw-muted">กิจกรรม เกม และนิทาน</span></div><div id="prWeek"></div></section>' +
       '<section class="kw-card kw-progress-card"><div class="kw-progress-section-head"><h2>กิจกรรม 4 ด้าน</h2><span class="kw-muted">จากที่บันทึกไว้</span></div><div id="prDomains"></div></section>' +
       '<section class="kw-card kw-progress-card"><div class="kw-progress-section-head"><h2>พัฒนาการที่บันทึก</h2><a href="development.html">เปิดดู →</a></div><div id="prMilestones"></div></section>' +
       '<section class="kw-card kw-progress-card"><div class="kw-progress-section-head"><h2>บันทึกล่าสุด</h2><span class="kw-muted">กิจกรรมและเกม</span></div><div id="prRecent"></div></section>' +
@@ -334,6 +343,7 @@
       var from = iso(startDate), to = today();
       var activities = (d.activityHistory || []).filter(function (x) { return x.date >= from && x.date <= to; });
       var games = (d.gameSessions || []).filter(function (x) { return x.date >= from && x.date <= to; });
+      var storyReads = (d.storyProgress || []).filter(function (x) { return x.date >= from && x.date <= to; });
       var stars = games.reduce(function (sum, x) { return sum + (Number(x.stars) || 0); }, 0);
       var milestoneDone = 0, milestoneTotal = 0;
       var currentGroup = D.AGE_GROUPS[groupIndex(ageMonths(c))];
@@ -348,19 +358,21 @@
       $('prStats').innerHTML =
         '<div class="kw-progress-stat"><span>🧩</span><b>' + activities.length + '</b><small>กิจกรรมใน 7 วัน</small></div>' +
         '<div class="kw-progress-stat"><span>🎮</span><b>' + games.length + '</b><small>เกมที่เล่นจบ</small></div>' +
+        '<div class="kw-progress-stat"><span>📖</span><b>' + storyReads.length + '</b><small>นิทานที่อ่านจบ</small></div>' +
         '<div class="kw-progress-stat"><span>⭐</span><b>' + stars + '</b><small>ดาวจากเกมใน 7 วัน</small></div>';
       var dayNames = ['อา','จ','อ','พ','พฤ','ศ','ส'], rows = [], max = 1;
       for (var k = 0; k < 7; k++) {
         var day = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + k), key = iso(day);
         var aCount = activities.filter(function (x) { return x.date === key; }).length;
         var gCount = games.filter(function (x) { return x.date === key; }).length;
-        rows.push({ key:key, label:dayNames[day.getDay()] + ' ' + day.getDate(), activities:aCount, games:gCount, total:aCount + gCount });
-        if (aCount + gCount > max) max = aCount + gCount;
+        var sCount = storyReads.filter(function (x) { return x.date === key; }).length;
+        rows.push({ key:key, label:dayNames[day.getDay()] + ' ' + day.getDate(), activities:aCount, games:gCount, stories:sCount, total:aCount + gCount + sCount });
+        if (aCount + gCount + sCount > max) max = aCount + gCount + sCount;
       }
       $('prWeek').innerHTML = '<div class="kw-progress-week">' + rows.map(function (x) {
         var width = x.total ? Math.max(5, Math.round(x.total / max * 100)) : 0;
         return '<div class="kw-progress-day"><span>' + x.label + '</span><div class="kw-progress-track"><i style="width:' + width + '%"></i></div><small>' + x.total + '</small></div>';
-      }).join('') + '</div><p class="kw-muted" style="margin:8px 0 0">รวม ' + activities.length + ' กิจกรรม และ ' + games.length + ' เกมที่เล่นจบ</p>';
+      }).join('') + '</div><p class="kw-muted" style="margin:8px 0 0">รวม ' + activities.length + ' กิจกรรม, ' + games.length + ' เกม และ ' + storyReads.length + ' นิทานที่อ่านจบ</p>';
       $('prDomains').innerHTML = D.DOMAINS.map(function (dm) {
         var count = activities.filter(function (x) { return x.domain === dm.id; }).length;
         return '<div class="kw-progress-domain"><span>' + dm.label + '</span><div class="kw-progress-track"><i style="width:' + (activities.length ? Math.max(count ? 4 : 0, count / Math.max(1, activities.length) * 100) : 0) + '%"></i></div><b>' + count + '</b></div>';
@@ -368,9 +380,11 @@
       $('prMilestones').innerHTML = '<div class="kw-progress-milestone"><b>' + milestoneDone + ' / ' + milestoneTotal + '</b><span>รายการพัฒนาการที่ผู้ปกครองทำเครื่องหมายไว้ในทุกช่วงวัย</span></div>';
       var recent = activities.map(function (x) { return { type:'activity', title:x.title, date:x.date, at:x.at, sub:'กิจกรรม · ' + ((D.DOMAINS.filter(function (dm) { return dm.id === x.domain; })[0] || {}).label || 'ทั่วไป') }; })
         .concat(games.map(function (x) { return { type:'game', title:x.title, date:x.date, at:x.at, sub:'เกม · ' + x.score + '/' + x.total + ' คะแนน' }; }))
+        .concat(storyReads.map(function (x) { return { type:'story', title:x.title, date:x.date, at:x.at, sub:'อ่านนิทานจบแล้ว' }; }))
         .sort(function (a,b) { return String(b.at || b.date).localeCompare(String(a.at || a.date)); }).slice(0,8);
       $('prRecent').innerHTML = recent.length ? recent.map(function (x) {
-        return '<div class="kw-progress-recent"><span>' + (x.type === 'game' ? '🎮' : '🌱') + '</span><div><b>' + esc(x.title) + '</b><small>' + esc(x.sub) + ' · ' + esc(x.date) + '</small></div></div>';
+        var icon = x.type === 'game' ? '🎮' : x.type === 'story' ? '📖' : '🌱';
+        return '<div class="kw-progress-recent"><span>' + icon + '</span><div><b>' + esc(x.title) + '</b><small>' + esc(x.sub) + ' · ' + esc(x.date) + '</small></div></div>';
       }).join('') : '<p class="kw-empty">ยังไม่มีประวัติ ลองทำกิจกรรมหรือเล่นเกม แล้วบันทึกความสำเร็จได้เลย</p>';
     }
     childBar($('cbar'), drawProgress);
