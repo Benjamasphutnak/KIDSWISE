@@ -366,12 +366,13 @@ function speak(text){
 function loadStory01Image(pageIndex, storyId){
  var image=$('readerArt');
  var wrap=image.parentNode;
- wrap.classList.remove('kw-story02-sprite');
- wrap.classList.add('kw-story01-sprite');
- image.style.left=(pageIndex%2 ? '-100%' : '0');
- image.style.top=(pageIndex>=2 ? '-100%' : '0');
+ // Story 1 has a separate high-resolution illustration for each page.
+ // Keep the illustration independent from the Thai text overlay.
+ wrap.classList.remove('kw-story01-sprite','kw-story02-sprite');
+ image.style.cssText='';
  if(current && current.id===storyId && page===pageIndex){
-  image.src='assets/story01-pages-sprite.webp?v=24';
+  var pageArt=(current.pageArts&&current.pageArts[pageIndex])||('assets/story01-illustration-'+(pageIndex+1)+'.svg');
+  image.src=pageArt+'?v=25-'+(pageIndex+1);
  }
 }
 
