@@ -32,7 +32,32 @@ function renderTable(){
  Array.prototype.forEach.call($('mulTable').querySelectorAll('[data-multiplier]'),function(b){b.addEventListener('click',function(){speak(formulaText(selectedTable,Number(b.dataset.multiplier)));});});
 }
 function resetQuiz(){quizNumber=0;quizScore=0;quizAnswered=false;quizQuestion=null;quizTable=selectedTable;$('mulQuizIntro').hidden=false;$('mulQuizPlay').hidden=true;$('mulQuizDone').hidden=true;$('mulQuizTable').textContent=selectedTable;}
-function selectTable(n){stopSpeech();selectedTable=Math.max(1,Math.min(24,n));renderTable();resetQuiz();$('mulSpeechStatus').textContent='เลือกสูตรคูณแม่ '+selectedTable+' แล้ว กดฟังหรือเริ่มแบบทดสอบได้เลย';}
+function selectVideoGroup(group){
+ var isHigh=Number(group)>=24;
+ var videoId=isHigh?'Z9rgNIP0bIQ':'9pFyjY8ZXMw';
+ var title=isHigh?'ท่องสูตรคูณแม่ 13–25':'ท่องสูตรคูณแม่ 1–12 พร้อมตารางสูตรคูณ';
+ var note=isHigh?'คลิปนี้ครอบคลุมแม่ 13–25 รวมแม่ 13–24 ที่กำลังฝึก':'คลิปนี้ใช้ฝึกท่องแม่ 1–12';
+ var frame=$('mulYoutube');
+ if(frame){
+  var nextSrc='https://www.youtube-nocookie.com/embed/'+videoId+'?rel=0';
+  if(frame.src!==nextSrc)frame.src=nextSrc;
+ }
+ $('mulVideoTitle').textContent=title;
+ $('mulVideoNote').textContent=note;
+ $('mulVideoOpen').href='https://www.youtube.com/watch?v='+videoId;
+ $('mulVideoOpen').setAttribute('aria-label','เปิด '+title+' ใน YouTube');
+ Array.prototype.forEach.call(document.querySelectorAll('[data-video-group]'),function(b){
+  var active=Number(b.dataset.videoGroup)===(isHigh?24:12);
+  b.classList.toggle('is-active',active);
+  b.setAttribute('aria-pressed',active?'true':'false');
+ });
+}
+function selectTable(n){
+ stopSpeech();
+ selectedTable=Math.max(1,Math.min(24,n));
+ renderTable();resetQuiz();selectVideoGroup(selectedTable<=12?12:24);
+ $('mulSpeechStatus').textContent='เลือกสูตรคูณแม่ '+selectedTable+' แล้ว กดฟังหรือเริ่มแบบทดสอบได้เลย';
+}
 function listenTable(){var lines=[];for(var i=1;i<=12;i++)lines.push(formulaText(selectedTable,i));speak(lines.join(' … '));}
 function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),tmp=a[i];a[i]=a[j];a[j]=tmp;}return a;}
 function newQuestion(){
@@ -59,4 +84,6 @@ function nextQuestion(){if(!quizAnswered)return;if(quizNumber>=10){finishQuiz();
 $('mulListen').addEventListener('click',listenTable);$('mulStop').addEventListener('click',function(){stopSpeech();$('mulSpeechStatus').textContent='หยุดเสียงแล้ว';});
 $('mulQuizStart').addEventListener('click',startQuiz);$('mulQuizNext').addEventListener('click',nextQuestion);$('mulQuizAgain').addEventListener('click',startQuiz);
 renderTable();resetQuiz();
+Array.prototype.forEach.call(document.querySelectorAll('[data-video-group]'),function(b){b.addEventListener('click',function(){selectVideoGroup(Number(b.dataset.videoGroup));});});
+selectVideoGroup(12);
 })();
