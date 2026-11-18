@@ -60,17 +60,61 @@ body[data-page="thai"] .phone{width:min(560px,100%);max-width:560px;box-shadow:n
 @media(min-width:480px){.thai-grid{grid-template-columns:repeat(8,minmax(0,1fr))}}
 @media(max-width:430px){body[data-page="thai"]{padding:0;background:#e5f3f2}body[data-page="thai"] .phone{width:100%;max-width:100%;border-radius:0}.thai-shell{border-radius:0;padding:13px 12px 18px;gap:13px}}
 @media(max-width:350px){.thai-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.thai-cell{min-height:62px}.thai-feature{gap:10px}.thai-letter-big{min-width:100px}}
+
+/* Playful KIDWISE Thai-letter garden */
+body[data-page="thai"]{background:#f8f0ff}
+.thai-shell{background:radial-gradient(circle at 9% 7%,#fff5bd 0 4px,transparent 5px),radial-gradient(circle at 91% 18%,#ffdce9 0 5px,transparent 6px),linear-gradient(155deg,#e1f9f3 0%,#f7efff 48%,#fff3dd 100%);color:#514766}
+.thai-head h1{color:#6d4d83}
+.thai-head p{color:#89749a}
+.thai-back{color:#704f8b;border-radius:17px;box-shadow:inset 0 -4px 0 #e6d9f0,0 5px 0 #d9c8e8,0 8px 14px #9475aa22}
+.thai-hero{position:relative;isolation:isolate;overflow:hidden;border:3px solid #fff;border-radius:30px;background:linear-gradient(145deg,#fff 0%,#fff0f5 55%,#fff8df 100%);box-shadow:inset 0 -6px 0 #f1e0e7,0 12px 22px #9e82921f}
+.thai-hero:after{content:"🦉";position:absolute;z-index:-1;right:13px;top:18px;font-size:46px;transform:rotate(8deg);opacity:.92}
+.thai-tag{background:#f1e6ff;color:#765391;border:1px solid #e2d0f6;border-radius:18px;font-family:'Mitr',sans-serif}
+.thai-progress{height:12px;background:#eee6f2;border:2px solid #fff;box-shadow:inset 0 2px 3px #78628b18}
+.thai-progress span{background:linear-gradient(90deg,#73d5b0,#bca0f6,#ffb6ad);box-shadow:0 1px 4px #a48bca66}
+.thai-feature{position:relative;z-index:1;min-height:180px;gap:17px;flex-wrap:wrap;padding:17px 8px}
+.thai-letter-big{display:grid;place-items:center;min-width:130px;height:132px;padding:0 8px;box-sizing:border-box;border:5px solid #fff;border-radius:42px 34px 42px 34px;background:linear-gradient(145deg,#ffe68e,#ffb9a7);color:#a45443;font-size:clamp(82px,21vw,112px);text-shadow:0 3px 0 #fff4ce;box-shadow:inset 0 -7px 0 #efaa80,0 9px 0 #f3d2bb,0 13px 20px #ba82632b;transform:rotate(-3deg);animation:thaiPop .35s ease-out}
+.thai-word-title{display:inline-block;padding:6px 12px;border-radius:15px;background:#e9e0ff;color:#694b87;box-shadow:inset 0 -3px 0 #d5c4f3}
+.thai-word-note{color:#88769a;font-weight:500}
+.thai-emoji{display:inline-grid;place-items:center;width:53px;height:53px;margin-top:9px;border:3px solid #fff;border-radius:18px;background:linear-gradient(145deg,#fff4c6,#ffdf9e);font-size:31px;box-shadow:inset 0 -4px 0 #f4d28e,0 4px 0 #f7e6bb}
+.thai-class{background:#ddf7eb;color:#347d62;border:1px solid #c5edda;border-radius:13px;font-weight:600}
+.thai-controls{gap:10px}
+.thai-action{min-height:47px;border-radius:17px;background:linear-gradient(180deg,#fff,#f5efff);box-shadow:inset 0 -4px 0 #e4d9f0,0 5px 0 #d9cbe8,0 7px 12px #9273a522;color:#6d5480;transition:transform .15s ease,box-shadow .15s ease}
+.thai-action.primary{background:linear-gradient(180deg,#ff9f83,#f47762);box-shadow:inset 0 -4px 0 #d95e51,0 5px 0 #f0b0a0,0 8px 13px #df8b762e;color:#fff}
+.thai-action:active,.thai-cell:active{transform:translateY(3px) scale(.97)}
+.thai-section,.thai-write{border:3px solid #fff;border-radius:27px;background:linear-gradient(145deg,#fff,#f8f3ff);box-shadow:0 8px 0 #e8dbf3,0 12px 20px #9379a219}
+.thai-section h2,.thai-write h2{color:#704f89;font-size:20px}
+.thai-section p,.thai-write-help,.thai-write-status{color:#88769a}
+.thai-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.thai-cell{position:relative;min-height:92px;padding:6px 2px;border:2px solid #fff;border-radius:19px;background:linear-gradient(180deg,#e8f8ff,#d9efff);box-shadow:inset 0 -5px 0 #c8e4f4,0 4px 0 #d9ebf2,0 7px 10px #789bab16;color:#426b83;gap:2px;transition:transform .15s ease,box-shadow .15s ease}
+.thai-cell:nth-child(4n+2){background:linear-gradient(180deg,#fff0f5,#ffe0eb);box-shadow:inset 0 -5px 0 #f4c9d8,0 4px 0 #f7dfe7,0 7px 10px #ba819117;color:#9b5872}
+.thai-cell:nth-child(4n+3){background:linear-gradient(180deg,#fff8dc,#ffedb7);box-shadow:inset 0 -5px 0 #f4dfa4,0 4px 0 #f8e9c2,0 7px 10px #b49b5717;color:#956b2e}
+.thai-cell:nth-child(4n){background:linear-gradient(180deg,#e9f9e9,#d4f0d1);box-shadow:inset 0 -5px 0 #c1e4bd,0 4px 0 #d9eed5,0 7px 10px #7da77b17;color:#4e8050}
+.thai-cell strong{font:600 31px/1.05 'Mitr',sans-serif}
+.thai-cell-emoji{font-size:19px;line-height:1.1}
+.thai-cell small{font:11px/1.2 'Prompt',sans-serif;color:inherit;opacity:.84}
+.thai-cell.selected{border-color:#fff;background:linear-gradient(180deg,#ffe49a,#ffb779);box-shadow:inset 0 -5px 0 #ed9f62,0 5px 0 #f4d1aa,0 8px 12px #d69a4d35;color:#8e4826;transform:translateY(-2px) rotate(-2deg)}
+.thai-cell.visited:after{content:"✓";position:absolute;top:4px;right:5px;width:18px;height:18px;display:grid;place-items:center;border-radius:50%;background:#62c99c;color:#fff;font:600 11px 'Prompt',sans-serif;box-shadow:0 2px 0 #3aa77a}
+.thai-canvas-wrap{border:3px dashed #d4c3e9;border-radius:23px;background:radial-gradient(circle at 14px 14px,#f7f0ff 2px,transparent 2.5px),#fff;background-size:24px 24px;box-shadow:inset 0 3px 8px #9983ac20}
+.thai-write-controls .thai-action{flex:1}
+@keyframes thaiPop{0%{transform:scale(.88) rotate(-8deg)}70%{transform:scale(1.05) rotate(0)}100%{transform:scale(1) rotate(-3deg)}}
+@media(min-width:480px){.thai-grid{grid-template-columns:repeat(7,minmax(0,1fr))}}
+@media(min-width:620px){.thai-grid{grid-template-columns:repeat(8,minmax(0,1fr))}}
+@media(max-width:430px){.thai-shell{padding:15px 13px 22px}.thai-hero{padding:16px 13px}.thai-feature{gap:13px}.thai-letter-big{min-width:115px;height:116px;font-size:clamp(77px,20vw,96px)}.thai-controls .thai-action{flex:1 1 42%;padding:9px 7px}.thai-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:350px){.thai-cell{min-height:84px}.thai-cell strong{font-size:28px}}
+@media(prefers-reduced-motion:reduce){.thai-letter-big{animation:none}.thai-action,.thai-cell{transition:none}}
+
 </style>
 </head>
 <body data-page="thai">
 <main class="phone"><div class="thai-shell">
 <header class="thai-head">
  <a class="thai-back" href="menu.html" aria-label="กลับเมนูหลัก">‹</a>
- <div class="thai-head-copy"><h1>ฝึกอ่านและเขียน ก–ฮ</h1><p>เรียนรู้พยัญชนะไทย 44 ตัว ทีละตัวกันนะ 🌷</p></div>
+ <div class="thai-head-copy"><h1>ฝึกอ่านและเขียน ก–ฮ</h1><p>ภารกิจนักสำรวจ ก–ฮ · เก็บดาวให้ครบ 44 ดวง ⭐</p></div>
  <span aria-hidden="true" style="font-size:34px">📖</span>
 </header>
 <section class="thai-hero" aria-label="ตัวอักษรที่กำลังฝึก">
- <div class="thai-topline"><span class="thai-tag">🌟 เก่งภาษาไทยไปด้วยกัน</span><span id="thaiProgressLabel" class="thai-progress-label">ฝึกแล้ว 0/44</span></div>
+ <div class="thai-topline"><span class="thai-tag">🦉 สนุกกับพยัญชนะไทย</span><span id="thaiProgressLabel" class="thai-progress-label">ฝึกแล้ว 0/44</span></div>
  <div class="thai-progress"><span id="thaiProgress"></span></div>
  <div class="thai-feature">
   <div class="thai-letter-big" id="thaiBig" aria-live="polite">ก</div>
@@ -84,12 +128,12 @@ body[data-page="thai"] .phone{width:min(560px,100%);max-width:560px;box-shadow:n
  </div>
 </section>
 <section class="thai-section">
- <h2>เลือกพยัญชนะที่อยากฝึก</h2>
+ <h2>🧩 เลือกตัวอักษรที่อยากเล่น</h2>
  <p>แตะตัวอักษรเพื่อดูคำประกอบและฟังเสียงอ่านได้เลย</p>
  <div class="thai-grid" id="thaiGrid" aria-label="พยัญชนะไทย 44 ตัว"></div>
 </section>
 <section class="thai-write" aria-label="กระดานฝึกเขียนพยัญชนะ">
- <h2>✍️ ฝึกเขียนตัวอักษร</h2>
+ <h2>✍️ สนามวาดพยัญชนะ</h2>
  <p class="thai-write-help">ใช้นิ้วมือหรือนิ้วปากกาลากตามเส้นประเพื่อฝึกเขียน <b id="thaiWriteTarget">ก</b> ลงบนกระดานได้เลย</p>
  <div class="thai-canvas-wrap"><canvas id="thaiWriteCanvas" aria-label="กระดานฝึกเขียนพยัญชนะด้วยนิ้วมือ"></canvas></div>
  <div class="thai-write-controls">
@@ -132,7 +176,7 @@ function renderGrid(){
  var html='';
  letters.forEach(function(row,i){
   var c=row[0],seen=visited.indexOf(c)>=0;
-  html+='<button type="button" class="thai-cell '+(i===selected?'selected':'')+'" data-i="'+i+'" aria-pressed="'+(i===selected)+'" aria-label="'+c+' '+row[1]+'"><strong>'+c+'</strong><small>'+row[1]+'</small></button>';
+  html+='<button type="button" class="thai-cell '+(i===selected?'selected ':'')+(seen?'visited':'')+'" data-i="'+i+'" aria-pressed="'+(i===selected)+'" aria-label="'+c+' '+row[1]+'"><strong>'+c+'</strong><span class="thai-cell-emoji" aria-hidden="true">'+row[2]+'</span><small>'+row[1]+'</small></button>';
  });
  $('thaiGrid').innerHTML=html;
  Array.prototype.forEach.call($('thaiGrid').querySelectorAll('button'),function(b){b.addEventListener('click',function(){select(Number(b.dataset.i))})});
