@@ -1,4 +1,4 @@
-/* KIDWISE – mini games for ages 0–6 */
+/* KIDWISE – mini games for ages 0–10 with age-adaptive difficulty */
 (function () {
 'use strict';
 function $(id){return document.getElementById(id);}
@@ -29,7 +29,7 @@ function pictureTap(i){var a=animals[i];if(!a)return;document.querySelectorAll('
 
 // 2) Memory match: 3 pairs for younger children, 4 for older children.
 var icons=['🐶','🐱','🐰','🐻','🐼','🦊','🐸','🐵'];
-function startMemory(){var pairs=age<36?3:4,chosen=icons.slice(0,pairs);memory={cards:shuffle(chosen.concat(chosen)).map(function(e){return {e:e,open:false,done:false};}),flipped:[],matched:0,pairs:pairs,turns:0,lock:false};drawMemory();}
+function startMemory(){var pairs=age<36?3:age<72?4:age<84?5:age<96?6:age<108?7:8,chosen=icons.slice(0,pairs);memory={cards:shuffle(chosen.concat(chosen)).map(function(e){return {e:e,open:false,done:false};}),flipped:[],matched:0,pairs:pairs,turns:0,lock:false};drawMemory();}
 function drawMemory(){var s=memory;$('gameContent').innerHTML='<p class="game-instruction">เปิดการ์ดครั้งละ 2 ใบ แล้วหาภาพที่เหมือนกันนะ</p><div class="game-progress"><span style="width:'+(s.matched/s.pairs*100)+'%"></span></div><p class="game-instruction">จับคู่ได้ <b>'+s.matched+'</b> / '+s.pairs+' คู่ · เปิดไป '+s.turns+' ครั้ง</p><div class="memory-grid">'+s.cards.map(function(c,i){return '<button type="button" class="memory-card'+(c.open?' revealed':'')+(c.done?' matched':'')+'" data-action="memory" data-index="'+i+'" aria-label="การ์ดใบที่ '+(i+1)+'"><span class="memory-back">?</span><span class="memory-front">'+c.e+'</span></button>';}).join('')+'</div><p class="game-feedback">'+(s.matched===s.pairs?'เก่งมาก! จับคู่ครบแล้ว รับดาว 1 ดวง ⭐':'ค่อย ๆ ดูภาพ ไม่ต้องรีบนะ 🌼')+'</p>';}
 function memoryTap(i){var s=memory,c=s&&s.cards[i];if(!s||s.lock||!c||c.open||c.done)return;c.open=true;s.flipped.push(i);if(s.flipped.length===2){s.turns++;var a=s.cards[s.flipped[0]],b=s.cards[s.flipped[1]];if(a.e===b.e){a.done=b.done=true;s.matched++;s.flipped=[];drawMemory();if(s.matched===s.pairs)recordGame(s.pairs,s.pairs,true);}else{s.lock=true;drawMemory();flipTimer=setTimeout(function(){s.cards[s.flipped[0]].open=false;s.cards[s.flipped[1]].open=false;s.flipped=[];s.lock=false;drawMemory();},850);}}else drawMemory();}
 
@@ -46,7 +46,7 @@ var silhouetteAnimals=[{e:'🐘',n:'ช้าง'},{e:'🐼',n:'แพนด้�
 var shapes=[{s:'●',n:'วงกลม'},{s:'■',n:'สี่เหลี่ยม'},{s:'▲',n:'สามเหลี่ยม'},{s:'★',n:'ดาว'},{s:'♥',n:'หัวใจ'},{s:'◆',n:'ข้าวหลามตัด'}];
 var groupItems=[{e:'🐶',n:'สุนัข',g:'สัตว์'},{e:'🐱',n:'แมว',g:'สัตว์'},{e:'🐟',n:'ปลา',g:'สัตว์'},{e:'🍎',n:'แอปเปิล',g:'อาหาร'},{e:'🍞',n:'ขนมปัง',g:'อาหาร'},{e:'🍌',n:'กล้วย',g:'อาหาร'},{e:'🚗',n:'รถยนต์',g:'ของใช้'},{e:'✏️',n:'ดินสอ',g:'ของใช้'},{e:'🪑',n:'เก้าอี้',g:'ของใช้'}];
 function makeQuestion(type){
-if(type==='count'){var max=age<48?5:10,num=1+Math.floor(Math.random()*max),wrong=shuffle([1,2,3,4,5,6,7,8,9,10].filter(function(x){return x!==num;})).slice(0,2);return {answer:num,fruit:pick(fruits),options:shuffle([num].concat(wrong))};}
+if(type==='count'){var max=age<48?5:age<72?10:20,num=1+Math.floor(Math.random()*max),pool=Array.from({length:max},function(_,i){return i+1;}),wrong=shuffle(pool.filter(function(x){return x!==num;})).slice(0,2);return {answer:num,fruit:pick(fruits),options:shuffle([num].concat(wrong))};}
 if(type==='letters'){var t=pick(letters),w=shuffle(letters.filter(function(x){return x.l!==t.l;})).slice(0,3).map(function(x){return x.l;});return {answer:t.l,target:t,options:shuffle([t.l].concat(w))};}
 if(type==='shadows'){var sh=pick(silhouetteAnimals),shWrong=shuffle(silhouetteAnimals.filter(function(x){return x.n!==sh.n;})).slice(0,3);return {answer:sh.n,target:sh,options:shuffle([sh].concat(shWrong))};}
 if(type==='shapes'){var sp=pick(shapes),spWrong=shuffle(shapes.filter(function(x){return x.n!==sp.n;})).slice(0,2);return {answer:sp.n,target:sp,options:shuffle([sp].concat(spWrong))};}
@@ -70,7 +70,7 @@ function next(){if(quiz.round>=quiz.total)return finish();quiz.round++;quiz.q=ma
 
 // 7) Put shuffled numbers in ascending order by tapping them.
 var orderState=null;
-function startOrder(){orderState={round:1,total:3,limit:age<48?5:7,tiles:[],next:1,feedback:'แตะตัวเลขเรียงจากน้อยไปมากนะ'};makeOrderRound();}
+function startOrder(){orderState={round:1,total:3,limit:age<48?5:age<72?7:age<96?10:15,tiles:[],next:1,feedback:'แตะตัวเลขเรียงจากน้อยไปมากนะ'};makeOrderRound();}
 function makeOrderRound(){orderState.tiles=shuffle(Array.from({length:orderState.limit},function(_,i){return i+1;}));orderState.next=1;drawOrder();}
 function drawOrder(){var s=orderState,done=s.next>s.limit;$('gameContent').innerHTML='<p class="game-instruction">รอบที่ '+s.round+' / '+s.total+' · แตะเลขจากน้อยไปมาก</p><div class="game-progress"><span style="width:'+((s.round-1)/s.total*100+(s.next-1)/(s.limit*s.total)*100)+'%"></span></div><p class="game-instruction">หาเลข <b>'+ (done?'ครบแล้ว!':s.next) +'</b> ต่อไป</p><div class="order-grid">'+s.tiles.map(function(n){return '<button type="button" class="order-tile'+(n<s.next?' done':'')+'" data-action="order-number" data-number="'+n+'"'+(n<s.next?' disabled':'')+'>'+(n<s.next?'✓':n)+'</button>';}).join('')+'</div><p class="game-feedback">'+s.feedback+'</p>'+(done?'<div style="text-align:center"><button type="button" class="game-next" data-action="order-next">'+(s.round===s.total?'รับดาวของหนู ⭐':'รอบต่อไป ➜')+'</button></div>':'');}
 function orderTap(n){var s=orderState;if(!s||s.next>s.limit)return;if(n===s.next){s.next++;s.feedback=s.next>s.limit?'เรียงครบแล้ว เก่งมาก! 🎉':'ถูกต้อง! หาเลข '+s.next+' ต่อเลย';drawOrder();}else{s.feedback='ลองหาเลข '+s.next+' ก่อนนะ 💛';drawOrder();}}
