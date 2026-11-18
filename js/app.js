@@ -95,6 +95,7 @@
     var d = S.data[c.id] || (S.data[c.id] = {});
     d.tasks = d.tasks || {}; d.miles = d.miles || {}; d.acts = d.acts || {}; d.growth = d.growth || []; d.vax = d.vax || {}; d.notes = d.notes || [];
     d.activityHistory = d.activityHistory || []; d.gameSessions = d.gameSessions || []; d.storyProgress = d.storyProgress || [];
+    d.learningHistory = d.learningHistory || []; d.feelings = d.feelings || []; d.portfolio = d.portfolio || [];
     return d;
   }
   function recordActivity(d, activity) {
@@ -149,7 +150,7 @@
     { id: 'notes', href: 'notes.html', label: 'บันทึก', img: 'assets/n_book.png', svg: '<rect x="4" y="3" width="16" height="18" rx="3" fill="#fff"/><path d="M8 8h8M8 12h8M8 16h5" stroke="#36a843" stroke-width="2" stroke-linecap="round"/>' },
     { id: 'profile', href: 'profile.html', label: 'โปรไฟล์', img: 'assets/n_prof.png', svg: '<circle cx="12" cy="8" r="4.5" fill="#fff"/><path d="M3.5 21a8.5 7 0 0 1 17 0z" fill="#fff"/>' }
   ];
-  var PAGE_TAB = { index: 'home', development: 'dev', activities: 'act', progress: 'dev', notes: 'notes', profile: 'profile' };
+  var PAGE_TAB = { index: 'home', development: 'dev', activities: 'act', learning: 'act', progress: 'dev', notes: 'notes', portfolio: 'notes', feelings: 'notes', profile: 'profile' };
   function renderChrome(page) {
     var nav = $('kw-nav');
     if (nav) {
@@ -178,6 +179,9 @@
     }
     draw();
   }
+
+  // Small public API for the new learning-world pages; all records still use the existing profile sync.
+  window.KW_APP = { child: child, data: cdata, save: save, childBar: childBar, ageMonths: ageMonths, ageText: ageText, today: today, uid: uid, escape: esc };
 
   function groupSelect(sel, value, onChange) {
     sel.innerHTML = D.AGE_GROUPS.map(function (g, i) { return '<option value="' + i + '"' + (i === value ? ' selected' : '') + '>อายุ ' + g.label + '</option>'; }).join('');
@@ -333,6 +337,7 @@
     pb.innerHTML = '<div id="cbar"></div>' +
       '<section class="kw-progress-hero"><div><span class="kw-progress-kicker">MY LEARNING JOURNEY</span><h2 id="prName">เส้นทางการเรียนรู้</h2><p id="prAge"></p></div><span class="kw-progress-mascot">🌱</span></section>' +
       '<section class="kw-progress-stats" id="prStats"></section>' +
+      '<section class="kw-card kw-progress-card"><div class="kw-progress-section-head"><h2>การเรียนรู้และความรู้สึก</h2><span class="kw-muted">บันทึก 7 วันล่าสุด</span></div><div id="prExtras" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px"></div></section>' +
       '<section class="kw-card kw-progress-card"><div class="kw-progress-section-head"><h2>สรุป 7 วันล่าสุด</h2><span class="kw-muted">กิจกรรม เกม และนิทาน</span></div><div id="prWeek"></div></section>' +
       '<section class="kw-card kw-progress-card"><div class="kw-progress-section-head"><h2>กิจกรรม 4 ด้าน</h2><span class="kw-muted">จากที่บันทึกไว้</span></div><div id="prDomains"></div></section>' +
       '<section class="kw-card kw-progress-card"><div class="kw-progress-section-head"><h2>พัฒนาการที่บันทึก</h2><a href="development.html">เปิดดู →</a></div><div id="prMilestones"></div></section>' +
@@ -344,6 +349,8 @@
       var activities = (d.activityHistory || []).filter(function (x) { return x.date >= from && x.date <= to; });
       var games = (d.gameSessions || []).filter(function (x) { return x.date >= from && x.date <= to; });
       var storyReads = (d.storyProgress || []).filter(function (x) { return x.date >= from && x.date <= to; });
+      var lessons = (d.learningHistory || []).filter(function (x) { return x.date >= from && x.date <= to; });
+      var feelings = (d.feelings || []).filter(function (x) { return x.date >= from && x.date <= to; });
       var stars = games.reduce(function (sum, x) { return sum + (Number(x.stars) || 0); }, 0);
       var milestoneDone = 0, milestoneTotal = 0;
       var currentGroup = D.AGE_GROUPS[groupIndex(ageMonths(c))];
@@ -360,6 +367,7 @@
         '<div class="kw-progress-stat"><span>🎮</span><b>' + games.length + '</b><small>เกมที่เล่นจบ</small></div>' +
         '<div class="kw-progress-stat"><span>📖</span><b>' + storyReads.length + '</b><small>นิทานที่อ่านจบ</small></div>' +
         '<div class="kw-progress-stat"><span>⭐</span><b>' + stars + '</b><small>ดาวจากเกมใน 7 วัน</small></div>';
+      $('prExtras').innerHTML = '<div style="border-radius:16px;background:#eef9f3;padding:12px;text-align:center"><b style="display:block;font:600 25px Mitr,sans-serif;color:#2d8b55">' + lessons.length + '</b><small>บทเรียนที่ลองทำ</small></div><div style="border-radius:16px;background:#fff3f7;padding:12px;text-align:center"><b style="display:block;font:600 25px Mitr,sans-serif;color:#c05c86">' + feelings.length + '</b><small>บันทึกความรู้สึก</small></div>';
       var dayNames = ['อา','จ','อ','พ','พฤ','ศ','ส'], rows = [], max = 1;
       for (var k = 0; k < 7; k++) {
         var day = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + k), key = iso(day);
@@ -381,9 +389,11 @@
       var recent = activities.map(function (x) { return { type:'activity', title:x.title, date:x.date, at:x.at, sub:'กิจกรรม · ' + ((D.DOMAINS.filter(function (dm) { return dm.id === x.domain; })[0] || {}).label || 'ทั่วไป') }; })
         .concat(games.map(function (x) { return { type:'game', title:x.title, date:x.date, at:x.at, sub:'เกม · ' + x.score + '/' + x.total + ' คะแนน' }; }))
         .concat(storyReads.map(function (x) { return { type:'story', title:x.title, date:x.date, at:x.at, sub:'อ่านนิทานจบแล้ว' }; }))
+        .concat(lessons.map(function (x) { return { type:'lesson', title:x.title, date:x.date, at:x.at, sub:'บทเรียน · ' + x.subjectLabel }; }))
+        .concat(feelings.map(function (x) { return { type:'feeling', title:'บันทึกความรู้สึก: ' + x.moodLabel, date:x.date, at:x.at, sub:'มุมหัวใจของหนู' }; }))
         .sort(function (a,b) { return String(b.at || b.date).localeCompare(String(a.at || a.date)); }).slice(0,8);
       $('prRecent').innerHTML = recent.length ? recent.map(function (x) {
-        var icon = x.type === 'game' ? '🎮' : x.type === 'story' ? '📖' : '🌱';
+        var icon = x.type === 'game' ? '🎮' : x.type === 'story' ? '📖' : x.type === 'lesson' ? '📚' : x.type === 'feeling' ? '💗' : '🌱';
         return '<div class="kw-progress-recent"><span>' + icon + '</span><div><b>' + esc(x.title) + '</b><small>' + esc(x.sub) + ' · ' + esc(x.date) + '</small></div></div>';
       }).join('') : '<p class="kw-empty">ยังไม่มีประวัติ ลองทำกิจกรรมหรือเล่นเกม แล้วบันทึกความสำเร็จได้เลย</p>';
     }
