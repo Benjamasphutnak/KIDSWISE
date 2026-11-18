@@ -1,0 +1,39 @@
+/* KIDWISE — learning, portfolio and feelings worlds */
+body[data-page="learning"],body[data-page="portfolio"],body[data-page="feelings"]{padding:18px 12px 24px;background:#edf6f2;align-items:flex-start}
+body[data-page="learning"] .phone,body[data-page="portfolio"] .phone,body[data-page="feelings"] .phone{width:min(560px,100%);max-width:560px;box-shadow:none;border-radius:30px}
+.kw-world-page{width:100%;min-height:100svh;height:auto;overflow:visible;border-radius:30px;background:linear-gradient(180deg,#c9eef3 0%,#e1f7ef 46%,#f1f9e9 100%)}
+.kw-world-page .kw-header{padding:16px 16px 8px}
+.kw-world-page .kw-header h1{font-size:clamp(21px,4.5vw,27px)}
+.kw-world-page .kw-body{gap:14px;padding:8px 14px 24px}
+.kw-world-hero{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:126px;box-sizing:border-box;padding:18px;border-radius:26px;border:2px solid rgba(255,255,255,.95);box-shadow:inset 0 3px 0 #fff,0 10px 20px rgba(75,140,120,.13)}
+.learn-hero{background:linear-gradient(135deg,#d9fff0,#dceaff)}.portfolio-hero{background:linear-gradient(135deg,#fff0cc,#ffe0eb)}.feelings-hero{background:linear-gradient(135deg,#ffe2ef,#e9e3ff)}
+.kw-world-kicker{font-size:10px;letter-spacing:1px;font-weight:600;color:#4d8d77}
+.kw-world-hero h2{margin:5px 0;font:600 clamp(22px,5vw,28px)/1.25 Mitr,sans-serif;color:#285744}
+.kw-world-hero p{margin:0;color:#4f6a60;font-size:14px;line-height:1.45}.kw-world-hero-icon{font-size:48px;flex:none;filter:drop-shadow(0 5px 5px rgba(60,100,75,.18))}
+.kw-world-age,.kw-world-form-card{border-radius:24px;padding:15px}.kw-world-age{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.kw-world-age>div{display:flex;flex-direction:column;gap:3px}.kw-world-age small{color:#648075;font-size:12px}.kw-world-age b{font:600 19px Mitr,sans-serif;color:#2d684f}
+.kw-world-pill{display:inline-flex;align-items:center;justify-content:center;border-radius:99px;padding:6px 10px;background:#e5f7ed;color:#36845e;font-size:12px;font-weight:600}
+.kw-world-tabs{display:flex;gap:7px;overflow-x:auto;padding:2px 0 5px}.kw-world-tab{border:1px solid rgba(255,255,255,.9);background:#fff;border-radius:99px;padding:9px 13px;white-space:nowrap;color:#49665a;font:500 13px Prompt,sans-serif;box-shadow:0 3px 7px rgba(60,100,80,.08);cursor:pointer}
+.kw-world-tab.is-on{background:linear-gradient(180deg,#5fcf9c,#36a77a);color:#fff;border-color:#56be91}
+.kw-world-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.kw-world-card{min-width:0;border:2px solid rgba(255,255,255,.96);border-radius:22px;padding:13px;background:linear-gradient(180deg,#fff,#f5fcf8);box-shadow:inset 0 2px 0 #fff,0 7px 16px rgba(70,130,105,.1)}
+.kw-world-card.is-complete{background:linear-gradient(180deg,#f1fff3,#e7f8e8);border-color:#c8efd0}
+.kw-world-card-top{display:flex;align-items:center;justify-content:space-between;gap:8px}.kw-world-card-icon{display:grid;place-items:center;width:42px;height:42px;border-radius:14px;background:#edf9f3;font-size:25px}
+.kw-world-card h3{margin:10px 0 5px;color:#315c49;font:600 17px/1.3 Mitr,sans-serif}.kw-world-card p{margin:0;color:#536b61;font-size:13px;line-height:1.5}
+.kw-world-question{display:flex;flex-direction:column;gap:3px;margin-top:10px;padding:9px 10px;border-radius:14px;background:#f3f5ff;color:#535c83;font-size:12px;line-height:1.4}.kw-world-question b{font-size:11px;color:#777eb0}
+.kw-world-action{width:100%;min-height:42px;margin-top:11px;padding:9px 12px;border:0;border-radius:15px;background:linear-gradient(180deg,#ffa84c,#f68c2d);color:#fff;font:600 14px Mitr,sans-serif;box-shadow:inset 0 2px 0 rgba(255,255,255,.45),0 4px 9px rgba(220,130,50,.2);cursor:pointer}
+.kw-world-action:disabled{background:linear-gradient(180deg,#79ce9a,#55b67d);box-shadow:none;cursor:default}
+.kw-world-shortcuts{padding:15px;border-radius:22px;background:rgba(255,255,255,.8);border:2px solid #fff}.kw-world-shortcuts h3,.kw-world-form-card h3{margin:0 0 10px;font:600 19px Mitr,sans-serif;color:#315c49}
+.kw-world-shortcuts>div{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.kw-world-shortcuts a{padding:11px 9px;border-radius:13px;background:#edf8f2;text-align:center;text-decoration:none;color:#356b53;font-size:13px;font-weight:600}
+.kw-world-note{margin:0;padding:10px 12px;border-radius:16px;background:rgba(255,255,255,.6);color:#587065;font-size:12px;line-height:1.5}
+.kw-world-form{display:flex;flex-direction:column;gap:10px}.kw-world-form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kw-world-form .kw-field input,.kw-world-form .kw-field textarea,.kw-world-form .kw-field select{width:100%;box-sizing:border-box}
+.kw-world-form .kw-field textarea,.kw-world-form-card textarea{min-height:94px;resize:vertical}.kw-world-error{min-height:18px;margin:0;color:#b42318;font-size:13px}
+.kw-world-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.kw-portfolio-photo{display:block;width:100%;height:145px;object-fit:cover;border-radius:15px;margin-bottom:10px;background:#edf3ef}
+.kw-world-delete{border:0;background:transparent;color:#a95050;font:500 12px Prompt,sans-serif;padding:8px 0 0;cursor:pointer}
+.kw-mood-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px}.kw-mood-choice{display:flex;flex-direction:column;align-items:center;gap:5px;padding:9px 2px;border:2px solid #edf2ef;border-radius:17px;background:#fff;color:#476154;cursor:pointer;min-width:0}
+.kw-mood-choice span{font-size:clamp(23px,6vw,31px)}.kw-mood-choice b{font-size:10px;font-weight:500}.kw-mood-choice.is-on{border-color:#7acfa7;background:#ecfff3;box-shadow:0 4px 9px rgba(60,150,100,.13)}
+.kw-world-record{display:flex;align-items:flex-start;gap:11px;padding:12px;border-radius:17px;background:#fff;border:1.5px solid #fff;box-shadow:0 4px 10px rgba(60,100,80,.06)}
+.kw-world-record-emoji{font-size:27px}.kw-world-record b{font:600 14px Mitr,sans-serif;color:#315c49}.kw-world-record p{margin:4px 0 0;font-size:13px;color:#586b62;line-height:1.45}
+@media(max-width:600px){body[data-page="learning"],body[data-page="portfolio"],body[data-page="feelings"]{padding:0;background:#c9eef3}body[data-page="learning"] .phone,body[data-page="portfolio"] .phone,body[data-page="feelings"] .phone{width:100%;max-width:100%;border-radius:0}.kw-world-page{border-radius:0;padding-bottom:env(safe-area-inset-bottom)}.kw-world-grid,.kw-world-list{grid-template-columns:1fr}.kw-world-card{padding:15px}.kw-world-hero{min-height:118px}}
+@media(max-width:355px){.kw-mood-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.kw-world-age{align-items:flex-start;flex-direction:column}}
