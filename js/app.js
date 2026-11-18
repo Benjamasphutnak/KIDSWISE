@@ -255,7 +255,7 @@
       var gid = D.AGE_GROUPS[st.g].id, dm = D.DOMAINS[st.tab];
       document.querySelectorAll('.age-label').forEach(function (n) { n.textContent = 'อายุ ' + D.AGE_GROUPS[st.g].label; });
       $('panelTitle').textContent = dm.title;
-      $('tip').textContent = dm.tip;
+      $('tip').textContent = dm.tip + (D.AGE_GROUPS[st.g].min >= 72 ? ' · วัยเรียน: ใช้รายการนี้เป็นแนวทางฝึกทักษะและบันทึกสิ่งที่ได้ลองทำ ไม่ใช่แบบทดสอบมาตรฐานหรือเกณฑ์เปรียบเทียบเด็ก' : '');
       var tabs = $('tabs'); tabs.innerHTML = '';
       D.DOMAINS.forEach(function (t, i) {
         var b = document.createElement('button'); b.type = 'button'; b.setAttribute('role', 'tab'); b.setAttribute('aria-selected', i === st.tab);
@@ -395,11 +395,11 @@
   if (page === 'growth') {
     var gb = $('body');
     gb.innerHTML = '<div id="cbar"></div><section id="latest"></section>' +
-      '<section class="kw-card" style="border-radius:26px;padding:14px"><div style="display:flex;gap:8px;margin-bottom:8px" id="gTabs"></div><div id="chart"></div><p class="kw-muted" style="margin:6px 4px 0">แถบสีเขียว = ช่วงปกติ (เปอร์เซ็นไทล์ 3–97) เส้นประ = ค่ากลาง ตามมาตรฐาน WHO</p></section>' +
+      '<section class="kw-card" style="border-radius:26px;padding:14px"><div style="display:flex;gap:8px;margin-bottom:8px" id="gTabs"></div><div id="chart"></div><p class="kw-muted" style="margin:6px 4px 0">แถบสีเขียว = ช่วงอ้างอิง (เปอร์เซ็นไทล์ 3–97) เส้นประ = ค่ากลาง ตามข้อมูล WHO ที่แอปมีถึงอายุ 6 ปี</p></section>' +
       '<section class="kw-card" style="border-radius:26px;padding:16px"><h2 class="kw-section-title" style="margin:0 0 10px"><img src="assets/m_scale.png" alt="">บันทึกน้ำหนัก-ส่วนสูง</h2>' +
       '<form id="gForm" style="display:flex;flex-direction:column;gap:10px"><label class="kw-field">วันที่วัด<input type="date" id="gDate" required></label>' +
-      '<div style="display:flex;gap:10px"><label class="kw-field" style="flex:1">น้ำหนัก (กก.)<input type="number" id="gW" step="0.1" min="1" max="60" inputmode="decimal" placeholder="เช่น 10.5"></label>' +
-      '<label class="kw-field" style="flex:1">ส่วนสูง (ซม.)<input type="number" id="gH" step="0.1" min="30" max="160" inputmode="decimal" placeholder="เช่น 80"></label></div>' +
+      '<div style="display:flex;gap:10px"><label class="kw-field" style="flex:1">น้ำหนัก (กก.)<input type="number" id="gW" step="0.1" min="1" max="120" inputmode="decimal" placeholder="เช่น 25.5"></label>' +
+      '<label class="kw-field" style="flex:1">ส่วนสูง (ซม.)<input type="number" id="gH" step="0.1" min="30" max="210" inputmode="decimal" placeholder="เช่น 130"></label></div>' +
       '<p id="gErr" class="kw-muted" style="margin:0;color:#b42318" role="alert"></p><button class="kw-btn kw-btn-green" type="submit">บันทึก</button></form></section>' +
       '<section><h2 class="kw-section-title">ประวัติการวัด</h2><div id="gList" style="display:flex;flex-direction:column;gap:8px;margin-top:8px"></div></section>';
     var gm = 'w';
@@ -422,7 +422,7 @@
           (v ? (function (j) { return '<span class="kw-chip ' + j.cls + '">' + j.label + '</span>'; })(judge(c, kind, last.date, v)) : '<span class="kw-muted">ยังไม่มีข้อมูล</span>') + '</div>';
       }
       $('latest').innerHTML = '<div style="display:flex;gap:10px">' + stat('w', 'กก.', 'น้ำหนักล่าสุด', 'assets/m_scale.png') + stat('h', 'ซม.', 'ส่วนสูงล่าสุด', 'assets/m_chart.png') + '</div>' +
-        (last ? '<p class="kw-muted" style="margin:6px 6px 0">วัดเมื่อ ' + thDate(last.date) + ' · ผลนี้เป็นการคัดกรองเบื้องต้น หากผิดเกณฑ์ควรปรึกษาแพทย์</p>' : '');
+        (last ? '<p class="kw-muted" style="margin:6px 6px 0">วัดเมื่อ ' + thDate(last.date) + ' · ' + (ageMonths(c) > 72 ? 'สำหรับเด็กอายุเกิน 6 ปี แอปเก็บประวัติการวัดได้ แต่ยังไม่แปลผลเทียบกราฟวัยเรียน โปรดประเมินกับบุคลากรสาธารณสุข' : 'ผลนี้เป็นการคัดกรองเบื้องต้น หากผิดเกณฑ์ควรปรึกษาแพทย์') + '</p>' : '');
       $('gTabs').innerHTML = '<button type="button" class="kw-seg' + (gm === 'w' ? ' kw-seg-on' : '') + '" data-k="w">น้ำหนัก</button><button type="button" class="kw-seg' + (gm === 'h' ? ' kw-seg-on' : '') + '" data-k="h">ส่วนสูง</button>';
       $('gTabs').querySelectorAll('button').forEach(function (b) { b.addEventListener('click', function () { gm = b.getAttribute('data-k'); drawGrowth(); }); });
       // chart
@@ -503,13 +503,13 @@
       var c = child(), d = cdata(c), age = ageMonths(c);
       var alerts = vaxAlerts(c);
       var nextUp = D.VACCINES.filter(function (v) { return v.type === 'free' && v.id !== 'hb2' && !d.vax[v.id] && v.m > age; })[0];
-      $('hNext').innerHTML = '<div style="border-radius:28px;padding:16px;display:flex;gap:12px;align-items:center;background:' + (alerts.length ? 'linear-gradient(160deg,#fff1e4,#ffd9b8)' : 'linear-gradient(160deg,#eefbe8,#cdeeb4)') + ';border:3px solid rgba(255,255,255,.9);box-shadow:inset 0 3px 0 rgba(255,255,255,.8),0 10px 20px rgba(80,120,60,.15)">' +
+      $('hNext').innerHTML = age > 72 ? '<div class="kw-card" style="border-radius:24px;padding:14px"><b style="font-family:Mitr,sans-serif;font-size:18px;color:#27654f">สุขภาพวัยเรียน 6–10 ปี</b><p class="kw-muted" style="margin:6px 0 0">รายการวัคซีนในแอปนี้ครอบคลุมตารางเด็กเล็กเท่านั้น กรุณาตรวจสอบสมุดวัคซีนและคำแนะนำจากโรงเรียนหรือหน่วยบริการสาธารณสุข ไม่ควรใช้รายการนี้ตัดสินว่าวัคซีนวัยเรียนครบแล้ว</p></div>' : '<div style="border-radius:28px;padding:16px;display:flex;gap:12px;align-items:center;background:' + (alerts.length ? 'linear-gradient(160deg,#fff1e4,#ffd9b8)' : 'linear-gradient(160deg,#eefbe8,#cdeeb4)') + ';border:3px solid rgba(255,255,255,.9);box-shadow:inset 0 3px 0 rgba(255,255,255,.8),0 10px 20px rgba(80,120,60,.15)">'
         '<img src="assets/m_shield.png" alt="" style="width:78px;height:78px;object-fit:contain;flex:none"><div>' +
         (alerts.length ? '<h2 style="margin:0;font-family:Mitr,sans-serif;font-weight:600;font-size:20px;line-height:1.3;color:#a24b00">ถึงกำหนดหรือยังไม่ได้บันทึก ' + alerts.length + ' รายการ</h2><p style="margin:4px 0 8px;font-size:15px;line-height:1.4">เทียบกับสมุดสีชมพู แล้วติ๊กรายการที่ฉีดแล้ว</p><button type="button" id="hAll" class="kw-btn kw-btn-sm kw-btn-ghost">ฉีดครบตามนัดแล้ว ติ๊กทั้งหมด</button>'
           : '<h2 style="margin:0;font-family:Mitr,sans-serif;font-weight:600;font-size:21px;color:#22702c">วัคซีนเป็นปัจจุบัน</h2><p style="margin:4px 0 0;font-size:15px;line-height:1.4">' + (nextUp ? 'ครั้งถัดไป: ' + esc(nextUp.name) + '<br>ประมาณ ' + thDate(addMonths(c.birth, nextUp.m)) : 'ไม่มีวัคซีนพื้นฐานที่ค้างอยู่') + '</p>') + '</div></div>';
       if ($('hAll')) $('hAll').addEventListener('click', function () { alerts.forEach(function (v) { d.vax[v.id] = addMonths(c.birth, v.m); }); save(); drawHealth(); });
       var nextD = D.DSPM_AGES.filter(function (m) { return m >= age; })[0];
-      $('hDspm').innerHTML = '<div class="kw-card" style="border-radius:24px;padding:14px;display:flex;gap:12px;align-items:center"><img src="assets/m_chart.png" alt="" style="width:50px;height:50px;object-fit:contain;flex:none"><div style="font-size:15px;line-height:1.45"><b style="font-family:Mitr,sans-serif;font-weight:600;font-size:17px">ตรวจคัดกรองพัฒนาการ (DSPM)</b><br>ที่อายุ 9, 18, 30, 42 และ 60 เดือน' + (nextD != null ? ' · ครั้งถัดไป ' + (nextD === age ? 'เดือนนี้' : 'อายุ ' + nextD + ' เดือน') : '') + '</div></div>';
+      $('hDspm').innerHTML = age > 72 ? '<div class="kw-card" style="border-radius:24px;padding:14px"><b style="font-family:Mitr,sans-serif;font-weight:600;font-size:17px">การติดตามสุขภาพวัยเรียน</b><p class="kw-muted" style="margin:5px 0 0">DSPM ในแอปนี้แสดงช่วงคัดกรองเด็กเล็กถึง 60 เดือน สำหรับวัยเรียนควรติดตามสุขภาพ การเรียนรู้ และสุขภาวะกับโรงเรียนและบุคลากรที่เกี่ยวข้อง</p></div>' : '<div class="kw-card" style="border-radius:24px;padding:14px;display:flex;gap:12px;align-items:center"><img src="assets/m_chart.png" alt="" style="width:50px;height:50px;object-fit:contain;flex:none"><div style="font-size:15px;line-height:1.45"><b style="font-family:Mitr,sans-serif;font-weight:600;font-size:17px">ตรวจคัดกรองพัฒนาการ (DSPM)</b><br>ที่อายุ 9, 18, 30, 42 และ 60 เดือน' + (nextD != null ? ' · ครั้งถัดไป ' + (nextD === age ? 'เดือนนี้' : 'อายุ ' + nextD + ' เดือน') : '') + '</div></div>';
       var byAge = {}; D.VACCINES.forEach(function (v) { (byAge[v.m] = byAge[v.m] || []).push(v); });
       var html = '';
       Object.keys(byAge).map(Number).sort(function (a, b) { return a - b; }).forEach(function (m) {
@@ -595,7 +595,7 @@
       editing = c || null; photoData = c && c.photo ? c.photo : null;
       $('pFormTitle').textContent = c ? 'แก้ไขโปรไฟล์' : 'เพิ่มโปรไฟล์ลูก';
       $('pName').value = c ? c.name : ''; $('pBirth').value = c ? c.birth : '';
-      $('pBirth').max = today(); $('pBirth').min = addMonths(today(), -84);
+      $('pBirth').max = today(); $('pBirth').min = addMonths(today(), -120);
       document.querySelectorAll('input[name=pG]').forEach(function (r) { r.checked = r.value === (c ? c.gender : 'girl'); });
       $('pPrev').src = previewSrc(); $('pErr').textContent = '';
       $('pFormWrap').classList.remove('kw-hidden'); $('pAdd').classList.add('kw-hidden');
