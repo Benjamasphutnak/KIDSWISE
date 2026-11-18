@@ -104,6 +104,26 @@ body[data-page="thai"]{background:#f8f0ff}
 @media(max-width:350px){.thai-cell{min-height:84px}.thai-cell strong{font-size:28px}}
 @media(prefers-reduced-motion:reduce){.thai-letter-big{animation:none}.thai-action,.thai-cell{transition:none}}
 
+.thai-song{padding:16px;border:3px solid #fff;border-radius:28px;background:linear-gradient(145deg,#fff3c9 0%,#ffe4ee 58%,#efe6ff 100%);box-shadow:inset 0 -6px 0 #e9d6e8,0 9px 0 #e5d8ec,0 13px 20px #9379a21c}
+.thai-song-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.thai-song-kicker{font-size:10px;letter-spacing:1.2px;font-weight:700;color:#8d6a9c}
+.thai-song-head h2{margin:3px 0;font:600 clamp(20px,4.7vw,25px)/1.25 'Mitr',sans-serif;color:#744c83}
+.thai-song-head p{margin:0;color:#8b768c;font-size:12px}
+.thai-song-mascot{display:grid;place-items:center;width:58px;height:58px;flex:none;border:3px solid #fff;border-radius:21px;background:linear-gradient(145deg,#fff,#ffe5a7);font-size:34px;box-shadow:0 5px 0 #ecd6a9}
+.thai-song-stage{margin-top:13px;padding:15px 12px 12px;border:2px solid #fff;border-radius:21px;background:rgba(255,255,255,.78);text-align:center;box-shadow:inset 0 -3px 0 #f0e8f1}
+.thai-song-note{font-size:11px;color:#947ba0}
+.thai-song-line{margin:5px 0 2px;font:600 clamp(27px,7vw,39px)/1.3 'Mitr',sans-serif;color:#d56e59;min-height:50px}
+.thai-song-count{font-size:12px;font-weight:600;color:#7a668b}
+.thai-song-progress{height:9px;margin:10px 0 7px;overflow:hidden;border-radius:99px;background:#eee5f3}
+.thai-song-progress span{display:block;width:0;height:100%;border-radius:99px;background:linear-gradient(90deg,#72d5ad,#a99bea,#ffb17d);transition:width .2s}
+.thai-song-status{min-height:18px;margin:0;color:#8b768c;font-size:12px}
+.thai-song-controls{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
+.thai-song-controls .thai-action{min-width:94px}
+.thai-song-footnote{margin:10px 2px 0;color:#8b7d8a;font-size:11px;line-height:1.45}
+.thai-cell.song-active{outline:3px solid #f28d60;outline-offset:2px;transform:translateY(-3px) scale(1.04);z-index:2}
+@media(max-width:430px){.thai-song{padding:14px}.thai-song-controls .thai-action{flex:1 1 29%;min-width:0;padding:8px 7px}.thai-song-mascot{width:50px;height:50px;font-size:29px}}
+@media(prefers-reduced-motion:reduce){.thai-song-progress span{transition:none}.thai-cell.song-active{transform:none}}
+
 </style>
 </head>
 <body data-page="thai">
@@ -126,6 +146,25 @@ body[data-page="thai"]{background:#f8f0ff}
   <button type="button" class="thai-action" id="thaiNext">ถัดไป ›</button>
   <button type="button" class="thai-action" id="thaiSpeakAll">🎵 ฟัง ก–ฮ</button>
  </div>
+</section>
+<section class="thai-song" aria-label="เพลงท่องจำ ก เอ๋ย ก ไก่">
+ <div class="thai-song-head">
+  <div><span class="thai-song-kicker">SING & LEARN · ก–ฮ</span><h2>🎵 เพลง ก เอ๋ย ก ไก่</h2><p>ร้องตามทีละตัว จำพยัญชนะไทยให้สนุกขึ้น</p></div>
+  <span class="thai-song-mascot" aria-hidden="true">🎤</span>
+ </div>
+ <div class="thai-song-stage">
+  <div class="thai-song-note">ท่อนที่กำลังร้อง</div>
+  <div class="thai-song-line" id="thaiSongLine" aria-live="polite">ก เอ๋ย ก ไก่</div>
+  <div class="thai-song-count" id="thaiSongCount">พร้อมร้อง 44 ท่อน</div>
+  <div class="thai-song-progress"><span id="thaiSongProgress"></span></div>
+  <p class="thai-song-status" id="thaiSongStatus" aria-live="polite">กดปุ่มเริ่มเพลง แล้วร้องตามเสียงได้เลย 🎶</p>
+ </div>
+ <div class="thai-song-controls">
+  <button type="button" class="thai-action primary" id="thaiSongPlay">▶ เริ่มเพลง</button>
+  <button type="button" class="thai-action" id="thaiSongPause" disabled>Ⅱ พักเพลง</button>
+  <button type="button" class="thai-action" id="thaiSongStop" disabled>■ หยุด</button>
+ </div>
+ <p class="thai-song-footnote">เสียงร้องใช้เสียงภาษาไทยจากอุปกรณ์ และมีเสียงดนตรีสั้น ๆ ประกอบจังหวะ หากไม่ได้ยินเสียง ให้ตรวจสอบระดับเสียงและการตั้งค่าเสียงของเครื่อง</p>
 </section>
 <section class="thai-section">
  <h2>🧩 เลือกตัวอักษรที่อยากเล่น</h2>
@@ -207,6 +246,91 @@ $('thaiSpeakAll').addEventListener('click',function(){
  if(!('speechSynthesis'in window)){return}
  window.speechSynthesis.cancel();next();
 });
+var songPlaying=false,songPaused=false,songIndex=0,songTimer=0,songAudio=null;
+var songMelody=[392,440,494,587,523,494];
+function songButtons(){
+ $('thaiSongPlay').disabled=songPlaying&&!songPaused;
+ $('thaiSongPause').disabled=!songPlaying;
+ $('thaiSongPause').textContent=songPaused?'▶ เล่นต่อ':'Ⅱ พักเพลง';
+ $('thaiSongStop').disabled=!songPlaying;
+ $('thaiSongPlay').textContent=songIndex>0&&songIndex<letters.length?'↻ เริ่มใหม่':'▶ เริ่มเพลง';
+}
+function songTune(){
+ var Audio=window.AudioContext||window.webkitAudioContext;
+ if(!Audio)return;
+ try{
+  if(!songAudio)songAudio=new Audio();
+  if(songAudio.state==='suspended')songAudio.resume();
+  var now=songAudio.currentTime;
+  songMelody.forEach(function(freq,n){
+   var osc=songAudio.createOscillator(),gain=songAudio.createGain(),start=now+n*.115,end=start+.24;
+   osc.type='triangle';osc.frequency.setValueAtTime(freq,start);
+   gain.gain.setValueAtTime(.0001,start);gain.gain.exponentialRampToValueAtTime(.035,start+.025);gain.gain.exponentialRampToValueAtTime(.0001,end);
+   osc.connect(gain);gain.connect(songAudio.destination);osc.start(start);osc.stop(end+.02);
+  });
+ }catch(e){}
+}
+function paintSongLetter(i){
+ selected=i;var r=letter();
+ $('thaiBig').textContent=r[0];$('thaiWord').textContent=r[0]+' '+r[1];$('thaiEmoji').textContent=r[2];$('thaiClass').textContent=r[3];
+ $('thaiHint').textContent='เพลงท่อนที่ '+(i+1)+' จาก 44';$('thaiWriteTarget').textContent=r[0];
+ $('thaiPrev').disabled=i===0;$('thaiNext').disabled=i===letters.length-1;
+ renderGrid();
+ Array.prototype.forEach.call($('thaiGrid').querySelectorAll('.thai-cell'),function(b){if(Number(b.dataset.i)===i)b.classList.add('song-active')});
+}
+function playSongLine(){
+ if(!songPlaying||songPaused)return;
+ if(songIndex>=letters.length){
+  songPlaying=false;songPaused=false;songTimer=0;
+  $('thaiSongLine').textContent='เก่งมาก! ร้องครบ ก–ฮ แล้ว 🎉';
+  $('thaiSongCount').textContent='ครบทั้ง 44 ท่อนแล้ว';
+  $('thaiSongProgress').style.width='100%';
+  $('thaiSongStatus').textContent='อยากร้องอีกครั้ง กดเริ่มเพลงได้เลย';
+  songButtons();return;
+ }
+ var i=songIndex,r=letters[i],text=r[0]+' เอ๋ย '+r[0]+' '+r[1];
+ paintSongLetter(i);
+ $('thaiSongLine').textContent=text;
+ $('thaiSongCount').textContent='ท่อนที่ '+(i+1)+' / 44';
+ $('thaiSongProgress').style.width=((i+1)/letters.length*100)+'%';
+ $('thaiSongStatus').textContent='ร้องตามนะ: '+r[0]+' เอ๋ย '+r[0]+' '+r[1];
+ songTune();
+ var u=new SpeechSynthesisUtterance(text);
+ u.lang='th-TH';u.rate=.72;u.pitch=1.18;u.volume=1;
+ var voices=window.speechSynthesis.getVoices().filter(function(v){return /^th(-|_|$)/i.test(v.lang)});
+ if(voices.length)u.voice=voices[0];
+ u.onend=advanceSong;u.onerror=advanceSong;
+ window.speechSynthesis.speak(u);
+ songButtons();
+}
+function advanceSong(){
+ if(!songPlaying||songPaused)return;
+ songIndex++;songTimer=window.setTimeout(playSongLine,220);
+}
+function stopSong(){
+ songPlaying=false;songPaused=false;window.clearTimeout(songTimer);songTimer=0;
+ if('speechSynthesis'in window)window.speechSynthesis.cancel();
+ $('thaiSongStatus').textContent='หยุดเพลงแล้ว กดเริ่มเพลงเพื่อฟังใหม่ได้เลย';
+ songButtons();
+}
+$('thaiSongPlay').addEventListener('click',function(){
+ if(!('speechSynthesis'in window)||!('SpeechSynthesisUtterance'in window)){
+  $('thaiSongStatus').textContent='อุปกรณ์นี้ยังไม่รองรับเสียงอ่านภาษาไทย';return;
+ }
+ window.clearTimeout(songTimer);
+ if(songPaused){songPaused=false;window.speechSynthesis.resume();$('thaiSongStatus').textContent='ร้องต่อจากท่อนเดิมได้เลย 🎵';songButtons();return}
+ window.speechSynthesis.cancel();songIndex=0;songPlaying=true;songPaused=false;
+ if(songAudio&&songAudio.state==='suspended')songAudio.resume().catch(function(){});
+ $('thaiSongStatus').textContent='กำลังเริ่มเพลง ก เอ๋ย ก ไก่…';playSongLine();
+});
+$('thaiSongPause').addEventListener('click',function(){
+ if(!songPlaying)return;
+ if(songPaused){songPaused=false;window.speechSynthesis.resume();$('thaiSongStatus').textContent='ร้องต่อจากท่อนเดิมได้เลย 🎵'}
+ else{songPaused=true;window.speechSynthesis.pause();$('thaiSongStatus').textContent='พักเพลงไว้ก่อนนะ'}
+ songButtons();
+});
+$('thaiSongStop').addEventListener('click',stopSong);
+
 var canvas=$('thaiWriteCanvas'),ctx=canvas.getContext('2d'),size={w:0,h:0};
 function draw(){
  var w=size.w,h=size.h;if(!w||!h)return;ctx.clearRect(0,0,w,h);
