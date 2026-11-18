@@ -150,7 +150,7 @@
     { id: 'notes', href: 'notes.html', label: 'บันทึก', img: 'assets/n_book.png', svg: '<rect x="4" y="3" width="16" height="18" rx="3" fill="#fff"/><path d="M8 8h8M8 12h8M8 16h5" stroke="#36a843" stroke-width="2" stroke-linecap="round"/>' },
     { id: 'profile', href: 'profile.html', label: 'โปรไฟล์', img: 'assets/n_prof.png', svg: '<circle cx="12" cy="8" r="4.5" fill="#fff"/><path d="M3.5 21a8.5 7 0 0 1 17 0z" fill="#fff"/>' }
   ];
-  var PAGE_TAB = { index: 'home', development: 'dev', activities: 'act', learning: 'act', progress: 'dev', notes: 'notes', portfolio: 'notes', feelings: 'notes', profile: 'profile' };
+  var PAGE_TAB = { index: 'home', development: 'dev', activities: 'act', learning: 'act', progress: 'dev', notes: 'notes', portfolio: 'notes', feelings: 'notes', multiplication: 'act', profile: 'profile' };
   function renderChrome(page) {
     var nav = $('kw-nav');
     if (nav) {
