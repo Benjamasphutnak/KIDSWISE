@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="th"><head>
+<meta charset="utf-8">
+<script>try{if(!JSON.parse(localStorage.getItem("kidwise.acct")||"null"))location.replace("login.html")}catch(e){}</script>
+<meta name="theme-color" content="#dff7ec"><link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="KIDWISE">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>KIDWISE – สนามเด็กเล่น</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600&amp;family=Prompt:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/app.css"><link rel="stylesheet" href="css/games.css"></head>
+<body data-page="games"><main class="phone games-phone"><div class="games-shell">
+<header class="games-header"><a class="games-back" href="index.html" aria-label="กลับหน้าหลัก">‹</a><div class="games-heading"><span class="games-kicker">KIDWISE PLAY ZONE</span><h1>สนามเด็กเล่น</h1><p>เล่นสนุก เรียนรู้ไปพร้อมกัน 🌈</p></div><div class="games-stars"><span>⭐</span><b id="starsTotal">0</b></div></header>
+<section class="games-child" id="childCard"><div class="games-child-avatar" id="childAvatar">🧒</div><div class="games-child-copy"><b id="childName">นักผจญภัยตัวน้อย</b><span id="childAge">พร้อมออกไปเล่นกันหรือยัง?</span></div><span class="games-sparkle">✨</span></section>
+<section class="games-intro"><div><h2>วันนี้อยากเล่นเกมไหนเอ่ย?</h2><p>เลือกเกมที่ชอบ แล้วมาเก็บดาวกันเลย</p></div><span class="games-controller">🎮</span></section>
+<section class="games-grid" id="gameGrid" aria-label="เลือกเกม">
+<button type="button" class="game-card card-picture" data-game="picture"><span class="game-card-art">🐻 🐰 🐥</span><span class="game-card-title">แตะดูภาพ</span><span class="game-card-desc">รู้จักสัตว์และเสียงรอบตัว</span><span class="game-age">เหมาะกับวัย 0–2 ปี</span><span class="game-play">เล่นเลย <b>➜</b></span></button>
+<button type="button" class="game-card card-memory" data-game="memory"><span class="game-card-art">🧩 🐼 🦊</span><span class="game-card-title">จับคู่ภาพ</span><span class="game-card-desc">ฝึกความจำและการสังเกต</span><span class="game-age">เหมาะกับวัย 2–6 ปี</span><span class="game-play">เล่นเลย <b>➜</b></span></button>
+<button type="button" class="game-card card-count" data-game="count"><span class="game-card-art">🍎 🍌 🍓</span><span class="game-card-title">นับผลไม้</span><span class="game-card-desc">ฝึกนับเลข 1–10</span><span class="game-age">เหมาะกับวัย 3–6 ปี</span><span class="game-play">เล่นเลย <b>➜</b></span></button>
+<button type="button" class="game-card card-letter" data-game="letters"><span class="game-card-art">ก 🐔 ข 🥚</span><span class="game-card-title">ตามหาพยัญชนะ</span><span class="game-card-desc">ทบทวน ก–ฮ ผ่านภาพ</span><span class="game-age">เหมาะกับวัย 4–6 ปี</span><span class="game-play">เล่นเลย <b>➜</b></span></button>
+<button type="button" class="game-card card-color" data-game="colors"><span class="game-card-art">🔴 🟡 🔵</span><span class="game-card-title">สนุกกับสีสัน</span><span class="game-card-desc">ฝึกสังเกตและจำแนกสี</span><span class="game-age">เหมาะกับวัย 2–6 ปี</span><span class="game-play">เล่นเลย <b>➜</b></span></button>
+</section>
+<section class="games-stage" id="gameStage" hidden aria-live="polite"><div class="stage-toolbar"><button type="button" class="stage-back" data-action="back">← เกมทั้งหมด</button><span class="stage-stars">⭐ <b id="stageStars">0</b></span></div><div class="stage-title-row"><h2 id="stageTitle">เกมสนุก</h2><button type="button" class="stage-restart" data-action="restart">↻ เริ่มใหม่</button></div><div id="gameContent"></div></section>
+<aside class="games-parent-note"><span>💚</span><p><b>เล่นด้วยกัน อุ่นใจกว่า</b><br>สำหรับเด็กเล็ก ควรมีคุณพ่อคุณแม่ช่วยชวนเล่น พูดคุย และพักสายตาเป็นระยะ</p></aside>
+<nav id="kw-nav" class="kw-nav kw-nav-sticky" aria-label="เมนูด้านล่าง"></nav></div></main>
+<script src="js/data.js"></script><script src="js/app.js"></script><script src="js/games.js"></script></body></html>
