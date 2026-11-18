@@ -16,13 +16,7 @@ window.KW_STORIES = [
       "ขาวจ๋ารู้สึกมีความสุขที่ได้แบ่งปัน เพราะการให้และแบ่งปันทำให้เพื่อน ๆ มีความสุข และทำให้เรามีเพื่อนที่ดีตลอดไป"
     ],
     "art": "rabbit-squirrel.jpg",
-    "durationLabel": "ประมาณ 3–5 นาที",
-    "pageArts": [
-      "assets/story01-illustration-1.svg",
-      "assets/story01-illustration-2.svg",
-      "assets/story01-illustration-3.svg",
-      "assets/story01-illustration-4.svg"
-    ]
+    "durationLabel": "ประมาณ 3–5 นาที"
   },
   {
     "id": "story-02",
