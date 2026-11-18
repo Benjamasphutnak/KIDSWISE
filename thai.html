@@ -355,7 +355,7 @@ $('thaiSongPlay').addEventListener('click',function(){
  window.clearTimeout(songTimer);
  if(songPaused){songPaused=false;window.speechSynthesis.resume();$('thaiSongStatus').textContent='ร้องต่อจากท่อนเดิมได้เลย 🎵';songButtons();return}
  window.speechSynthesis.cancel();songIndex=0;songPlaying=true;songPaused=false;
- if(songAudio&&songAudio.state==='suspended')songAudio.resume().catch(function(){});
+ // เริ่มเสียงอ่านทันทีจากการกดปุ่ม โดยไม่เรียกตัวแปรเสียงประกอบที่ไม่มีการประกาศ
  $('thaiSongStatus').textContent='กำลังเริ่มท่อง ก เอ๋ย ก ไก่…';playSongLine();
 });
 $('thaiSongPause').addEventListener('click',function(){
