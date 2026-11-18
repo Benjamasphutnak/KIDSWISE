@@ -120,6 +120,10 @@ body[data-page="thai"]{background:#f8f0ff}
 .thai-song-controls{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
 .thai-song-controls .thai-action{min-width:94px}
 .thai-song-footnote{margin:10px 2px 0;color:#8b7d8a;font-size:11px;line-height:1.45}
+.thai-song-video{margin-top:12px;padding:10px;border:2px solid #fff;border-radius:20px;background:rgba(255,255,255,.72)}
+.thai-song-video .thai-song-note{margin-bottom:8px;font-weight:600;color:#795b8e}
+.thai-song-video-frame{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:14px;background:#2c2440}
+.thai-song-video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .thai-cell.song-active{outline:3px solid #f28d60;outline-offset:2px;transform:translateY(-3px) scale(1.04);z-index:2}
 @media(max-width:430px){.thai-song{padding:14px}.thai-song-controls .thai-action{flex:1 1 29%;min-width:0;padding:8px 7px}.thai-song-mascot{width:50px;height:50px;font-size:29px}}
 @media(prefers-reduced-motion:reduce){.thai-song-progress span{transition:none}.thai-cell.song-active{transform:none}}
@@ -157,14 +161,15 @@ body[data-page="thai"]{background:#f8f0ff}
   <div class="thai-song-line" id="thaiSongLine" aria-live="polite">ก เอ๋ย ก ไก่</div>
   <div class="thai-song-count" id="thaiSongCount">พร้อมร้อง 44 ท่อน</div>
   <div class="thai-song-progress"><span id="thaiSongProgress"></span></div>
-  <p class="thai-song-status" id="thaiSongStatus" aria-live="polite">กดปุ่มเริ่มเพลง แล้วร้องตามเสียงได้เลย 🎶</p>
+  <p class="thai-song-status" id="thaiSongStatus" aria-live="polite">กดเริ่มท่องทีละท่อน หรือเปิดเพลงต้นฉบับด้านล่างเพื่อฟังทำนอง 🎶</p>
  </div>
  <div class="thai-song-controls">
-  <button type="button" class="thai-action primary" id="thaiSongPlay">▶ เริ่มเพลง</button>
+  <button type="button" class="thai-action primary" id="thaiSongPlay">▶ เริ่มท่อง</button>
   <button type="button" class="thai-action" id="thaiSongPause" disabled>Ⅱ พักเพลง</button>
   <button type="button" class="thai-action" id="thaiSongStop" disabled>■ หยุด</button>
  </div>
- <p class="thai-song-footnote">เสียงร้องใช้เสียงภาษาไทยจากอุปกรณ์ และมีเสียงดนตรีสั้น ๆ ประกอบจังหวะ หากไม่ได้ยินเสียง ให้ตรวจสอบระดับเสียงและการตั้งค่าเสียงของเครื่อง</p>
+ <p class="thai-song-footnote">ปุ่มเริ่มท่องจะใช้เสียงภาษาไทยจากอุปกรณ์เพื่อฝึกทีละท่อน ส่วนทำนองเพลงที่คุ้นเคย เปิดฟังจากวิดีโอต้นฉบับได้ด้านล่าง</p>
+ <div class="thai-song-video"><div class="thai-song-note">🎬 ฟังเพลงฉบับดั้งเดิมที่เด็ก ๆ คุ้นเคย</div><div class="thai-song-video-frame"><iframe src="https://www.youtube-nocookie.com/embed/_Z_Q1sU5emA" title="เพลงเด็ก ก เอ๋ย ก ไก่ แบบดั้งเดิม พยัญชนะไทย ก-ฮ" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></div>
 </section>
 <section class="thai-section">
  <h2>🧩 เลือกตัวอักษรที่อยากเล่น</h2>
@@ -201,45 +206,45 @@ var songLyrics=[
   "ข ไข่ในเล้า",
   "ฃ ขวดของเรา",
   "ค ควายเข้านา",
-  "ฅ คนยิ้มแย้ม",
-  "ฆ ระฆังดังใส",
-  "ง งูเลื้อยไว",
-  "จ จานใบงาม",
-  "ฉ ฉิ่งเสียงใส",
-  "ช ช้างตัวโต",
-  "ซ โซ่คล้องประตู",
-  "ฌ เฌอร่มเย็น",
-  "ญ หญิงใจดี",
-  "ฎ ชฎาสีทอง",
-  "ฏ ปฏักปักดิน",
-  "ฐ ฐานแข็งแรง",
-  "ฑ มณโฑยิ้มหวาน",
-  "ฒ ผู้เฒ่าเล่านิทาน",
-  "ณ เณรน้อยเดินทาง",
-  "ด เด็กดีมีน้ำใจ",
-  "ต เต่าคลานช้า",
-  "ถ ถุงใส่ขนม",
-  "ท ทหารกล้าหาญ",
-  "ธ ธงปลิวไสว",
-  "น หนูวิ่งเล่น",
-  "บ ใบไม้ไหวเอน",
-  "ป ปลาแหวกว่าย",
-  "ผ ผึ้งบินวน",
-  "ฝ ฝาบ้านสีสวย",
-  "พ พานใส่ดอกไม้",
-  "ฟ ฟันขาวแข็งแรง",
-  "ภ สำเภาแล่นไกล",
-  "ม ม้าควบเร็ว",
-  "ย ยักษ์เฝ้าถ้ำ",
+  "ฅ คนขึงขัง",
+  "ฆ ระฆังข้างฝา",
+  "ง งูใจกล้า",
+  "จ จานใช้ดี",
+  "ฉ ฉิ่งตีดัง",
+  "ช ช้างวิ่งหนี",
+  "ซ โซ่ล่ามที",
+  "ฌ เฌอคู่กัน",
+  "ญ หญิงโสภา",
+  "ฎ ชฎาสวมพลัน",
+  "ฏ ปฏักหุนหัน",
+  "ฐ ฐานเข้ามารอง",
+  "ฑ นางมณโฑหน้าขาว",
+  "ฒ ผู้เฒ่าเดินย่อง",
+  "ณ เณรไม่มอง",
+  "ด เด็กต้องนิมนต์",
+  "ต เต่าหลังตุง",
+  "ถ ถุงแบกขน",
+  "ท ทหารอดทน",
+  "ธ ธงคนนิยม",
+  "น หนูขวักไขว่",
+  "บ ใบไม้ทับถม",
+  "ป ปลาตากลม",
+  "ผ ผึ้งทำรัง",
+  "ฝ ฝาทนทาน",
+  "พ พานวางตั้ง",
+  "ฟ ฟันสะอาดจัง",
+  "ภ สำเภากางใบ",
+  "ม ม้าคึกคัก",
+  "ย ยักษ์เขี้ยวใหญ่",
   "ร เรือพายไป",
-  "ล ลิงปีนต้นไม้",
-  "ว แหวนแวววาว",
-  "ศ ศาลาร่มรื่น",
-  "ษ ฤๅษีนั่งสงบ",
-  "ส เสือเดินป่า",
-  "ห หีบเก็บของ",
-  "ฬ จุฬาลอยลม",
-  "อ อ่างใสสะอาด",
+  "ล ลิงไต่ราว",
+  "ว แหวนลงยา",
+  "ศ ศาลาเงียบเหงา",
+  "ษ ฤาษีหนวดยาว",
+  "ส เสือดาวคะนอง",
+  "ห หีบใส่ผ้า",
+  "ฬ จุฬาท่าผยอง",
+  "อ อ่างเนืองนอง",
   "ฮ นกฮูกตาโต"
 ];
 var selected=0,visited=[],showGuide=true,strokes={},activeStroke=null,activePointer=null;
@@ -292,7 +297,7 @@ $('thaiSpeakAll').addEventListener('click',function(){
  if(!('speechSynthesis'in window)){return}
  window.speechSynthesis.cancel();next();
 });
-var songPlaying=false,songPaused=false,songIndex=0,songTimer=0,songAudio=null;
+var songPlaying=false,songPaused=false,songIndex=0,songTimer=0;
 var songMelody=[392,440,494,587,523,494];
 function songButtons(){
  $('thaiSongPlay').disabled=songPlaying&&!songPaused;
@@ -300,21 +305,6 @@ function songButtons(){
  $('thaiSongPause').textContent=songPaused?'▶ เล่นต่อ':'Ⅱ พักเพลง';
  $('thaiSongStop').disabled=!songPlaying;
  $('thaiSongPlay').textContent=songIndex>0&&songIndex<letters.length?'↻ เริ่มใหม่':'▶ เริ่มเพลง';
-}
-function songTune(){
- var Audio=window.AudioContext||window.webkitAudioContext;
- if(!Audio)return;
- try{
-  if(!songAudio)songAudio=new Audio();
-  if(songAudio.state==='suspended')songAudio.resume();
-  var now=songAudio.currentTime;
-  songMelody.forEach(function(freq,n){
-   var osc=songAudio.createOscillator(),gain=songAudio.createGain(),start=now+n*.115,end=start+.24;
-   osc.type='triangle';osc.frequency.setValueAtTime(freq,start);
-   gain.gain.setValueAtTime(.0001,start);gain.gain.exponentialRampToValueAtTime(.035,start+.025);gain.gain.exponentialRampToValueAtTime(.0001,end);
-   osc.connect(gain);gain.connect(songAudio.destination);osc.start(start);osc.stop(end+.02);
-  });
- }catch(e){}
 }
 function paintSongLetter(i){
  selected=i;var r=letter();
@@ -331,7 +321,7 @@ function playSongLine(){
   $('thaiSongLine').textContent='เก่งมาก! ร้องครบ ก–ฮ แล้ว 🎉';
   $('thaiSongCount').textContent='ครบทั้ง 44 ท่อนแล้ว';
   $('thaiSongProgress').style.width='100%';
-  $('thaiSongStatus').textContent='อยากร้องอีกครั้ง กดเริ่มเพลงได้เลย';
+  $('thaiSongStatus').textContent='อยากท่องอีกครั้ง กดเริ่มท่องได้เลย';
   songButtons();return;
  }
  var i=songIndex,r=letters[i],text=songLyrics[i];
@@ -339,8 +329,7 @@ function playSongLine(){
  $('thaiSongLine').textContent=text;
  $('thaiSongCount').textContent='ท่อนที่ '+(i+1)+' / 44';
  $('thaiSongProgress').style.width=((i+1)/letters.length*100)+'%';
- $('thaiSongStatus').textContent='ร้องตามนะ: '+r[0]+' เอ๋ย '+r[0]+' '+r[1];
- songTune();
+ $('thaiSongStatus').textContent='ท่องตามนะ: '+r[0]+' เอ๋ย '+r[0]+' '+r[1];
  var u=new SpeechSynthesisUtterance(text);
  u.lang='th-TH';u.rate=.72;u.pitch=1.18;u.volume=1;
  var voices=window.speechSynthesis.getVoices().filter(function(v){return /^th(-|_|$)/i.test(v.lang)});
@@ -356,7 +345,7 @@ function advanceSong(){
 function stopSong(){
  songPlaying=false;songPaused=false;window.clearTimeout(songTimer);songTimer=0;
  if('speechSynthesis'in window)window.speechSynthesis.cancel();
- $('thaiSongStatus').textContent='หยุดเพลงแล้ว กดเริ่มเพลงเพื่อฟังใหม่ได้เลย';
+ $('thaiSongStatus').textContent='หยุดเพลงแล้ว กดเริ่มท่องเพื่อฟังใหม่ได้เลย';
  songButtons();
 }
 $('thaiSongPlay').addEventListener('click',function(){
@@ -367,7 +356,7 @@ $('thaiSongPlay').addEventListener('click',function(){
  if(songPaused){songPaused=false;window.speechSynthesis.resume();$('thaiSongStatus').textContent='ร้องต่อจากท่อนเดิมได้เลย 🎵';songButtons();return}
  window.speechSynthesis.cancel();songIndex=0;songPlaying=true;songPaused=false;
  if(songAudio&&songAudio.state==='suspended')songAudio.resume().catch(function(){});
- $('thaiSongStatus').textContent='กำลังเริ่มเพลง ก เอ๋ย ก ไก่…';playSongLine();
+ $('thaiSongStatus').textContent='กำลังเริ่มท่อง ก เอ๋ย ก ไก่…';playSongLine();
 });
 $('thaiSongPause').addEventListener('click',function(){
  if(!songPlaying)return;
