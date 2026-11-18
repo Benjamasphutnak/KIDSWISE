@@ -44,13 +44,13 @@ var letters=[
 var colors=[{n:'สีแดง',c:'#f35c65'},{n:'สีเหลือง',c:'#f7c948'},{n:'สีน้ำเงิน',c:'#4b91e8'},{n:'สีเขียว',c:'#50b879'},{n:'สีส้ม',c:'#f29343'},{n:'สีม่วง',c:'#9b78d2'}];
 var silhouetteAnimals=[{e:'🐘',n:'ช้าง'},{e:'🐼',n:'แพนด้า'},{e:'🦁',n:'สิงโต'},{e:'🐸',n:'กบ'},{e:'🐰',n:'กระต่าย'},{e:'🐵',n:'ลิง'}];
 var shapes=[{s:'●',n:'วงกลม'},{s:'■',n:'สี่เหลี่ยม'},{s:'▲',n:'สามเหลี่ยม'},{s:'★',n:'ดาว'},{s:'♥',n:'หัวใจ'},{s:'◆',n:'ข้าวหลามตัด'}];
-var groupItems=[{e:'🐶',n:'สุนัข',g:'สัตว์'},{e:'🐱',n:'แมว',g:'สัตว์'},{e:'🐟',n:'ปลา',g:'สัตว์'},{e:'🍎',n:'แอปเปิล',g:'อาหาร'},{e:'🍞',n:'ขนมปัง',g:'อาหาร'},{e:'🍌',n:'กล้วย',g:'อาหาร'},{e:'🚗',n:'รถยนต์',g:'ของใช้'},{e:'✏️',n:'ดินสอ',g:'ของใช้'},{e:'🪑',n:'เก้าอี้',g:'ของใช้'}];
+var groupItems=[{e:'🐶',n:'สุนัข',g:'สัตว์'},{e:'🐱',n:'แมว',g:'สัตว์'},{e:'🐟',n:'ปลา',g:'สัตว์'},{e:'🐘',n:'ช้าง',g:'สัตว์'},{e:'🍎',n:'แอปเปิล',g:'ผลไม้'},{e:'🍌',n:'กล้วย',g:'ผลไม้'},{e:'🍓',n:'สตรอว์เบอร์รี',g:'ผลไม้'},{e:'🍉',n:'แตงโม',g:'ผลไม้'},{e:'🚗',n:'รถยนต์',g:'ยานพาหนะ'},{e:'🚌',n:'รถโดยสาร',g:'ยานพาหนะ'},{e:'✈️',n:'เครื่องบิน',g:'ยานพาหนะ'},{e:'✏️',n:'ดินสอ',g:'อุปกรณ์การเรียน'},{e:'📚',n:'หนังสือ',g:'อุปกรณ์การเรียน'},{e:'🎒',n:'กระเป๋านักเรียน',g:'อุปกรณ์การเรียน'}];
 function makeQuestion(type){
 if(type==='count'){var max=age<48?5:age<72?10:20,num=1+Math.floor(Math.random()*max),pool=Array.from({length:max},function(_,i){return i+1;}),wrong=shuffle(pool.filter(function(x){return x!==num;})).slice(0,2);return {answer:num,fruit:pick(fruits),options:shuffle([num].concat(wrong))};}
 if(type==='letters'){var t=pick(letters),w=shuffle(letters.filter(function(x){return x.l!==t.l;})).slice(0,3).map(function(x){return x.l;});return {answer:t.l,target:t,options:shuffle([t.l].concat(w))};}
 if(type==='shadows'){var sh=pick(silhouetteAnimals),shWrong=shuffle(silhouetteAnimals.filter(function(x){return x.n!==sh.n;})).slice(0,3);return {answer:sh.n,target:sh,options:shuffle([sh].concat(shWrong))};}
 if(type==='shapes'){var sp=pick(shapes),spWrong=shuffle(shapes.filter(function(x){return x.n!==sp.n;})).slice(0,2);return {answer:sp.n,target:sp,options:shuffle([sp].concat(spWrong))};}
-if(type==='groups'){var gi=pick(groupItems);return {answer:gi.g,target:gi,options:shuffle(['สัตว์','อาหาร','ของใช้'])};}
+if(type==='groups'){var gi=pick(groupItems),categories=Array.from(new Set(groupItems.map(function(x){return x.g;})));return {answer:gi.g,target:gi,options:shuffle(categories)};}
 var col=pick(colors),others=shuffle(colors.filter(function(x){return x.n!==col.n;})).slice(0,3);return {answer:col.n,target:col,options:shuffle([col].concat(others))};
 }
 function startQuiz(type){quiz={type:type,round:1,total:5,score:0,q:makeQuestion(type),locked:false,feedback:''};drawQuiz();}
