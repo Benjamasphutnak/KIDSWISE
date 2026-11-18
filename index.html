@@ -3,124 +3,74 @@
 <head>
 <meta charset="utf-8">
 <script>try{if(!JSON.parse(localStorage.getItem("kidwise.acct")||"null"))location.replace("login.html")}catch(e){}</script>
-<meta name="theme-color" content="#c4ebf2">
+<meta name="theme-color" content="#9ce5e2">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="KIDWISE">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>KIDWISE – หน้าหลัก</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>KIDWISE – โลกแห่งการเรียนรู้</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600&amp;family=Prompt:wght@400;500;600&amp;display=swap" rel="stylesheet">
-<style>
-body{margin:0}
-a{color:#2f9a3f}a:hover{color:#1f7a2e}
-.kw-card{background:linear-gradient(180deg,rgba(255,255,255,.95) 0%,rgba(240,250,247,.9) 100%);border:2px solid rgba(255,255,255,.95);box-shadow:inset 0 3px 0 #fff,inset 0 -4px 0 rgba(150,205,195,.35),0 12px 26px rgba(70,150,150,.22)}
-.kw-tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;height:86px;border-radius:22px;text-decoration:none;color:#3a4a46;font-family:'Prompt',sans-serif;font-size:13px}
-.kw-tab img{width:40px;height:40px;object-fit:contain}
-.kw-tab-on{background:linear-gradient(180deg,#6fd166 0%,#36a843 100%);color:#fff;font-weight:600;box-shadow:inset 0 3px 0 rgba(255,255,255,.55),inset 0 -5px 0 #24852f,0 8px 14px rgba(40,140,50,.35)}
-.kw-check{width:44px;height:44px;border-radius:12px;border:none;padding:0;display:flex;align-items:center;justify-content:center;cursor:pointer}
-.kw-check-off{background:#fff;box-shadow:inset 0 0 0 2.5px #c9d3d1,inset 0 -3px 0 #e3eae9,0 2px 4px rgba(0,0,0,.06)}
-.kw-check-on{background:linear-gradient(180deg,#6fd166,#2fa13d);box-shadow:inset 0 2px 0 rgba(255,255,255,.5),inset 0 -4px 0 #22852f,0 4px 8px rgba(40,140,50,.3)}
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600;700&family=Prompt:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/app.css">
-
 <style>
-/* KIDWISE responsive home layout */
-body[data-page="index"]{background:#edf6f2;padding:18px 14px 26px;align-items:flex-start}
-body[data-page="index"] .phone{width:min(560px,100%);max-width:560px;box-shadow:none;border-radius:30px}
-.kw-home-shell{position:relative;width:100%!important;max-width:560px;height:auto!important;min-height:100svh;box-sizing:border-box;overflow:visible!important;border-radius:30px!important;padding:14px 14px 20px;display:flex;flex-direction:column;gap:16px;background:linear-gradient(180deg,#c8edf4 0%,#e6f8f1 46%,#f4fbef 100%);font-family:'Prompt',sans-serif;color:#2c3b37}
-.kw-home-shell>[data-install]{position:relative!important;left:auto!important;right:auto!important;top:auto!important;align-self:flex-end;margin:0 0 -12px;z-index:4}
-.kw-home-shell>img[alt^="KIDWISE"]{position:relative!important;left:auto!important;top:auto!important;width:min(100%,370px)!important;height:auto!important;max-height:225px;object-fit:contain;align-self:center;margin:0 auto -4px;z-index:1}
-.kw-home-shell>a[href="storybook.html"],
-.kw-home-shell>a[href="numbers.html"],
-.kw-home-shell>a[href="thai.html"],
-.kw-home-shell>a[href="multiplication.html"]{position:relative!important;left:auto!important;top:auto!important;width:100%!important;height:auto!important;min-height:58px;box-sizing:border-box;margin:0;flex:none}
-.kw-home-shell>.kw-card{position:relative!important;left:auto!important;top:auto!important;width:100%!important;height:auto!important;min-height:0;box-sizing:border-box;margin:0;padding:18px 16px!important;border-radius:24px!important;z-index:2}
-.kw-home-shell>.kw-card h1{font-size:clamp(24px,5vw,30px)!important;line-height:1.28!important}
-.kw-home-shell>.kw-card:first-of-type>a[href="profile.html"]{width:100%!important;height:auto!important;min-height:116px;margin:16px 0 0!important;padding:8px!important;gap:10px!important;border-radius:20px!important}
-.kw-home-shell #childPhoto{width:clamp(84px,25vw,112px)!important;height:100px!important;flex:none;object-fit:cover}
-.kw-home-shell #childName{font-size:clamp(19px,4.5vw,24px)!important;max-width:100%!important}
-.kw-home-shell #childAge{font-size:15px!important}
-.kw-home-shell #childHint{font-size:12px!important}
-.kw-home-shell a[href="health.html"]{width:54px!important;height:54px!important;flex:none}
-.kw-home-shell a[href="health.html"] img{width:54px!important;height:54px!important}
-.kw-home-shell>.kw-card:nth-of-type(2)>div:first-child{height:auto!important;min-height:52px}
-.kw-home-shell>.kw-card:nth-of-type(2)>div:first-child h2{font-size:clamp(22px,5vw,28px)!important}
-.kw-home-shell>a[href="activities.html"]{position:relative!important;left:auto!important;top:auto!important;width:100%!important;height:52px!important;margin:0!important;flex:none}
-.kw-home-shell>a[href="games.html"]{position:relative!important;left:auto!important;top:auto!important;width:100%!important;height:52px!important;margin:0!important;flex:none}
-.kw-home-shell>div[aria-hidden="true"]{display:none!important}
-.kw-home-shell>.kw-nav-abs{position:sticky!important;left:auto!important;top:auto!important;width:100%!important;height:84px!important;margin:0!important;border-radius:22px!important;align-self:center}
-@media(max-width:430px){
- body[data-page="index"]{padding:0;background:#c8edf4}
- body[data-page="index"] .phone{width:100%;max-width:100%;border-radius:0}
- .kw-home-shell{border-radius:0!important;padding:12px 12px 18px;gap:14px}
-}
-@media(min-width:431px){
- .kw-home-shell{padding:18px 18px 24px;gap:18px}
- .kw-home-shell>.kw-card{padding:22px 20px!important}
-}
+body[data-page="index"]{padding:0;background:#9ce5e2;align-items:flex-start}
+body[data-page="index"] .phone{width:min(560px,100%);max-width:560px;border-radius:0;box-shadow:none}
+.kw-world{min-height:100svh;overflow:hidden;position:relative;padding:16px 16px 22px;box-sizing:border-box;background:radial-gradient(ellipse at 50% 14%,#fff7c9 0 8%,transparent 30%),linear-gradient(180deg,#8edee8 0%,#b9eff0 35%,#d8f7dc 72%,#9bdc91 100%);font-family:'Prompt',sans-serif;color:#245344}
+.kw-world:before,.kw-world:after{content:"";position:absolute;z-index:0;border-radius:50%;pointer-events:none}
+.kw-world:before{width:150%;height:250px;left:-25%;bottom:110px;background:linear-gradient(180deg,#a6e28b,#6bc878);box-shadow:0 -12px 0 rgba(255,255,255,.22)}
+.kw-world:after{width:130%;height:170px;right:-35%;bottom:80px;background:linear-gradient(180deg,#8bd77c,#52b96d);opacity:.9}
+.kw-topbar,.kw-hero,.kw-profile,.kw-learning,.kw-parent,.kw-nav{position:relative;z-index:2}
+.kw-topbar{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.kw-brand{font:700 25px 'Mitr',sans-serif;color:#fff;text-shadow:0 3px 0 #399a77,0 5px 12px #398c8270;letter-spacing:.4px}
+.kw-brand small{display:block;font:500 10px 'Prompt',sans-serif;letter-spacing:1.6px;color:#347d70;text-shadow:none}
+.kw-install{height:38px;font-size:14px}
+.kw-hero{margin:8px -4px 4px;min-height:250px;display:flex;align-items:center;justify-content:center;position:relative}
+.kw-hero img{width:min(100%,480px);height:260px;object-fit:contain;filter:drop-shadow(0 14px 10px #398b7850)}
+.kw-hero-bubble{position:absolute;left:4px;top:18px;max-width:175px;padding:12px 15px;border:2px solid #fff;border-radius:20px 20px 20px 5px;background:linear-gradient(180deg,#fff,#f2fff4);box-shadow:0 6px 0 #b4dfc5,0 10px 18px #397e6840;font:600 15px 'Mitr',sans-serif;color:#267a57}
+.kw-hero-bubble span{display:block;font:12px 'Prompt',sans-serif;color:#68877a}
+.kw-profile{display:flex;align-items:center;gap:12px;padding:12px 14px;border:2px solid #fff;border-radius:24px;background:linear-gradient(145deg,#fff,#e8fff7);box-shadow:inset 0 -5px 0 #d0eee0,0 9px 0 #78c8a0,0 15px 22px #397e6840;text-decoration:none;color:#245344}
+.kw-profile img{width:68px;height:68px;border-radius:20px;object-fit:cover;border:3px solid #fff;box-shadow:0 4px 10px #4a9d8060}
+.kw-profile-copy{min-width:0;flex:1}.kw-profile-copy b{display:block;font:600 19px 'Mitr',sans-serif}.kw-profile-copy span{font-size:12px;color:#68877a}
+.kw-profile .arrow{font-size:28px;color:#f39a39}
+.kw-section-head{display:flex;align-items:center;justify-content:space-between;margin:22px 4px 12px}
+.kw-section-head h2{margin:0;font:600 22px 'Mitr',sans-serif;color:#245344;text-shadow:0 1px #fff}
+.kw-section-head span{font-size:12px;color:#4b8974}
+.kw-learning{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.kw-learning a{min-height:126px;display:flex;flex-direction:column;justify-content:space-between;padding:13px 14px 12px;border:2px solid #fff;border-radius:23px;text-decoration:none;color:#315b4c;box-sizing:border-box;box-shadow:inset 0 -5px 0 #00000010,0 7px 0 #00000014,0 12px 18px #397e6830;transition:transform .16s}
+.kw-learning a:active{transform:translateY(4px);box-shadow:inset 0 -2px 0 #00000010,0 3px 0 #00000014}
+.kw-learning .art{font-size:34px;line-height:1.1;filter:drop-shadow(0 3px 2px #0002)}
+.kw-learning b{font:600 16px 'Mitr',sans-serif}.kw-learning small{font-size:11px;opacity:.8}
+.kw-learning .mint{background:linear-gradient(145deg,#e7fff1,#a5edc8)}
+.kw-learning .peach{background:linear-gradient(145deg,#fff0d7,#ffc58c)}
+.kw-learning .lavender{background:linear-gradient(145deg,#f1eaff,#c7b5ff)}
+.kw-learning .pink{background:linear-gradient(145deg,#fff0f5,#ffbfd6)}
+.kw-learning .blue{background:linear-gradient(145deg,#e8f7ff,#a9dfff)}
+.kw-learning .yellow{background:linear-gradient(145deg,#fff9d9,#ffe17e)}
+.kw-parent{margin:18px 0 12px;padding:14px 16px;border:2px solid #fff;border-radius:22px;background:#ffffffd9;box-shadow:0 7px 0 #70c38a,0 12px 18px #397e6830}
+.kw-parent h3{margin:0 0 6px;font:600 17px 'Mitr',sans-serif}.kw-parent p{margin:0;font-size:12px;color:#638274;line-height:1.6}
+.kw-world .kw-nav{width:100%;height:78px;position:sticky;bottom:8px;margin-top:18px;border-radius:24px;background:linear-gradient(180deg,#fff,#eefaf4);box-shadow:inset 0 3px 0 #fff,inset 0 -4px 0 #d1e9dc,0 9px 18px #397e6840}
+.kw-world .kw-tab{height:66px;font-size:11px}.kw-world .kw-tab img{width:31px;height:31px}
+@media(max-width:430px){.kw-world{padding:12px 13px 18px}.kw-hero{min-height:220px}.kw-hero img{height:225px}.kw-hero-bubble{top:10px;max-width:145px;font-size:13px}.kw-learning{gap:10px}.kw-learning a{min-height:116px;padding:11px 12px}.kw-world .kw-nav{margin-top:15px}}
 </style>
 </head>
 <body data-page="index">
-<main class="phone">
-<div class="kw-home-shell">
-
-<button type="button" data-install class="kw-install" style="position: absolute; right: 14px; top: 46px; z-index: 4"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0l-4.5-4.5M12 14l4.5-4.5M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>ติดตั้งแอป</button>
-<img src="assets/hero.png" alt="KIDWISE เข้าใจทุกวัย ใส่ใจทุกการเติบโต" style="position: absolute; left: 18px; top: 30px; width: 354px; height: auto; z-index: 1">
-
-<a href="storybook.html" aria-label="เปิดคลังนิทานสำหรับเด็ก 30 เรื่อง" style="position:absolute;left:18px;top:292px;width:354px;height:46px;box-sizing:border-box;display:flex;align-items:center;gap:10px;padding:5px 14px;border:2px solid #fff;border-radius:18px;text-decoration:none;color:#17654e;background:linear-gradient(100deg,#fff0c8 0%,#e0fff1 100%);box-shadow:inset 0 2px 0 #fff,0 5px 0 #b9e5d2,0 8px 14px rgba(70,150,120,.18);z-index:3">
-<span style="font-size:27px;line-height:1">📚</span>
-<span style="display:flex;flex:1;flex-direction:column;line-height:1.15"><b style="font-family:'Mitr',sans-serif;font-size:16px">นิทานสำหรับเด็ก</b><small style="font-family:'Prompt',sans-serif;font-size:11px;color:#55766a">อ่านสนุก 30 เรื่อง เลือกตามวัย</small></span>
-<span style="font-size:22px;font-weight:600;color:#f18a22">›</span>
-</a>
-<a href="numbers.html" aria-label="เปิดบทเรียนฝึกนับเลข 1 ถึง 100" style="position:relative;left:auto;top:auto;width:100%;min-height:58px;box-sizing:border-box;display:flex;align-items:center;gap:10px;padding:6px 14px;border:2px solid #fff;border-radius:18px;text-decoration:none;color:#17654e;background:linear-gradient(100deg,#ddfff0 0%,#fff0bf 100%);box-shadow:inset 0 2px 0 #fff,0 5px 0 #b9e5d2,0 8px 14px rgba(70,150,120,.18);z-index:3"><span style="font-size:28px;line-height:1">🔢</span><span style="display:flex;flex:1;flex-direction:column;line-height:1.18"><b style="font-family:'Mitr',sans-serif;font-size:17px">ฝึกนับเลข 1–100</b><small style="font-family:'Prompt',sans-serif;font-size:12px;color:#55766a">เรียนรู้ทีละ 10 ตัวเลข พร้อมเสียงอ่าน</small></span><span style="font-size:22px;font-weight:600;color:#f18a22">›</span></a>
-<a href="multiplication.html" aria-label="เปิดบทเรียนสูตรคูณแม่ 1 ถึง 24" style="position:relative;left:auto;top:auto;width:100%;min-height:58px;box-sizing:border-box;display:flex;align-items:center;gap:10px;padding:6px 14px;border:2px solid #fff;border-radius:18px;text-decoration:none;color:#72532a;background:linear-gradient(100deg,#fff3cf 0%,#ffe4d5 100%);box-shadow:inset 0 2px 0 #fff,0 5px 0 #ecd6ae,0 8px 14px rgba(150,120,70,.18);z-index:3"><span style="font-size:28px;line-height:1">✖️</span><span style="display:flex;flex:1;flex-direction:column;line-height:1.18"><b style="font-family:Mit r,sans-serif;font-size:17px">ฝึกสูตรคูณ แม่ 1–24</b><small style="font-family:Prompt,sans-serif;font-size:12px;color:#806d59">เลือกแม่สูตรคูณ ฟังเสียง และเล่นแบบทดสอบ</small></span><span style="font-size:22px;font-weight:600;color:#f18a22">›</span></a>
-<a href="thai.html" aria-label="เปิดบทเรียนฝึกอ่านและเขียนพยัญชนะไทย ก ถึง ฮ" style="position:relative;left:auto;top:auto;width:100%;min-height:58px;box-sizing:border-box;display:flex;align-items:center;gap:10px;padding:6px 14px;border:2px solid #fff;border-radius:18px;text-decoration:none;color:#74415b;background:linear-gradient(100deg,#fff0f4 0%,#f8e5c5 100%);box-shadow:inset 0 2px 0 #fff,0 5px 0 #e9c8d7,0 8px 14px rgba(150,100,120,.18);z-index:3"><span style="font-size:28px;line-height:1">กข</span><span style="display:flex;flex:1;flex-direction:column;line-height:1.18"><b style="font-family:'Mitr',sans-serif;font-size:17px">ฝึกอ่านและเขียน ก–ฮ</b><small style="font-family:'Prompt',sans-serif;font-size:12px;color:#806477">พยัญชนะไทย 44 ตัว พร้อมเสียงอ่าน</small></span><span style="font-size:22px;font-weight:600;color:#f18a22">›</span></a>
-<a href="menu.html" aria-label="เปิดเมนูโลกการเรียนรู้ทั้ง 5" style="position:relative;left:auto;top:auto;width:100%;min-height:58px;box-sizing:border-box;display:flex;align-items:center;gap:10px;padding:8px 14px;border:2px solid #fff;border-radius:18px;text-decoration:none;color:#315342;background:linear-gradient(100deg,#e6e2ff 0%,#ffe9d5 100%);box-shadow:inset 0 2px 0 #fff,0 5px 0 #d8d2ef,0 8px 14px rgba(100,100,150,.15);z-index:3"><span style="font-size:28px;line-height:1">🌈</span><span style="display:flex;flex:1;flex-direction:column;line-height:1.18"><b style="font-family:'Mitr',sans-serif;font-size:17px">เปิดโลก KIDWISE ทั้ง 5</b><small style="font-family:'Prompt',sans-serif;font-size:12px;color:#65716a">เรียนรู้ · เกม · พัฒนาการ · สร้างสรรค์ · มุมพ่อแม่</small></span><span style="font-size:22px;font-weight:600;color:#f18a22">›</span></a>
-
-<section class="kw-card" style="position: absolute; left: 6px; top: 348px; width: 378px; height: 292px; box-sizing: border-box; border-radius: 30px; padding: 26px 16px 14px 24px; z-index: 2">
-<div style="display: flex; justify-content: space-between; align-items: flex-start">
-<h1 style="margin: 0; font-family: 'Mitr', sans-serif; font-weight: 600; font-size: 31px; line-height: 1.32; color: #234b3c">สวัสดีค่ะ <img src="assets/wave.png" alt="" style="width: 34px; height: 32px; vertical-align: -4px"><br>คุณพ่อคุณแม่</h1>
-<a href="health.html" aria-label="การแจ้งเตือนวัคซีน" style="width: 64px; height: 64px; border: none; padding: 0; background: transparent; position: relative; display: block; cursor: pointer; margin-top: -4px"><img src="assets/bell.png" alt="" style="width: 64px; height: 66px; border-radius: 16px"><span id="bellDot" style="display: none; position: absolute; left: -6px; bottom: -4px; min-width: 24px; height: 24px; border-radius: 12px; background: #e5484d; color: #fff; font-size: 14px; font-weight: 600; align-items: center; justify-content: center; border: 2px solid #fff"></span></a>
-</div>
-<a href="profile.html" style="margin-top: 22px; margin-left: -12px; width: 360px; height: 146px; box-sizing: border-box; display: flex; align-items: center; gap: 14px; padding: 6px 18px 6px 6px; border-radius: 26px; text-decoration: none; background: linear-gradient(180deg, #ffffff 0%, #eef8fb 100%); border: 2.5px solid #d5eef7; box-shadow: inset 0 3px 0 #fff, inset 0 -4px 0 #d6ecf3, 0 8px 18px rgba(80,160,190,.22)">
-<img id="childPhoto" src="assets/baby.png" alt="" style="width: 136px; height: 132px; object-fit: cover; border-radius: 22px">
-<span style="flex: 1; display: flex; flex-direction: column; gap: 4px">
-<span id="childName" style="font-family: 'Mitr', sans-serif; font-weight: 600; font-size: 25px; color: #24342f; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px">น้องข้าวหอม</span>
-<span id="childAge" style="font-size: 17px; color: #3b4a46; display: flex; gap: 6px; align-items: center; flex-wrap: wrap">อายุ 1 ปี 6 เดือน</span><span id="childHint" style="font-size: 13px; color: #5a6a66"></span>
-</span>
-<svg width="18" height="30" viewBox="0 0 18 30" aria-hidden="true"><path d="M4 4l10 11L4 26" fill="none" stroke="#2f8fe0" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-</a>
+<main class="phone"><div class="kw-world">
+<header class="kw-topbar"><div class="kw-brand">KIDWISE ✦<small>เข้าใจทุกวัย ใส่ใจทุกการเติบโต</small></div><button type="button" data-install class="kw-install">⇩ ติดตั้งแอป</button></header>
+<section class="kw-hero" aria-label="โลกแห่งการเรียนรู้ KIDWISE"><div class="kw-hero-bubble">ยินดีต้อนรับนักผจญภัย!<span>วันนี้เราไปเรียนรู้อะไรกันดีนะ ✨</span></div><img src="assets/kids.png" alt="ตัวละครเด็กชายและเด็กหญิง KIDWISE"></section>
+<a class="kw-profile" href="profile.html"><img id="childPhoto" src="assets/baby.png" alt=""><span class="kw-profile-copy"><b id="childName">นักผจญภัยตัวน้อย</b><span id="childAge">พร้อมออกเดินทางไปด้วยกัน</span><span id="childHint"></span></span><span class="arrow">›</span></a>
+<div class="kw-section-head"><h2>🌈 เลือกโลกที่อยากสำรวจ</h2><span>แตะเพื่อเริ่มเรียนรู้</span></div>
+<section class="kw-learning" aria-label="บทเรียน KIDWISE">
+<a class="mint" href="thai.html"><span class="art">🔤</span><span><b>ฝึกอ่าน ก–ฮ</b><br><small>ฟังเสียงและฝึกเขียน</small></span></a>
+<a class="peach" href="numbers.html"><span class="art">🔢</span><span><b>นับเลข 1–100</b><br><small>เรียนรู้พร้อมเสียงอ่าน</small></span></a>
+<a class="lavender" href="multiplication.html"><span class="art">✖️</span><span><b>สูตรคูณแม่ 1–24</b><br><small>ท่องจำและฝึกตอบ</small></span></a>
+<a class="pink" href="games.html"><span class="art">🧩</span><span><b>เกมฝึกสมอง</b><br><small>เล่นสนุก เก็บดาว</small></span></a>
+<a class="blue" href="activities.html"><span class="art">🧠</span><span><b>พัฒนาทักษะ</b><br><small>กิจกรรมรอบด้านตามวัย</small></span></a>
+<a class="yellow" href="storybook.html"><span class="art">📚</span><span><b>โลกนิทาน 30 เรื่อง</b><br><small>อ่านเพลิน จินตนาการไกล</small></span></a>
 </section>
-
-<section class="kw-card" style="position: absolute; left: 6px; top: 650px; width: 378px; height: 322px; box-sizing: border-box; border-radius: 30px; padding: 14px 10px 10px 10px; z-index: 2">
-<div style="display: flex; align-items: center; gap: 10px; padding-left: 8px; height: 58px">
-<img src="assets/heart.png" alt="" style="width: 50px; height: 52px">
-<h2 style="margin: 0; font-family: 'Mitr', sans-serif; font-weight: 600; font-size: 29px; color: #1f2d29">กิจกรรมวันนี้</h2>
-<svg width="64" height="44" viewBox="0 0 64 44" aria-hidden="true" style="margin-left: auto"><path d="M10 44c4-14 10-22 22-26" stroke="#5fae3e" stroke-width="3" fill="none" stroke-linecap="round"></path><ellipse cx="22" cy="20" rx="9" ry="13" transform="rotate(-35 22 20)" fill="#7ccf4a"></ellipse><ellipse cx="44" cy="14" rx="9" ry="14" transform="rotate(40 44 14)" fill="#8ad957"></ellipse><ellipse cx="52" cy="34" rx="7" ry="11" transform="rotate(70 52 34)" fill="#6cc142"></ellipse></svg>
-</div>
-<div style="margin-top: 10px; background: #fff; border-radius: 22px; padding: 4px 14px; box-shadow: inset 0 -3px 0 #e6efed, 0 4px 10px rgba(0,0,0,.05)">
-<div id="tasks"></div>
-</div>
-</section>
-
-<a href="activities.html" style="position: absolute; left: 52px; top: 980px; width: 296px; height: 52px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 12px; border-radius: 26px; text-decoration: none; color: #fff; font-family: 'Mitr', sans-serif; font-weight: 600; font-size: 22px; background: linear-gradient(180deg, #ffa53a 0%, #f47a12 100%); box-shadow: inset 0 3px 0 rgba(255,255,255,.45), inset 0 -5px 0 #d35f05, 0 8px 16px rgba(240,120,20,.35); z-index: 2; text-shadow: 0 1px 0 rgba(160,60,0,.35)">ดูกิจกรรมทั้งหมด <svg width="14" height="16" viewBox="0 0 14 16" aria-hidden="true"><path d="M2 1.5l10 6.5-10 6.5z" fill="#fff"></path></svg></a>
-<a href="games.html" style="position:absolute;left:52px;top:1038px;width:296px;height:52px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:12px;border-radius:26px;text-decoration:none;color:#4e5c40;font-family:'Mitr',sans-serif;font-weight:600;font-size:21px;background:linear-gradient(180deg,#fff0b8 0%,#ffd778 100%);box-shadow:inset 0 3px 0 rgba(255,255,255,.65),inset 0 -5px 0 #e5b747,0 8px 16px rgba(180,130,30,.22);z-index:2">🎮 เล่นเกมสนุก ๆ <span aria-hidden="true">➜</span></a>
-
-<div aria-hidden="true" style="position: absolute; left: -80px; top: 1030px; width: 330px; height: 150px; border-radius: 50%; background: linear-gradient(180deg, #9ad66e, #6dbb47); z-index: 0"></div>
-<div aria-hidden="true" style="position: absolute; left: 160px; top: 1040px; width: 340px; height: 150px; border-radius: 50%; background: linear-gradient(180deg, #a8de7c, #77c450); z-index: 0"></div>
-
-<nav id="kw-nav" class="kw-nav kw-nav-abs" aria-label="เมนูด้านล่าง"></nav>
-
-<div aria-hidden="true" style="position: absolute; left: 128px; top: 1226px; width: 134px; height: 5px; border-radius: 3px; background: #111; z-index: 3"></div>
-</div>
-</main>
-<script src="js/data.js"></script>
-<script src="js/app.js"></script>
-</body>
-</html>
+<section class="kw-parent"><h3>💚 มุมคุณพ่อคุณแม่</h3><p>ติดตามพัฒนาการ กิจกรรม และการเรียนรู้ของลูกได้ในที่เดียว<br><a href="health.html">สุขภาพและการแจ้งเตือน</a>　<a href="progress.html">ดูความก้าวหน้า</a></p></section>
+<nav id="kw-nav" class="kw-nav" aria-label="เมนูหลัก"></nav>
+</div></main>
+<script src="js/data.js"></script><script src="js/app.js"></script>
+</body></html>
