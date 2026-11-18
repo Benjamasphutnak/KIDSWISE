@@ -140,7 +140,7 @@
     { id: 'notes', href: 'notes.html', label: 'บันทึก', img: 'assets/n_book.png', svg: '<rect x="4" y="3" width="16" height="18" rx="3" fill="#fff"/><path d="M8 8h8M8 12h8M8 16h5" stroke="#36a843" stroke-width="2" stroke-linecap="round"/>' },
     { id: 'profile', href: 'profile.html', label: 'โปรไฟล์', img: 'assets/n_prof.png', svg: '<circle cx="12" cy="8" r="4.5" fill="#fff"/><path d="M3.5 21a8.5 7 0 0 1 17 0z" fill="#fff"/>' }
   ];
-  var PAGE_TAB = { index: 'home', development: 'dev', activities: 'act', notes: 'notes', profile: 'profile' };
+  var PAGE_TAB = { index: 'home', development: 'dev', activities: 'act', progress: 'dev', notes: 'notes', profile: 'profile' };
   function renderChrome(page) {
     var nav = $('kw-nav');
     if (nav) {
@@ -336,13 +336,12 @@
       var games = (d.gameSessions || []).filter(function (x) { return x.date >= from && x.date <= to; });
       var stars = games.reduce(function (sum, x) { return sum + (Number(x.stars) || 0); }, 0);
       var milestoneDone = 0, milestoneTotal = 0;
-      D.AGE_GROUPS.forEach(function (g) {
-        D.DOMAINS.forEach(function (dm) {
-          var arr = d.miles[g.id] && d.miles[g.id][dm.id] || [];
-          var count = (D.MILESTONES[g.id] && D.MILESTONES[g.id][dm.id] || []).length;
-          milestoneTotal += count;
-          for (var i = 0; i < count; i++) if (arr[i]) milestoneDone++;
-        });
+      var currentGroup = D.AGE_GROUPS[groupIndex(ageMonths(c))];
+      D.DOMAINS.forEach(function (dm) {
+        var arr = d.miles[currentGroup.id] && d.miles[currentGroup.id][dm.id] || [];
+        var count = (D.MILESTONES[currentGroup.id] && D.MILESTONES[currentGroup.id][dm.id] || []).length;
+        milestoneTotal += count;
+        for (var i = 0; i < count; i++) if (arr[i]) milestoneDone++;
       });
       $('prName').textContent = 'เส้นทางของ ' + c.name;
       $('prAge').textContent = ageText(c) + ' · สรุปความก้าวหน้าจากสิ่งที่บันทึกใน KIDWISE';
