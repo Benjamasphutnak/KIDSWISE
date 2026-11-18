@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <script>try{if(!JSON.parse(localStorage.getItem("kidwise.acct")||"null"))location.replace("login.html")}catch(e){}</script>
-<meta name="theme-color" content="#c4ebf2">
+<meta name="theme-color" content="#e9f8f1">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -11,80 +11,115 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="KIDWISE">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>KIDWISE – เมนูหลัก</title>
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600&amp;family=Prompt:wght@400;500;600&amp;display=swap" rel="stylesheet">
-<style>
-body{margin:0}
-a{color:#2f9a3f}a:hover{color:#1f7a2e}
-.kw-tile{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;box-sizing:border-box;height:170px;padding:0 6px 14px;border-radius:30px;text-decoration:none;color:#262626;text-align:center;border:3px solid rgba(255,255,255,.95);box-shadow:inset 0 4px 0 rgba(255,255,255,.9),inset 0 -6px 0 rgba(0,0,0,.06),0 12px 22px rgba(80,120,140,.22);transition:transform .15s}
-.kw-tile:hover{transform:translateY(-3px)}
-.kw-tile img{height:96px;width:auto;max-width:150px;object-fit:contain;margin-bottom:6px;filter:drop-shadow(0 6px 6px rgba(0,0,0,.12))}
-.kw-tile b{font-family:'Mitr',sans-serif;font-weight:600;font-size:23px;line-height:1.15}
-.kw-tile small{font-family:'Prompt',sans-serif;font-size:17px;line-height:1.25;color:#333}
-.kw-tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;height:86px;border-radius:22px;text-decoration:none;color:#3a4a46;font-family:'Prompt',sans-serif;font-size:13px}
-.kw-tab img{width:40px;height:40px;object-fit:contain}
-</style>
 <link rel="stylesheet" href="css/app.css">
-
-<style>
-/* Responsive main menu */
-body[data-page="menu"]{padding:18px 12px 24px;background:#edf6f2;align-items:flex-start}
-body[data-page="menu"] .phone{width:min(560px,100%);max-width:560px;box-shadow:none;border-radius:28px}
-.kw-menu-shell{position:relative;width:100%!important;max-width:560px;height:auto!important;min-height:100svh;box-sizing:border-box;overflow:visible!important;border-radius:28px!important;padding:16px 16px 18px;display:flex;flex-direction:column;gap:18px;background:linear-gradient(180deg,#b6e6ee 0%,#cdeef0 20%,#def4ee 55%,#d6f0d8 80%,#c3e7b4 100%);font-family:'Prompt',sans-serif;color:#2c3b37}
-.kw-menu-shell>div[aria-hidden="true"]{display:none!important}
-.kw-menu-shell>h1{position:relative!important;left:auto!important;top:auto!important;width:100%!important;height:auto!important;min-height:72px;box-sizing:border-box;margin:8px 0 0!important;padding:12px 18px;display:flex;align-items:center;justify-content:center;border-radius:28px!important;font-size:clamp(30px,6vw,42px)!important}
-.kw-menu-shell>div[style*="grid-template-columns"]{position:relative!important;left:auto!important;top:auto!important;width:100%!important;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px!important;z-index:2}
-.kw-menu-shell .kw-tile{height:172px;padding:8px 6px 12px;border-radius:24px}
-.kw-menu-shell .kw-tile img{height:92px;max-width:100%;margin-bottom:4px}
-.kw-menu-shell .kw-tile b{font-size:clamp(17px,3.7vw,22px)}
-.kw-menu-shell .kw-tile small{font-size:clamp(13px,3vw,16px)}
-.kw-menu-shell>img[alt*="เด็กชาย"]{position:relative!important;left:auto!important;top:auto!important;width:100%!important;max-width:420px;height:auto!important;max-height:190px;object-fit:contain;align-self:center;margin:0 auto;z-index:1}
-.kw-menu-shell>.kw-nav-abs{position:sticky!important;left:auto!important;top:auto!important;width:100%!important;height:84px!important;margin:0!important;border-radius:22px!important}
-@media(max-width:430px){
- body[data-page="menu"]{padding:0;background:#b6e6ee}
- body[data-page="menu"] .phone{width:100%;max-width:100%;border-radius:0}
- .kw-menu-shell{border-radius:0!important;padding:12px 12px 18px;gap:14px}
- .kw-menu-shell .kw-tile{height:158px}
- .kw-menu-shell .kw-tile img{height:82px}
-}
-@media(max-width:350px){
- .kw-menu-shell>div[style*="grid-template-columns"]{gap:9px!important}
- .kw-menu-shell .kw-tile{height:145px}
- .kw-menu-shell .kw-tile b{font-size:16px}
-}
-</style>
+<link rel="stylesheet" href="css/menu.css">
 </head>
 <body data-page="menu">
-<main class="phone">
+<main class="phone kw-menu-page">
 <div class="kw-menu-shell">
+  <header class="menu-brand">
+    <div class="menu-brand-mark" aria-hidden="true">K</div>
+    <div class="menu-brand-copy"><strong>KIDWISE</strong><span>เข้าใจทุกวัย ใส่ใจทุกการเติบโต</span></div>
+    <span class="menu-brand-sparkle" aria-hidden="true">✦</span>
+  </header>
 
-<div aria-hidden="true" style="position: absolute; left: -10px; top: 92px; width: 70px; height: 36px; border-radius: 20px; background: #fff; box-shadow: 22px -12px 0 6px #fff, 0 6px 12px rgba(80,150,170,.18)"></div>
-<div aria-hidden="true" style="position: absolute; left: 330px; top: 150px; width: 76px; height: 38px; border-radius: 20px; background: #fff; box-shadow: 18px -14px 0 4px #fff, 0 6px 12px rgba(80,150,170,.18)"></div>
+  <section class="menu-hero" aria-labelledby="menuHeroTitle">
+    <div class="menu-hero-copy">
+      <span class="menu-eyebrow">A LITTLE WORLD OF LEARNING</span>
+      <h1 id="menuHeroTitle">ทุกวันคือการเรียนรู้<br><em>เติบโตไปด้วยกัน</em></h1>
+      <p>เล่น สนุก ค้นพบ และเติบโต<br>ไปพร้อมกับ KIDWISE</p>
+      <a class="menu-hero-cta" href="games.html">ไปสนามเด็กเล่น <span aria-hidden="true">➜</span></a>
+    </div>
+    <div class="menu-hero-art">
+      <img src="assets/kids.png" alt="ภาพเด็กชายและเด็กหญิงบนสนามหญ้า">
+      <span class="menu-art-star star-one" aria-hidden="true">✦</span>
+      <span class="menu-art-star star-two" aria-hidden="true">✧</span>
+    </div>
+    <span class="menu-hero-cloud cloud-one" aria-hidden="true"></span>
+    <span class="menu-hero-cloud cloud-two" aria-hidden="true"></span>
+  </section>
 
-<h1 style="position: absolute; left: 64px; top: 72px; width: 262px; height: 92px; box-sizing: border-box; margin: 0; display: flex; align-items: center; justify-content: center; font-family: 'Mitr', sans-serif; font-weight: 600; font-size: 44px; color: #1d5a66; background: linear-gradient(180deg, #ffffff, #eef9fb); border-radius: 46px; box-shadow: -34px 8px 0 -8px #f7fcfd, 34px 10px 0 -10px #f7fcfd, inset 0 3px 0 #fff, 0 12px 22px rgba(80,150,170,.25); z-index: 2">เมนูหลัก</h1>
+  <section class="menu-section" aria-labelledby="playTitle">
+    <div class="menu-section-heading">
+      <div><span class="menu-section-kicker">LET'S PLAY & LEARN</span><h2 id="playTitle">เรียนรู้และเล่น</h2></div>
+      <span class="menu-section-emoji" aria-hidden="true">🌈</span>
+    </div>
+    <div class="menu-grid">
+      <a href="games.html" class="menu-tile tile-yellow">
+        <span class="menu-tile-icon"><span aria-hidden="true">🎮</span></span>
+        <span class="menu-tile-copy"><b>สนามเด็กเล่น</b><small>10 เกมสนุก ฝึกคิด</small></span><span class="menu-tile-arrow" aria-hidden="true">↗</span>
+      </a>
+      <a href="storybook.html" class="menu-tile tile-peach">
+        <span class="menu-tile-icon"><img src="assets/m_book.png" alt=""></span>
+        <span class="menu-tile-copy"><b>นิทานสำหรับเด็ก</b><small>อ่านสนุก 30 เรื่อง</small></span><span class="menu-tile-arrow" aria-hidden="true">↗</span>
+      </a>
+      <a href="numbers.html" class="menu-tile tile-mint">
+        <span class="menu-tile-icon"><img src="assets/count-123.svg" alt=""></span>
+        <span class="menu-tile-copy"><b>ฝึกนับเลข 1–100</b><small>ดูเลข ฟังเสียง ฝึกนับ</small></span><span class="menu-tile-arrow" aria-hidden="true">↗</span>
+      </a>
+      <a href="thai.html" class="menu-tile tile-pink">
+        <span class="menu-tile-icon"><img src="assets/thai-letters.svg" alt=""></span>
+        <span class="menu-tile-copy"><b>ฝึกอ่านและเขียน ก–ฮ</b><small>44 พยัญชนะ ฝึกเขียน</small></span><span class="menu-tile-arrow" aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </section>
 
-<div style="position: absolute; left: 12px; top: 214px; width: 366px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 14px; z-index: 2">
-<a href="development.html" class="kw-tile" style="background: linear-gradient(160deg, #fff1e4 0%, #fcd9bd 100%)"><img src="assets/m_chart.png" alt=""><b>พัฒนาการ</b><small>ตามช่วงวัย</small></a>
-<a href="activities.html" class="kw-tile" style="background: linear-gradient(160deg, #fff2ea 0%, #fbdacb 100%)"><img src="assets/m_puzzle.png" alt=""><b>กิจกรรม</b><small>ส่งเสริมพัฒนาการ</small></a>
-<a href="growth.html" class="kw-tile" style="background: linear-gradient(160deg, #f1fbe2 0%, #cdeeb4 100%)"><img src="assets/m_scale.png" alt=""><b>การเจริญเติบโต</b><small>(น้ำหนัก • ส่วนสูง)</small></a>
-<a href="nutrition.html" class="kw-tile" style="background: linear-gradient(160deg, #fff5e3 0%, #fddcb7 100%)"><img src="assets/m_bowl.png" alt=""><b>โภชนาการ</b><small>และเมนูอาหาร</small></a>
-<a href="health.html" class="kw-tile" style="background: linear-gradient(160deg, #f1eefe 0%, #d9d3f7 100%)"><img src="assets/m_shield.png" alt=""><b>สุขภาพ</b><b style="margin-top: -2px">และวัคซีน</b></a>
-<a href="knowledge.html" class="kw-tile" style="background: linear-gradient(160deg, #fdf0f6 0%, #f0d8ec 100%)"><img src="assets/m_book.png" alt=""><b>คลังความรู้</b><b style="margin-top: -2px; font-size: 20px">สำหรับพ่อแม่</b></a>
-<a href="storybook.html" class="kw-tile" style="background: linear-gradient(160deg, #fff7d9 0%, #ffe4ae 100%)"><img src="assets/m_book.png" alt=""><b>นิทานสำหรับเด็ก</b><small>อ่านสนุก 30 เรื่อง</small></a>
-<a href="numbers.html" class="kw-tile" style="grid-column:1/-1;width:min(100%,270px);justify-self:center;background:linear-gradient(160deg,#e6fff4 0%,#bfead5 100%)"><img src="assets/count-123.svg" alt=""><b>ฝึกนับเลข 1–100</b><small>ดูเลข • ฟังเสียง • ฝึกนับ</small></a>
-<a href="games.html" class="kw-tile" style="grid-column:1/-1;width:min(100%,270px);justify-self:center;background:linear-gradient(160deg,#fff4d7 0%,#ffe0aa 100%)"><span style="font-size:76px;line-height:1;margin-bottom:8px;filter:drop-shadow(0 6px 6px rgba(0,0,0,.12))">🎮</span><b>สนามเด็กเล่น</b><small>10 เกมสนุก ฝึกคิดและเรียนรู้</small></a>
-<a href="progress.html" class="kw-tile" style="grid-column:1/-1;width:min(100%,270px);justify-self:center;background:linear-gradient(160deg,#e7f4ff 0%,#d8e6ff 100%)"><span style="font-size:70px;line-height:1;margin-bottom:8px">📊</span><b>รายงานการเรียนรู้</b><small>สรุปกิจกรรมและเกมของลูก</small></a>
-<a href="thai.html" class="kw-tile" style="grid-column:1/-1;width:min(100%,270px);justify-self:center;background:linear-gradient(160deg,#fff0f4 0%,#f5d4e6 100%)"><img src="assets/thai-letters.svg" alt=""><b>ฝึกอ่านและเขียน ก–ฮ</b><small>44 พยัญชนะ • ฟังเสียง • ลากเขียน</small></a>
-</div>
+  <section class="menu-section" aria-labelledby="growthTitle">
+    <div class="menu-section-heading">
+      <div><span class="menu-section-kicker">GROW EVERY DAY</span><h2 id="growthTitle">พัฒนาการและความก้าวหน้า</h2></div>
+      <span class="menu-section-emoji" aria-hidden="true">🌱</span>
+    </div>
+    <div class="menu-grid">
+      <a href="development.html" class="menu-tile tile-peach">
+        <span class="menu-tile-icon"><img src="assets/m_chart.png" alt=""></span>
+        <span class="menu-tile-copy"><b>พัฒนาการ</b><small>ติดตามตามช่วงวัย</small></span><span class="menu-tile-arrow" aria-hidden="true">↗</span>
+      </a>
+      <a href="activities.html" class="menu-tile tile-lilac">
+        <span class="menu-tile-icon"><img src="assets/m_puzzle.png" alt=""></span>
+        <span class="menu-tile-copy"><b>กิจกรรมตามวัย</b><small>ลงมือทำไปด้วยกัน</small></span><span class="menu-tile-arrow" aria-hidden="true">↗</span>
+      </a>
+      <a href="progress.html" class="menu-tile tile-blue">
+        <span class="menu-tile-icon"><span aria-hidden="true">📊</span></span>
+        <span class="menu-tile-copy"><b>รายงานการเรียนรู้</b><small>สรุปกิจกรรมและเกม</small></span><span class="menu-tile-arrow" aria-hidden="true">↗</span>
+      </a>
+      <a href="growth.html" class="menu-tile tile-green">
+        <span class="menu-tile-icon"><img src="assets/m_scale.png" alt=""></span>
+        <span class="menu-tile-copy"><b>การเจริญเติบโต</b><small>น้ำหนักและส่วนสูง</small></span><span class="menu-tile-arrow" aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </section>
 
-<img src="assets/kids.png" alt="เด็กชายและเด็กหญิงนอนเล่นบนสนามหญ้า" style="position: absolute; left: 3px; top: 980px; width: 386px; height: auto; z-index: 1">
+  <section class="menu-section" aria-labelledby="careTitle">
+    <div class="menu-section-heading">
+      <div><span class="menu-section-kicker">CARE WITH CONFIDENCE</span><h2 id="careTitle">ดูแลลูกอย่างรอบด้าน</h2></div>
+      <span class="menu-section-emoji" aria-hidden="true">💚</span>
+    </div>
+    <div class="menu-grid">
+      <a href="health.html" class="menu-tile tile-lilac">
+        <span class="menu-tile-icon"><img src="assets/m_shield.png" alt=""></span>
+        <span class="menu-tile-copy"><b>สุขภาพและวัคซีน</b><small>ดูแลสุขภาพลูก</small></span><span class="menu-tile-arrow" aria-hidden="true">↗</span>
+      </a>
+      <a href="nutrition.html" class="menu-tile tile-yellow">
+        <span class="menu-tile-icon"><img src="assets/m_bowl.png" alt=""></span>
+        <span class="menu-tile-copy"><b>โภชนาการ</b><small>อาหารตามวัยและเมนู</small></span><span class="menu-tile-arrow" aria-hidden="true">↗</span>
+      </a>
+      <a href="knowledge.html" class="menu-tile tile-pink">
+        <span class="menu-tile-icon"><img src="assets/m_book.png" alt=""></span>
+        <span class="menu-tile-copy"><b>คลังความรู้</b><small>เรื่องน่ารู้สำหรับพ่อแม่</small></span><span class="menu-tile-arrow" aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </section>
 
-<nav id="kw-nav" class="kw-nav kw-nav-abs" aria-label="เมนูด้านล่าง"></nav>
+  <aside class="menu-parent-note">
+    <span aria-hidden="true">💛</span>
+    <p><b>ทุกก้าวเล็ก ๆ มีความหมาย</b><small>ไม่ต้องรีบ ไม่ต้องเปรียบเทียบ ให้ลูกเติบโตในจังหวะของตัวเอง</small></p>
+  </aside>
 
-<div aria-hidden="true" style="position: absolute; left: 128px; top: 1226px; width: 134px; height: 5px; border-radius: 3px; background: #111; z-index: 3"></div>
+  <nav id="kw-nav" class="kw-nav kw-nav-sticky" aria-label="เมนูด้านล่าง"></nav>
 </div>
 </main>
 <script src="js/data.js"></script>
