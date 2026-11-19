@@ -44,12 +44,19 @@ body[data-page="english"] .phone{width:min(620px,100%);max-width:620px;border-ra
 .en-feedback{min-height:22px;margin-top:10px;text-align:center;font-size:13px;color:#6f8b7c}
 @media(min-width:480px){.en-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:350px){.en-world{padding:12px}.en-grid{gap:7px}.en-card{min-height:105px}.en-pair{font-size:32px}}
+.en-song{margin-top:16px;padding:15px;border:3px solid #fff;border-radius:25px;background:linear-gradient(145deg,#fff,#fff5dc);box-shadow:0 7px 0 #eee0bd,0 12px 18px #9c8b6320}
+.en-song h2{margin:0 0 4px;font:600 19px 'Mitr',sans-serif;color:#8a6b3f}
+.en-song p{margin:0 0 11px;font-size:12px;color:#8d806d}
+.en-video{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:18px;background:#222;box-shadow:0 4px 12px #66543b30}
+.en-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.en-song-link{display:inline-block;margin-top:10px;color:#7a659e;font-size:12px;font-weight:600;text-decoration:none}
 </style>
 </head>
 <body data-page="english">
 <main class="phone"><div class="en-world">
 <header class="en-head"><a class="en-back" href="index.html" aria-label="กลับหน้าหลัก">‹</a><div><h1>🌟 English A–Z</h1><p>โลกตัวอักษรภาษาอังกฤษแสนสนุก</p></div></header>
 <section class="en-hero"><strong>A a – Z z</strong><p>เรียนรู้ตัวพิมพ์ใหญ่ ตัวพิมพ์เล็ก และคำศัพท์ง่าย ๆ</p><div class="en-actions"><button class="en-btn active" data-mode="both">Aa คู่กัน</button><button class="en-btn" data-mode="upper">ตัวพิมพ์ใหญ่</button><button class="en-btn" data-mode="lower">ตัวพิมพ์เล็ก</button><button class="en-btn primary" id="speakAll">🔊 ฟัง A ถึง Z</button></div></section>
+<section class="en-song"><h2>🎵 มาร้องเพลง ABC กัน!</h2><p>ฟังเพลง A–Z แล้วร้องตามไปพร้อม ๆ กัน</p><div class="en-video"><iframe src="https://www.youtube-nocookie.com/embed/7nlf9zpj13k?rel=0" title="The Alphabet Song - Super Simple ABCs" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div><a class="en-song-link" href="https://www.youtube.com/watch?v=7nlf9zpj13k" target="_blank" rel="noopener">เปิดเพลงใน YouTube ↗</a></section>
 <div class="en-progress"><span>แตะตัวอักษรเพื่อฟังเสียง</span><span id="seenCount">เรียนรู้แล้ว 0 / 26</span></div>
 <section class="en-grid" id="alphabetGrid" aria-label="ตัวอักษรภาษาอังกฤษ A ถึง Z"></section>
 <section class="en-practice"><h2>🎯 เกมจับคู่ตัวอักษร</h2><p>ดูตัวพิมพ์ใหญ่ แล้วเลือกตัวพิมพ์เล็กที่เป็นคู่กัน</p><div class="en-question" id="questionLetter">A</div><div class="en-options" id="options"></div><div class="en-feedback" id="feedback">เลือกคำตอบที่ถูกต้องได้เลย 💛</div><div class="en-actions"><button class="en-btn primary" id="nextQuestion">ข้อต่อไป ➜</button></div></section>
