@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<script>try{if(!JSON.parse(localStorage.getItem("kidwise.acct")||"null"))location.replace("login.html")}catch(e){}</script>
+<meta name="theme-color" content="#d9efff">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>KIDWISE – เรียนรู้ตัวอักษรภาษาอังกฤษ A–Z</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600;700&family=Prompt:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/app.css">
+<style>
+body[data-page="english"]{padding:0;background:#d9efff;align-items:flex-start}
+body[data-page="english"] .phone{width:min(620px,100%);max-width:620px;border-radius:0;box-shadow:none}
+.en-world{min-height:100svh;padding:16px;box-sizing:border-box;background:radial-gradient(circle at 8% 9%,#fff3a9 0 32px,transparent 34px),radial-gradient(circle at 92% 18%,#ffd8e8 0 25px,transparent 27px),linear-gradient(160deg,#d9f4ff,#f1eaff 52%,#e3f9df);font-family:'Prompt',sans-serif;color:#405878}
+.en-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.en-back{width:44px;height:44px;display:grid;place-items:center;border-radius:16px;background:#fff;text-decoration:none;color:#55749b;font-size:26px;box-shadow:0 5px 0 #d4e3f1}
+.en-head h1{margin:0;font:600 23px 'Mitr',sans-serif;color:#526c9b}
+.en-head p{margin:2px 0 0;font-size:12px;color:#7e89a7}
+.en-hero{padding:17px;border:3px solid #fff;border-radius:28px;background:linear-gradient(145deg,#fff,#f5f0ff);box-shadow:0 8px 0 #ded5f2,0 13px 20px #7d82a522;text-align:center}
+.en-hero strong{display:block;font:700 clamp(36px,10vw,58px)/1.2 'Mitr',sans-serif;letter-spacing:5px;color:#ef9661;text-shadow:0 4px 0 #ffe1b8}
+.en-hero p{margin:6px 0 12px;font-size:13px;color:#7b7d9a}
+.en-actions{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+.en-btn{border:0;border-radius:15px;padding:10px 14px;background:#fff;color:#65739b;font:600 13px 'Prompt',sans-serif;box-shadow:0 4px 0 #dedff0;cursor:pointer}
+.en-btn.active,.en-btn.primary{background:linear-gradient(180deg,#ffb27c,#f18b62);color:#fff;box-shadow:0 4px 0 #dc7956}
+.en-progress{margin:14px 2px 8px;display:flex;justify-content:space-between;font-size:12px;color:#7785a1}
+.en-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:10px}
+.en-card{min-height:118px;border:3px solid #fff;border-radius:22px;padding:9px 5px;background:linear-gradient(160deg,#fff,#eaf7ff);box-shadow:inset 0 -5px 0 #d9eaf5,0 5px 0 #c9dfed,0 8px 12px #7998a51c;color:#4f6e8b;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:transform .15s}
+.en-card:nth-child(3n+2){background:linear-gradient(160deg,#fff,#fff0f5);box-shadow:inset 0 -5px 0 #f4dce7,0 5px 0 #edd6e2,0 8px 12px #a77e951c;color:#9a6482}
+.en-card:nth-child(3n){background:linear-gradient(160deg,#fff,#fff7df);box-shadow:inset 0 -5px 0 #f2e5bd,0 5px 0 #e9dfc2,0 8px 12px #a99b701c;color:#92723d}
+.en-card:active{transform:translateY(3px)}
+.en-pair{font:700 37px/1.1 'Mitr',sans-serif;letter-spacing:2px}
+.en-word{font:600 13px 'Prompt',sans-serif;margin-top:5px}
+.en-sound{font-size:10px;opacity:.75}
+.en-card.seen{outline:3px solid #79d3a5;outline-offset:1px}
+.en-practice{margin-top:18px;padding:16px;border:3px solid #fff;border-radius:25px;background:linear-gradient(145deg,#fff,#f3efff);box-shadow:0 7px 0 #ddd3ef}
+.en-practice h2{margin:0 0 5px;font:600 19px 'Mitr',sans-serif;color:#66558e}
+.en-practice p{margin:0 0 12px;font-size:12px;color:#85809f}
+.en-question{text-align:center;font:700 50px 'Mitr',sans-serif;color:#ee9660;margin:8px}
+.en-options{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.en-option{min-height:65px;border:2px solid #fff;border-radius:17px;background:#e8f6ff;color:#55749b;font:700 30px 'Mitr',sans-serif;box-shadow:0 4px 0 #d0e3f0;cursor:pointer}
+.en-option.correct{background:#dcf8e8;color:#32865e}.en-option.wrong{background:#ffe3e8;color:#c45d76}
+.en-feedback{min-height:22px;margin-top:10px;text-align:center;font-size:13px;color:#6f8b7c}
+@media(min-width:480px){.en-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:350px){.en-world{padding:12px}.en-grid{gap:7px}.en-card{min-height:105px}.en-pair{font-size:32px}}
+</style>
+</head>
+<body data-page="english">
+<main class="phone"><div class="en-world">
+<header class="en-head"><a class="en-back" href="index.html" aria-label="กลับหน้าหลัก">‹</a><div><h1>🌟 English A–Z</h1><p>โลกตัวอักษรภาษาอังกฤษแสนสนุก</p></div></header>
+<section class="en-hero"><strong>A a – Z z</strong><p>เรียนรู้ตัวพิมพ์ใหญ่ ตัวพิมพ์เล็ก และคำศัพท์ง่าย ๆ</p><div class="en-actions"><button class="en-btn active" data-mode="both">Aa คู่กัน</button><button class="en-btn" data-mode="upper">ตัวพิมพ์ใหญ่</button><button class="en-btn" data-mode="lower">ตัวพิมพ์เล็ก</button><button class="en-btn primary" id="speakAll">🔊 ฟัง A ถึง Z</button></div></section>
+<div class="en-progress"><span>แตะตัวอักษรเพื่อฟังเสียง</span><span id="seenCount">เรียนรู้แล้ว 0 / 26</span></div>
+<section class="en-grid" id="alphabetGrid" aria-label="ตัวอักษรภาษาอังกฤษ A ถึง Z"></section>
+<section class="en-practice"><h2>🎯 เกมจับคู่ตัวอักษร</h2><p>ดูตัวพิมพ์ใหญ่ แล้วเลือกตัวพิมพ์เล็กที่เป็นคู่กัน</p><div class="en-question" id="questionLetter">A</div><div class="en-options" id="options"></div><div class="en-feedback" id="feedback">เลือกคำตอบที่ถูกต้องได้เลย 💛</div><div class="en-actions"><button class="en-btn primary" id="nextQuestion">ข้อต่อไป ➜</button></div></section>
+</div></main>
+<script>
+(function(){
+'use strict';
+var data=[
+['A','แอปเปิล','🍎'],['B','บอล','⚽'],['C','แมว','🐱'],['D','สุนัข','🐶'],['E','ไข่','🥚'],['F','ปลา','🐟'],['G','องุ่น','🍇'],['H','บ้าน','🏠'],['I','ไอศกรีม','🍦'],['J','น้ำผลไม้','🧃'],['K','ว่าว','🪁'],['L','สิงโต','🦁'],['M','ลิง','🐵'],['N','รัง','🪺'],['O','ส้ม','🍊'],['P','แพนด้า','🐼'],['Q','ราชินี','👑'],['R','กระต่าย','🐰'],['S','ดวงอาทิตย์','☀️'],['T','เต่า','🐢'],['U','ร่ม','☂️'],['V','รถตู้','🚐'],['W','นาฬิกา','⌚'],['X','ไซโลโฟน','🎼'],['Y','โยโย่','🪀'],['Z','ม้าลาย','🦓']
+];
+var mode='both',seen={},current='A',answer='';
+var grid=document.getElementById('alphabetGrid');
+function speak(text){if(!window.speechSynthesis||!window.SpeechSynthesisUtterance)return;window.speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(text);u.lang='en-US';u.rate=.78;window.speechSynthesis.speak(u);}
+function render(){
+grid.innerHTML=data.map(function(d){var l=d[0],lower=l.toLowerCase();return '<button class="en-card '+(seen[l]?'seen':'')+'" data-letter="'+l+'"><span class="en-pair">'+(mode==='upper'?l:mode==='lower'?lower:l+' '+lower)+'</span><span class="en-word">'+d[2]+' '+d[1]+'</span><span class="en-sound">Tap to listen · '+l+'</span></button>';}).join('');
+document.getElementById('seenCount').textContent='เรียนรู้แล้ว '+Object.keys(seen).length+' / 26';
+document.querySelectorAll('[data-mode]').forEach(function(b){b.classList.toggle('active',b.dataset.mode===mode);});
+}
+grid.addEventListener('click',function(e){var b=e.target.closest('[data-letter]');if(!b)return;var l=b.dataset.letter,d=data.find(function(x){return x[0]===l;});seen[l]=true;render();speak(l+'. '+d[1]);});
+document.querySelectorAll('[data-mode]').forEach(function(b){b.addEventListener('click',function(){mode=b.dataset.mode;render();});});
+document.getElementById('speakAll').addEventListener('click',function(){if(!window.speechSynthesis)return;window.speechSynthesis.cancel();var u=new SpeechSynthesisUtterance('A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z');u.lang='en-US';u.rate=.65;window.speechSynthesis.speak(u);});
+function newQuestion(){current=data[Math.floor(Math.random()*data.length)][0];answer=current.toLowerCase();document.getElementById('questionLetter').textContent=current;var opts=[answer];while(opts.length<3){var x=data[Math.floor(Math.random()*data.length)][0].toLowerCase();if(!opts.includes(x))opts.push(x);}opts.sort(function(){return Math.random()-.5;});document.getElementById('options').innerHTML=opts.map(function(x){return '<button class="en-option" data-answer="'+x+'">'+x+'</button>';}).join('');document.getElementById('feedback').textContent='ตัวพิมพ์เล็กของ '+current+' คืออะไรนะ?';}
+document.getElementById('options').addEventListener('click',function(e){var b=e.target.closest('[data-answer]');if(!b)return;var ok=b.dataset.answer===answer;document.querySelectorAll('.en-option').forEach(function(x){x.disabled=true;if(x.dataset.answer===answer)x.classList.add('correct');});if(!ok)b.classList.add('wrong');document.getElementById('feedback').textContent=ok?'เก่งมาก! '+current+' คู่กับ '+answer+' ⭐':'ลองสังเกตอีกครั้งนะ คำตอบคือ '+answer+' 💛';speak(current+' '+answer);});
+document.getElementById('nextQuestion').addEventListener('click',newQuestion);
+render();newQuestion();
+})();
+</script>
+</body></html>
