@@ -209,7 +209,7 @@
 
   // ================= PAGES =================
   // fit 390px design on narrower phones
-  function fitScreen() { var w = window.innerWidth; document.body.style.zoom = w < 390 ? (w / 390).toFixed(3) : ''; }
+  function fitScreen() { var w = window.innerWidth; document.body.style.zoom = page !== 'index' && w < 390 ? (w / 390).toFixed(3) : ''; }
   fitScreen(); window.addEventListener('resize', fitScreen);
   renderChrome(page);
 
