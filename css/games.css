@@ -50,3 +50,14 @@ body[data-page="games"] .phone{width:min(560px,100%);max-width:560px;box-shadow:
 .category-question span{font-size:68px;line-height:1}
 .category-question b{font:600 18px Mitr,sans-serif;color:#80613e}
 @media(max-width:350px){.shadow-options,.missing-choices{gap:5px}.shadow-option,.missing-choice{font-size:28px;min-height:62px}.order-grid{gap:5px}.order-tile{min-height:51px;font-size:21px}.shape-options{gap:5px}.shape-option span{font-size:31px}}
+
+/* Consistent colour families for all 30 game cards */
+.card-english,.card-vocab,.card-spell{background:linear-gradient(145deg,#fff0f4,#f9d9e7)}
+.card-math,.card-subtract,.card-times{background:linear-gradient(145deg,#fff4df,#ffe1b8)}
+.card-odd,.card-sequence,.card-pattern{background:linear-gradient(145deg,#f2edff,#e2d9ff)}
+.card-compare,.card-shapes,.card-direction{background:linear-gradient(145deg,#e5f7ff,#ccecff)}
+.card-opposite,.card-feelings,.card-safety{background:linear-gradient(145deg,#fff0e7,#ffd9c7)}
+.card-home,.card-habitat,.card-transport,.card-world{background:linear-gradient(145deg,#e7f8ed,#ccefd9)}
+.card-body,.card-routine,.card-science{background:linear-gradient(145deg,#f0f9e5,#dcedc8)}
+.card-memory,.card-groups,.card-shadow{background:linear-gradient(145deg,#f1eaff,#e2d9ff)}
+.card-count,.card-order,.card-missing,.card-feelings{background:linear-gradient(145deg,#e5f8ff,#cdeeff)}
