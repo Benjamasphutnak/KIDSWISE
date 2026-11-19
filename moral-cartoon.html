@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#a7e8d0"><title>การ์ตูนสอนใจ | KIDWISE</title>
+<link rel="stylesheet" href="css/app.css">
+<style>
+body{margin:0;background:linear-gradient(160deg,#b8f0e2,#fff2c9);font-family:Prompt,'Tahoma',sans-serif;color:#285646}
+.wrap{max-width:760px;margin:auto;padding:18px}
+.back{display:inline-block;color:#28795d;text-decoration:none;font-weight:600}
+h1{font-size:clamp(24px,5vw,34px);margin:14px 0 4px}.sub{margin:0 0 16px;color:#58806d}
+.stage{background:linear-gradient(#b9edff 0 58%,#a7df91 58%);border:5px solid white;border-radius:28px;min-height:310px;position:relative;overflow:hidden;box-shadow:0 8px 0 #8bc8a7;text-align:center;display:flex;flex-direction:column;justify-content:space-between}
+.sun{position:absolute;right:24px;top:18px;font-size:42px;animation:float 3s ease-in-out infinite}
+.scene{position:relative;z-index:1;padding:48px 12px 0}
+.people{font-size:clamp(54px,12vw,86px);line-height:1.35;filter:drop-shadow(0 5px 2px #467c4433);animation:bob 2s ease-in-out infinite}
+.pot{font-size:45px;display:inline-block;animation:tilt 2s infinite}
+.bubble{margin:12px auto 16px;background:#fff;border:3px solid #fff;border-radius:20px;padding:12px 16px;max-width:90%;box-shadow:0 4px 0 #c7e9d5;font-weight:600;min-height:48px;display:grid;place-items:center}
+.caption{text-align:center;font-weight:600;margin:14px 0 8px}
+.controls{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:14px 0}
+button{border:0;border-radius:16px;padding:12px 18px;font:600 15px inherit;cursor:pointer;background:#fff;color:#28654e;box-shadow:0 4px 0 #c5dfce}
+button.primary{background:#ffb95f;color:#603d16;box-shadow:0 4px 0 #e69a43}
+button:disabled{opacity:.45;cursor:not-allowed}
+.note{background:#fff;border-radius:18px;padding:14px 16px;line-height:1.65;box-shadow:0 4px 0 #d7eadc}
+.small{font-size:12px;color:#648372}
+@keyframes bob{50%{transform:translateY(-8px)}}@keyframes float{50%{transform:translateY(-9px)}}@keyframes tilt{50%{transform:rotate(-8deg)}}
+</style></head>
+<body><main class="wrap">
+<a class="back" href="index.html">← กลับหน้า KIDWISE</a>
+<h1>🎬 ความจริงที่กล้าพูด</h1><p class="sub">การ์ตูนสอนใจ ตอนที่ 1 · กล้ายอมรับผิดและช่วยกันแก้ไข</p>
+<section class="stage" aria-live="polite"><div class="sun">☀️</div><div class="scene"><div class="people" id="people">👦🏻 ⚽ 🪴</div><div class="bubble" id="dialogue">ต้นกำลังเล่นฟุตบอลอย่างสนุกสนานในสนามโรงเรียน</div></div><div class="caption" id="sceneTitle">ฉากที่ 1 · เล่นบอลในสนาม</div></section>
+<div class="controls"><button id="prev" type="button">ย้อนกลับ</button><button id="play" class="primary" type="button">▶ เล่นเรื่องพร้อมเสียง</button><button id="next" type="button">ฉากถัดไป →</button><button id="stop" type="button">หยุดเสียง</button></div>
+<section class="note"><b>💡 ข้อคิดท้ายเรื่อง</b><br>ทำผิดไม่เป็นไร ขอแค่กล้ายอมรับ ขอโทษ และพยายามแก้ไขสิ่งที่ทำผิด</section>
+<p class="small">เสียงอ่านใช้เสียงภาษาไทยที่มีอยู่ในอุปกรณ์/เบราว์เซอร์ของคุณ เสียงอาจแตกต่างกันตามเครื่อง และไม่มีการอัปโหลดรูปหรือเสียงของเด็ก</p>
+</main>
+<script>
+const scenes=[
+{title:"ฉากที่ 1 · เล่นบอลในสนาม",face:"👦🏻 ⚽ 🪴",line:"ต้นกำลังเล่นฟุตบอลอย่างสนุกสนานในสนามโรงเรียน"},
+{title:"ฉากที่ 2 · เกิดอุบัติเหตุ",face:"👦🏻 💥 🏺",line:"อุ๊ย! ต้นเตะบอลพลาด จนกระถางดอกไม้แตก ต้นตกใจมาก"},
+{title:"ฉากที่ 3 · กล้ายอมรับความจริง",face:"👦🏻 🙋🏻‍♂️ 👩🏻‍🏫",line:"ต้นบอกคุณครูว่า คุณครูครับ ผมทำกระถางแตกเองครับ ผมขอโทษครับ"},
+{title:"ฉากที่ 4 · ครูชื่นชม",face:"👩🏻‍🏫 💚 👦🏻",line:"คุณครูยิ้มแล้วพูดว่า ขอบใจที่พูดความจริงนะ ครูภูมิใจในตัวหนู"},
+{title:"ฉากที่ 5 · ช่วยกันแก้ไข",face:"👦🏻 👧🏻 🌱 🪴",line:"ต้นกับเพื่อนช่วยกันเก็บเศษกระถาง และปลูกดอกไม้ต้นใหม่"},
+{title:"ฉากที่ 6 · ข้อคิดของเรื่อง",face:"👦🏻 👧🏻 🌼 ⭐",line:"การกล้ายอมรับผิด คือความกล้าหาญอย่างหนึ่ง เมื่อเราทำผิด เราควรขอโทษและช่วยกันแก้ไข"}
+];
+let index=0,playing=false;
+const $=id=>document.getElementById(id);
+function render(){const s=scenes[index];$("people").textContent=s.face;$("dialogue").textContent=s.line;$("sceneTitle").textContent=s.title;$("prev").disabled=index===0;$("next").disabled=index===scenes.length-1;$("play").textContent=playing?"กำลังเล่นเสียง…":"▶ เล่นเรื่องพร้อมเสียง"}
+function speakCurrent(){if(!("speechSynthesis" in window)){ $("dialogue").textContent += " (อุปกรณ์นี้ไม่รองรับเสียงอ่านอัตโนมัติ)";playing=false;render();return;}speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(scenes[index].line);u.lang="th-TH";u.rate=.88;u.pitch=1.08;u.onend=()=>{if(!playing)return;if(index<scenes.length-1){index++;render();speakCurrent()}else{playing=false;render()}};speechSynthesis.speak(u)}
+$("play").onclick=()=>{playing=true;render();speakCurrent()};
+$("stop").onclick=()=>{playing=false;if("speechSynthesis"in window)speechSynthesis.cancel();render()};
+$("next").onclick=()=>{playing=false;if("speechSynthesis"in window)speechSynthesis.cancel();index=Math.min(index+1,scenes.length-1);render()};
+$("prev").onclick=()=>{playing=false;if("speechSynthesis"in window)speechSynthesis.cancel();index=Math.max(index-1,0);render()};
+render();
+</script></body></html>
