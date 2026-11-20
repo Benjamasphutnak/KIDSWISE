@@ -45,10 +45,10 @@ body{background:linear-gradient(#eafff4,#d9f4d1 78%,#a8dba4)}
 .episode{min-height:0;padding:5px 5px 34px;border:3px solid white;border-radius:18px;box-shadow:0 5px 0 #83cbaa;gap:4px}
 .episode:nth-child(2){box-shadow:0 5px 0 #e99ab9}.episode:nth-child(3){box-shadow:0 5px 0 #e2bd65}.episode:nth-child(4){box-shadow:0 5px 0 #b4a0e5}
 .episode .art{height:clamp(115px,15vw,178px);border:2px solid white;border-radius:12px}
-.episode:nth-child(1) .art{background-image:url("assets/moral-cartoon-episode1-hd-opt.jpg");background-size:300% 200%;background-position:0 0}
-.episode:nth-child(2) .art{background-image:url("assets/story01-illustration-2.svg")}
-.episode:nth-child(3) .art{background-image:url("assets/story01-illustration-3.svg")}
-.episode:nth-child(4) .art{background-image:url("assets/story01-illustration-4.svg")}
+.episode:nth-child(1) .art{background-image:url("assets/kidwise-moral-3d-sprite.jpg");background-size:200% 200%;background-position:0 0}
+.episode:nth-child(2) .art{background-image:url("assets/kidwise-moral-3d-sprite.jpg");background-size:200% 200%;background-position:100% 0}
+.episode:nth-child(3) .art{background-image:url("assets/kidwise-moral-3d-sprite.jpg");background-size:200% 200%;background-position:0 100%}
+.episode:nth-child(4) .art{background-image:url("assets/kidwise-moral-3d-sprite.jpg");background-size:200% 200%;background-position:100% 100%}
 .episode b{font:700 clamp(14px,1.5vw,18px) Mitr;line-height:1.2}.episode small{font-size:11px;line-height:1.2}
 .episode:after{width:31px;height:31px;right:7px;bottom:5px;border:2px solid white;font-size:12px}
 .pager{display:flex;justify-content:center;align-items:center;gap:10px;padding:8px}
@@ -81,7 +81,7 @@ const stories=[
 let storyIndex=0,sceneIndex=0,playing=false;
 const $=id=>document.getElementById(id);
 function buildCards(){$("episodes").innerHTML=stories.map((s,i)=>'<button class="episode" data-story="'+i+'"><div class="art">'+s.cover+'</div><b>ตอนที่ '+(i+1)+' · '+s.title+'</b><small>'+s.sub+'</small></button>').join("");document.querySelectorAll("[data-story]").forEach(b=>b.addEventListener("click",()=>openStory(Number(b.dataset.story))))}
-function render(){const s=stories[storyIndex],v=s.scenes[sceneIndex];$("emoji").textContent=v[0];$("sceneTitle").textContent=v[1];const positions=["0% 0%","50% 0%","100% 0%","0% 100%","50% 100%","100% 100%"];const art=$("sceneArt");art.style.backgroundImage=storyIndex===0?"url(assets/moral-cartoon-episode1-hd-opt.jpg)":storyIndex===1?"url(assets/story01-illustration-2.svg)":storyIndex===2?"url(assets/story01-illustration-3.svg)":"url(assets/story01-illustration-4.svg)";art.style.backgroundSize=storyIndex===0?"300% 200%":"cover";art.style.backgroundPosition=storyIndex===0?positions[sceneIndex]:storyIndex===1||storyIndex===2||storyIndex===3?"center":["center","left center","right center","center top","center bottom","center"][sceneIndex];$("dialogue").textContent=v[2];$("counter").textContent="ตอนที่ "+(storyIndex+1)+" · ฉากที่ "+(sceneIndex+1)+" / 6";$("progress").style.width=((sceneIndex+1)/6*100)+"%";$("lesson").innerHTML="<b>💡 ข้อคิดท้ายเรื่อง</b><br>"+s.lesson;$("prev").disabled=sceneIndex===0;$("next").disabled=sceneIndex===5;$("play").textContent=playing?"กำลังอ่านเสียง…":"▶ อ่านพร้อมเสียง"}
+function render(){const s=stories[storyIndex],v=s.scenes[sceneIndex];$("emoji").textContent=v[0];$("sceneTitle").textContent=v[1];const storyPositions=["0% 0%","100% 0%","0% 100%","100% 100%"];const art=$("sceneArt");art.style.backgroundImage="url(assets/kidwise-moral-3d-sprite.jpg)";art.style.backgroundSize="200% 200%";art.style.backgroundPosition=storyPositions[storyIndex];$("dialogue").textContent=v[2];$("counter").textContent="ตอนที่ "+(storyIndex+1)+" · ฉากที่ "+(sceneIndex+1)+" / 6";$("progress").style.width=((sceneIndex+1)/6*100)+"%";$("lesson").innerHTML="<b>💡 ข้อคิดท้ายเรื่อง</b><br>"+s.lesson;$("prev").disabled=sceneIndex===0;$("next").disabled=sceneIndex===5;$("play").textContent=playing?"กำลังอ่านเสียง…":"▶ อ่านพร้อมเสียง"}
 function openStory(i){stop();storyIndex=i;sceneIndex=0;$("viewer").classList.add("show");$("episodes").style.display="none";render();$("viewer").scrollIntoView({behavior:"smooth",block:"start"})}
 function stop(){playing=false;if("speechSynthesis"in window)speechSynthesis.cancel();if($("viewer").classList.contains("show"))render()}
 function speak(){if(!("speechSynthesis"in window)){alert("อุปกรณ์นี้ยังไม่รองรับเสียงอ่าน");return}speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(stories[storyIndex].scenes[sceneIndex][2]);u.lang="th-TH";u.rate=.9;u.pitch=1.08;u.onend=()=>{if(!playing)return;if(sceneIndex<5){sceneIndex++;render();speak()}else{playing=false;render()}};speechSynthesis.speak(u)}
