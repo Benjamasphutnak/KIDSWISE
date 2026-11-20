@@ -739,7 +739,7 @@
   if (isStandalone) hideInstall();
   // ================= ตัวนับผู้ใช้ (เซิร์ฟเวอร์เดียวกับ KAOWIN) =================
   // ส่งแค่รหัสเครื่องแบบสุ่ม วันที่ ประเภทเครื่อง และสถานะติดตั้ง วันละครั้ง — ไม่ส่งชื่อหรือข้อมูลของลูก
-  var APP_VER = 'v1';
+  var APP_VER = 'v2';
   if (!ls('kidwise-since')) ls('kidwise-since', today());
   function devId() {
     var d = ls('kidwise-did');
