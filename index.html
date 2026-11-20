@@ -15,85 +15,73 @@
 <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600;700&family=Prompt:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/app.css">
 <style>
-/* Homepage-only visual refresh. All rules are scoped to body[data-page="index"]. */
-html,body{width:100%;max-width:100%;min-height:100%;overflow-x:hidden}
-body[data-page="index"]{display:block!important;padding:0!important;margin:0!important;background:#e8f5ee!important;color:#234d43;font-family:'Prompt',sans-serif}
-body[data-page="index"] .phone{width:100%!important;max-width:640px!important;min-width:0!important;min-height:100svh;margin:0 auto!important;padding:0!important;border-radius:0!important;box-shadow:none!important;background:linear-gradient(180deg,#f8fffb,#effaf4)!important;overflow:hidden}
-body[data-page="index"] .kw-home{min-height:100svh;padding:18px 22px 112px;box-sizing:border-box;background:radial-gradient(circle at 92% 4%,#fff 0 2px,transparent 3px),linear-gradient(180deg,#f8fffb 0%,#effaf5 100%);position:relative}
-.kw-head{display:flex;align-items:center;justify-content:space-between;margin:4px 2px 22px}
-.kw-brandmark{display:flex;align-items:center;gap:12px}
-.kw-logo{width:48px;height:48px;display:grid;place-items:center;border-radius:17px;background:linear-gradient(145deg,#75e2bd,#25ad8b);color:#fff;font:700 27px 'Mitr',sans-serif;box-shadow:0 7px 16px #43b99440}
-.kw-brandname{font:700 21px 'Mitr',sans-serif;color:#147b66;line-height:1.1}
-.kw-tagline{font-size:10px;color:#73978c;margin-top:4px}
-.kw-spark{font-size:27px;color:#ffc34e}
-.kw-hero{position:relative;min-height:250px;display:flex;align-items:center;overflow:hidden;padding:24px 22px;border:2px solid #fff;border-radius:31px;background:linear-gradient(115deg,#b9f0dc 0%,#d7f8dd 58%,#f5f5c9 100%);box-shadow:0 12px 24px #8dcab122;box-sizing:border-box}
-.kw-hero:before{content:"";position:absolute;width:130px;height:130px;border-radius:50%;background:#fff9;right:8%;top:-42px;box-shadow:0 0 0 20px #ffffff22}
-.kw-hero-copy{position:relative;z-index:2;width:58%;max-width:320px}
-.kw-pill{display:inline-flex;align-items:center;padding:6px 12px;border-radius:30px;background:#ffffffc9;color:#399879;font-size:9px;font-weight:600;letter-spacing:.5px}
-.kw-hero h1{margin:14px 0 8px;font:700 clamp(24px,5vw,32px)/1.25 'Mitr',sans-serif;color:#245b4c}
-.kw-hero h1 span{display:block;color:#f28c43}
-.kw-hero p{font-size:12px;line-height:1.65;color:#66887b;margin:0 0 15px}
-.kw-start{display:inline-flex;align-items:center;gap:12px;padding:10px 17px;border-radius:28px;background:linear-gradient(135deg,#ffb24e,#f58235);box-shadow:0 5px 10px #e58d4b40;color:#fff;text-decoration:none;font:600 12px 'Mitr',sans-serif}
-.kw-hero-art{position:absolute;z-index:1;width:54%;height:88%;right:0;bottom:0;object-fit:contain;object-position:center bottom;filter:drop-shadow(0 7px 9px #559a6940)}
-.kw-section-title{display:flex;align-items:end;justify-content:space-between;margin:24px 2px 13px}
-.kw-section-title small{display:block;color:#75a090;font-size:9px;font-weight:600;letter-spacing:1px}
-.kw-section-title h2{font:600 20px 'Mitr',sans-serif;color:#285f50;margin:2px 0 0}
-.kw-mini-icon{width:42px;height:42px;display:grid;place-items:center;border-radius:15px;background:#fff;box-shadow:0 4px 12px #72b49b20;font-size:21px}
-.kw-learning{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.kw-learning a{min-width:0;min-height:154px;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:14px 10px 12px;box-sizing:border-box;text-align:center;text-decoration:none;color:#315c4e;border:2px solid #fff;border-radius:25px;box-shadow:0 5px 0 #0000000b,0 9px 17px #4c9c7820;overflow:hidden;transition:transform .15s}
-.kw-learning a:before{content:"";position:absolute;width:88px;height:88px;right:-20px;top:-22px;border-radius:50%;background:#ffffff38}
-.kw-learning a:after{content:"↗";position:absolute;right:10px;bottom:10px;width:22px;height:22px;display:grid;place-items:center;border-radius:50%;background:#ffffffa8;color:#6da48e;font-size:13px}
-.kw-learning a:active{transform:translateY(3px)}
-.kw-card-icon{width:78px;height:78px;display:grid;place-items:center;border-radius:24px;background:#ffffffd9;box-shadow:0 5px 12px #537e7620;font-size:43px;position:relative;z-index:1}
-.kw-learning b{font:600 16px 'Mitr',sans-serif;position:relative;z-index:1}
-.kw-learning small{font-size:10px;color:#628678;position:relative;z-index:1;line-height:1.4}
-.kw-learning .mint{background:linear-gradient(145deg,#9ce9d1,#76d8bb)}
-.kw-learning .yellow{background:linear-gradient(145deg,#ffe9a0,#ffd16c)}
-.kw-learning .blue{background:linear-gradient(145deg,#c6e2ff,#a7cdf8)}
-.kw-learning .pink{background:linear-gradient(145deg,#f8cce3,#efaed0)}
-.kw-learning .lavender{background:linear-gradient(145deg,#e1d3ff,#cbb8f5)}
-.kw-learning .peach{background:linear-gradient(145deg,#ffdfc2,#ffc18d)}
-.kw-learning .wide{grid-column:1/-1;min-height:112px;flex-direction:row;text-align:left;justify-content:flex-start;padding:14px 20px}
-.kw-learning .wide .kw-card-icon{width:68px;height:68px;flex:none;font-size:36px}
-.kw-more{margin-top:22px}
-.kw-more h3{font:600 16px 'Mitr',sans-serif;color:#326b59;margin:0 0 10px}
-.kw-morelinks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-.kw-morelinks a{padding:13px 12px;border:1px solid #dcefe5;border-radius:16px;background:#fff;color:#497365;text-decoration:none;font-size:12px}
-.kw-profile{display:flex;align-items:center;gap:10px;margin-top:16px;padding:10px 13px;border:1px solid #e2f0e8;border-radius:18px;background:#fff;color:#315d4e;text-decoration:none;box-shadow:0 5px 15px #4c9c7810}
-.kw-profile img{width:42px;height:42px;border-radius:14px;object-fit:cover}
-.kw-profile-copy{min-width:0;flex:1}.kw-profile-copy b{display:block;font:600 14px 'Mitr',sans-serif}.kw-profile-copy span{display:block;font-size:10px;color:#79988c}
-.kw-profile .arrow{font-size:24px;color:#f39a48}
-body[data-page="index"] #kw-nav{position:fixed!important;z-index:20;left:50%!important;bottom:0!important;transform:translateX(-50%);width:min(100%,590px)!important;height:70px!important;margin:0!important;padding:5px 8px max(5px,env(safe-area-inset-bottom))!important;box-sizing:border-box;border:1px solid #e7f1eb;border-bottom:0;border-radius:23px 23px 0 0!important;background:#ffffffed!important;box-shadow:0 -6px 24px #43876b15!important;display:flex;justify-content:space-around;backdrop-filter:blur(12px)}
-body[data-page="index"] #kw-nav .kw-tab{height:58px!important;min-width:0;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:10px!important;color:#718d82;text-decoration:none}
-body[data-page="index"] #kw-nav .kw-tab img,body[data-page="index"] #kw-nav .kw-tab svg{width:27px!important;height:27px!important;object-fit:contain}
-body[data-page="index"] #kw-nav .kw-tab-on{color:#168c70;font-weight:600}
-@media(max-width:430px){body[data-page="index"] .kw-home{padding:14px 14px 105px}.kw-head{margin-bottom:16px}.kw-hero{min-height:225px;padding:18px 16px;border-radius:27px}.kw-hero-copy{width:62%}.kw-hero-art{width:55%;height:82%}.kw-hero h1{font-size:25px}.kw-hero p{font-size:11px}.kw-learning{gap:10px}.kw-learning a{min-height:150px;border-radius:22px}.kw-card-icon{width:70px;height:70px;font-size:39px}.kw-learning b{font-size:15px}.kw-section-title h2{font-size:18px}}
-@media(max-width:350px){.kw-hero h1{font-size:22px}.kw-hero-copy{width:65%}.kw-hero-art{width:50%}.kw-learning a{min-height:140px;padding:10px 6px}.kw-learning b{font-size:13px}.kw-learning small{font-size:9px}}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;width:100%;overflow-x:hidden;background:#eaf6f0}
+body[data-page="index"]{display:block;padding:0;color:#285b4c;font-family:'Prompt',sans-serif}
+body[data-page="index"] .phone{width:100%;max-width:720px;min-height:100svh;margin:0 auto;padding:0 24px 104px;border-radius:0;background:linear-gradient(180deg,#f8fffb 0%,#f0fbf5 100%);box-shadow:none}
+.kw-home{position:relative;max-width:660px;margin:0 auto}
+.kw-top{height:98px;display:flex;align-items:center;justify-content:space-between;padding:0 2px}
+.kw-brand{display:flex;align-items:center;gap:12px}
+.kw-mark{width:48px;height:48px;display:grid;place-items:center;border-radius:17px;background:linear-gradient(145deg,#7be4c0,#27ae87);color:white;font:700 27px 'Mitr',sans-serif;box-shadow:0 7px 16px #36b98d35}
+.kw-brand b{display:block;font:700 20px 'Mitr',sans-serif;color:#146e58;line-height:1.2}
+.kw-brand small{display:block;margin-top:3px;color:#78968a;font-size:10px}
+.kw-version{color:#eebc4c;font-size:26px}
+.kw-hero{height:284px;position:relative;overflow:hidden;border:3px solid white;border-radius:31px;background:radial-gradient(circle at 82% 15%,#fffbd7 0 5%,transparent 5.5%),radial-gradient(circle at 70% 65%,#f8ffe0 0 20%,transparent 40%),linear-gradient(125deg,#b8f0dd,#dcf8dc 60%,#fff2b6);box-shadow:0 13px 26px #5b9e7b20}
+.kw-hero:before{content:"";position:absolute;width:64px;height:26px;right:22%;top:18px;border-radius:30px;background:#fff9;filter:blur(1px)}
+.kw-hero:after{content:"✦";position:absolute;right:8%;top:62px;color:white;font-size:25px;text-shadow:0 2px 8px #fff}
+.kw-hero-copy{position:relative;z-index:2;width:56%;padding:28px 0 0 22px}
+.kw-kicker{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:30px;background:#ffffffd9;color:#4b9a7d;font-size:9px;font-weight:600;letter-spacing:.6px}
+.kw-hero h1{margin:13px 0 3px;font:700 clamp(23px,5vw,30px)/1.25 'Mitr',sans-serif;color:#245b49;letter-spacing:-.5px}
+.kw-hero h1 span{display:block;color:#f28c3d}
+.kw-hero p{max-width:235px;margin:8px 0 15px;color:#68877a;font-size:11px;line-height:1.7}
+.kw-cta{display:inline-flex;align-items:center;gap:12px;padding:10px 16px;border-radius:24px;background:linear-gradient(180deg,#ffad55,#f58a32);color:#fff;text-decoration:none;font:600 12px 'Mitr',sans-serif;box-shadow:0 5px 12px #df8a3c40}
+.kw-hero-art{position:absolute;right:2%;bottom:0;width:49%;height:72%;object-fit:contain;object-position:bottom right;filter:drop-shadow(0 9px 8px #477c5140)}
+.kw-section{display:flex;justify-content:space-between;align-items:end;margin:24px 2px 13px}
+.kw-eyebrow{color:#80a697;font-size:9px;font-weight:600;letter-spacing:1px}
+.kw-section h2{margin:3px 0 0;color:#285c4b;font:600 19px 'Mitr',sans-serif}
+.kw-section-icon{width:42px;height:42px;display:grid;place-items:center;border-radius:15px;background:#fff;font-size:21px;box-shadow:0 4px 12px #609c7b18}
+.kw-learning{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.kw-card{position:relative;min-height:158px;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 10px 12px;border:3px solid white;border-radius:27px;text-decoration:none;color:#315e4e;box-shadow:0 7px 14px #619c7a20;transition:transform .15s}
+.kw-card:active{transform:translateY(3px)}
+.kw-card:before{content:"";position:absolute;width:90px;height:90px;right:-20px;top:-28px;border-radius:50%;background:#ffffff35}
+.kw-card .spark{position:absolute;left:14px;top:12px;color:#fff;font-size:16px}
+.kw-card .tag{position:absolute;right:10px;top:9px;padding:4px 8px;border-radius:20px;background:#ffffffd9;color:#61927b;font-size:8px;font-weight:600}
+.kw-card .symbol{width:78px;height:78px;display:grid;place-items:center;margin-bottom:6px;border:2px solid #fff;border-radius:23px;background:#ffffffd9;font-size:39px;box-shadow:0 5px 12px #557e6920}
+.kw-card b{position:relative;font:600 15px 'Mitr',sans-serif;text-align:center}
+.kw-card small{position:relative;margin-top:2px;color:#6f8f80;font-size:10px;text-align:center}
+.kw-card .go{position:absolute;right:10px;bottom:9px;width:22px;height:22px;display:grid;place-items:center;border-radius:50%;background:#ffffffb8;color:#61927b;font-size:13px}
+.kw-mint{background:linear-gradient(145deg,#a8ebd3,#79d9b9)}
+.kw-yellow{background:linear-gradient(145deg,#ffe89d,#ffd06b)}
+.kw-blue{background:linear-gradient(145deg,#cce5ff,#a6cefa)}
+.kw-pink{background:linear-gradient(145deg,#ffd4e8,#f5a9d0)}
+.kw-purple{background:linear-gradient(145deg,#e8d9ff,#cbb6fa)}
+.kw-orange{background:linear-gradient(145deg,#ffe0c2,#ffc08a)}
+.kw-parent{margin:17px 0 0;padding:15px 17px;border:1px solid #e2f1e8;border-radius:22px;background:#fff;box-shadow:0 5px 15px #619c7a12}
+.kw-parent h3{margin:0 0 4px;font:600 15px 'Mitr',sans-serif}
+.kw-parent p{margin:0;color:#789387;font-size:11px;line-height:1.7}
+.kw-parent a{color:#278a6d;text-decoration:none;font-weight:600}
+.kw-nav{position:fixed!important;z-index:20;left:50%;bottom:max(8px,env(safe-area-inset-bottom));transform:translateX(-50%);width:min(590px,calc(100% - 32px))!important;height:70px!important;margin:0!important;border:1px solid #edf5ef;border-radius:23px!important;background:#ffffffed!important;box-shadow:0 8px 28px #4d896b25!important;backdrop-filter:blur(14px)}
+@media(max-width:480px){body[data-page="index"] .phone{padding-left:14px;padding-right:14px}.kw-top{height:88px}.kw-hero{height:270px}.kw-hero-copy{width:59%;padding:24px 0 0 17px}.kw-hero-art{width:48%;height:66%;right:1%}.kw-hero h1{font-size:25px}.kw-card{min-height:153px}.kw-card .symbol{width:73px;height:73px}}
+@media(max-width:360px){.kw-hero{height:252px}.kw-hero-copy{width:62%;padding-left:13px}.kw-hero h1{font-size:22px}.kw-hero p{font-size:10px}.kw-card{min-height:143px}.kw-card b{font-size:13px}}
 </style>
 </head>
 <body data-page="index">
 <main class="phone"><div class="kw-home">
-<header class="kw-head">
-  <div class="kw-brandmark"><div class="kw-logo">K</div><div><div class="kw-brandname">KIDWISE</div><div class="kw-tagline">เข้าใจทุกวัย ใส่ใจทุกการเติบโต · VERSION 2</div></div></div>
-  <div class="kw-spark" aria-hidden="true">✦</div>
-</header>
-<section class="kw-hero" aria-label="ต้อนรับสู่ KIDWISE">
-  <div class="kw-hero-copy"><div class="kw-pill">✨ KIDWISE ADVENTURE CLUB</div><h1>พร้อมผจญภัย<span>ไปกับหนูไหม?</span></h1><p>มีบทเรียน เกม นิทาน และภารกิจ<br>รอให้หนูค้นพบทุกวันเลย!</p><a class="kw-start" href="activities.html">เริ่มเรียนรู้กันเลย <span>➜</span></a></div>
-  <img class="kw-hero-art" src="assets/kids.png" alt="เด็กชายและเด็กหญิง KIDWISE">
+<header class="kw-top"><div class="kw-brand"><span class="kw-mark">K</span><span><b>KIDWISE</b><small>เข้าใจทุกวัย ใส่ใจทุกการเติบโต</small></span></div><span class="kw-version" aria-label="Version 2">✦</span></header>
+<section class="kw-hero" aria-label="โลกแห่งการเรียนรู้ KIDWISE">
+<div class="kw-hero-copy"><span class="kw-kicker">✨ KIDWISE ADVENTURE CLUB</span><h1>พร้อมผจญภัย<span>ไปกับหนูไหม?</span></h1><p>มีบทเรียน เกม นิทาน และภารกิจ<br>รอให้หนูค้นพบทุกวันเลย!</p><a class="kw-cta" href="activities.html">เริ่มเรียนรู้กันเลย <span>➜</span></a></div>
+<img class="kw-hero-art" src="assets/kids.png" alt="เพื่อนตัวน้อย KIDWISE">
 </section>
-<div class="kw-section-title"><div><small>WORLD 01 · LEARN</small><h2>โลกแห่งเรียนรู้ของหนู</h2></div><div class="kw-mini-icon">📚</div></div>
+<div class="kw-section"><div><div class="kw-eyebrow">WORLD 01 · LEARN</div><h2>โลกแห่งเรียนรู้ของหนู</h2></div><span class="kw-section-icon">📚</span></div>
 <section class="kw-learning" aria-label="บทเรียน KIDWISE">
-  <a class="mint" href="activities.html"><span class="kw-card-icon">🧠</span><b>ห้องเรียนตามวัย</b><small>ภารกิจ 0–10 ปี เรียนรู้ทีละขั้น</small></a>
-  <a class="yellow" href="numbers.html"><span class="kw-card-icon">🔢</span><b>โลกตัวเลข 1–100</b><small>ฟังเสียงและฝึกนับ</small></a>
-  <a class="blue" href="multiplication.html"><span class="kw-card-icon">✖️</span><b>โลกสูตรคูณ แม่ 1–24</b><small>อ่านสูตรและฝึกทำแบบทดสอบ</small></a>
-  <a class="pink" href="thai.html"><span class="kw-card-icon">ก ฮ</span><b>โลกภาษาไทย ก–ฮ</b><small>รู้จักตัวอักษรและฝึกเขียน</small></a>
-  <a class="lavender wide" href="games.html"><span class="kw-card-icon">🧩</span><span><b>เกมฝึกสมอง</b><small>เล่นสนุก พร้อมสะสมดาว</small></span></a>
+<a class="kw-card kw-mint" href="activities.html"><span class="spark">✦</span><span class="tag">LEARN</span><span class="symbol">🧠</span><b>ห้องเรียนตามวัย</b><small>ภารกิจ 0–10 ปี เรียนรู้ทีละขั้น</small><span class="go">↗</span></a>
+<a class="kw-card kw-yellow" href="numbers.html"><span class="spark">✦</span><span class="tag">123</span><span class="symbol">🔢</span><b>โลกตัวเลข 1–100</b><small>ฟังเสียงและฝึกนับ</small><span class="go">↗</span></a>
+<a class="kw-card kw-blue" href="multiplication.html"><span class="spark">✦</span><span class="tag">MATH</span><span class="symbol">✖️</span><b>โลกสูตรคูณ แม่ 1–24</b><small>อ่านสูตรและฝึกทำแบบทดสอบ</small><span class="go">↗</span></a>
+<a class="kw-card kw-pink" href="thai.html"><span class="spark">✦</span><span class="tag">ก–ฮ</span><span class="symbol">🔤</span><b>โลกภาษาไทย ก–ฮ</b><small>รู้จักตัวอักษรและฝึกเขียน</small><span class="go">↗</span></a>
+<a class="kw-card kw-purple" href="games.html"><span class="spark">✦</span><span class="tag">PLAY</span><span class="symbol">🧩</span><b>เกมฝึกสมอง</b><small>เล่นสนุก เก็บดาวสะสม</small><span class="go">↗</span></a>
+<a class="kw-card kw-orange" href="storybook.html"><span class="spark">✦</span><span class="tag">STORY</span><span class="symbol">📖</span><b>โลกนิทาน</b><small>อ่านเพลิน เติมจินตนาการ</small><span class="go">↗</span></a>
 </section>
-<section class="kw-more"><h3>🌟 ยังมีโลกให้ค้นพบอีก</h3><div class="kw-morelinks">
-  <a href="english.html">🔤 ภาษาอังกฤษ A–Z</a><a href="storybook.html">📚 นิทาน 30 เรื่อง</a>
-  <a href="moral-stories.html">🎬 การ์ตูนสอนใจ</a><a href="progress.html">🏆 ความก้าวหน้า</a>
-</div></section>
-<a class="kw-profile" href="profile.html"><img id="childPhoto" src="assets/baby.png" alt=""><span class="kw-profile-copy"><b id="childName">นักผจญภัยตัวน้อย</b><span id="childAge">พร้อมออกเดินทางไปด้วยกัน</span><span id="childHint"></span></span><span class="arrow">›</span></a>
+<section class="kw-parent"><h3>💚 มุมคุณพ่อคุณแม่</h3><p>ติดตามพัฒนาการและการเรียนรู้ของลูกได้ในที่เดียว<br><a href="health.html">สุขภาพและการแจ้งเตือน</a>　<a href="progress.html">ดูความก้าวหน้า</a></p></section>
 <nav id="kw-nav" class="kw-nav" aria-label="เมนูหลัก"></nav>
 </div></main>
 <script src="js/data.js"></script><script src="js/app.js"></script>
